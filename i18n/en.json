@@ -1,0 +1,166 @@
+[
+  {
+    "k": "**true** se a origem da requisição for da internet",
+    "v": "**true** if the origin of the request is from the internet"
+  },
+  {
+    "k": "**true** se a origem da requisição for da rede local",
+    "v": "**true** if the source of the request is from the local network"
+  },
+  {
+    "k": "A implementação do método JavaScript deverá utilizar a classe [JSLib](https://github.com/holyrics/jslib) para executar ações no programa.",
+    "v": "The implementation of the JavaScript method must use the class [JSLib](https://github.com/holyrics/jslib) to perform actions in the program."
+  },
+  {
+    "k": "a requisição foi enviada ao computador",
+    "v": "the request was sent to the computer"
+  },
+  {
+    "k": "a resposta foi recebida",
+    "v": "the response has been received"
+  },
+  {
+    "k": "Apenas envia a requisição sem aguardar retorno",
+    "v": "Just send the request without waiting for a response"
+  },
+  {
+    "k": "As requisições recebidas serão redirecionadas para um método JavaScript no programa, que deverá ser implementado pelo próprio usuário.",
+    "v": "Incoming requests will be redirected to a JavaScript method in the program, which must be implemented by the user himself."
+  },
+  {
+    "k": "Contém os cabeçalhos da requisição.",
+    "v": "Contains the request headers."
+  },
+  {
+    "k": "Content-Type aceitos na requisição POST",
+    "v": "Content-Type accepted in POST request"
+  },
+  {
+    "k": "É possível realizar requisição GET ou POST.",
+    "v": "It is possible to perform a GET or POST request."
+  },
+  {
+    "k": "Endereço da origem da requisição",
+    "v": "Request source address"
+  },
+  {
+    "k": "Envia a requisição e aguarda a resposta",
+    "v": "Send the request and wait for the response"
+  },
+  {
+    "k": "Exemplo",
+    "v": "Example"
+  },
+  {
+    "k": "Exemplo de implementação JavaScript",
+    "v": "JavaScript implementation example"
+  },
+  {
+    "k": "Exemplo de requisição pela rede internet",
+    "v": "Example of internet request"
+  },
+  {
+    "k": "Exemplo de requisição pela rede local",
+    "v": "Example of a local network request"
+  },
+  {
+    "k": "Exemplos de erro na resposta da requisição",
+    "v": "Examples of request response error"
+  },
+  {
+    "k": "Exemplos de erro no envio da requisição",
+    "v": "Examples of error sending the request"
+  },
+  {
+    "k": "Informações da requisição.",
+    "v": "Request information."
+  },
+  {
+    "k": "Menu arquivo > Configurações > Avançado > JavaScript > API Server",
+    "v": "File menu > Settings > Advanced > JavaScript > API Server"
+  },
+  {
+    "k": "No caso de erro, **status** irá retornar **error**, exemplo",
+    "v": "In case of error, **status** will return **error**, example"
+  },
+  {
+    "k": "O programa Holyrics disponibiliza uma interface de comunicação para receber requisições tanto pela rede local quanto pela internet.",
+    "v": "The Holyrics program provides a communication interface to receive requests both over the local network and over the internet."
+  },
+  {
+    "k": "O status das requisições **send.php** informa apenas se a requisição foi enviada ao Holyrics aberto no computador.",
+    "v": "The status of **send.php** requests informs only if the request was sent to Holyrics open on the computer."
+  },
+  {
+    "k": "o tempo aguardando a resposta foi esgotado",
+    "v": "the time waiting for the response has expired"
+  },
+  {
+    "k": "O valor API_KEY deve ser passado na URL mesmo nas requisições POST",
+    "v": "The API_KEY value must be passed in the URL even in POST requests"
+  },
+  {
+    "k": "Objeto com o conteúdo extraído da requisição.",
+    "v": "Object with the content extracted from the request."
+  },
+  {
+    "k": "Ou seja, uma requisição por si só não realiza ações no programa. O que cada requisição fará depende da implementação definida pelo próprio usuário.",
+    "v": "That is, a request by itself does not perform actions in the program. What each request will do depends on the user's own defined implementation."
+  },
+  {
+    "k": "Para acessar as configurações API-Server:",
+    "v": "To access API-Server settings:"
+  },
+  {
+    "k": "Requisição",
+    "v": "Request"
+  },
+  {
+    "k": "Resposta",
+    "v": "Response"
+  },
+  {
+    "k": "resposta da requisição",
+    "v": "request response"
+  },
+  {
+    "k": "resposta do método javascript",
+    "v": "javascript method response"
+  },
+  {
+    "k": "resposta obtida do método javascript",
+    "v": "response received from javascript method"
+  },
+  {
+    "k": "resposta recebida do computador",
+    "v": "response received from computer"
+  },
+  {
+    "k": "status da requisição",
+    "v": "request status"
+  },
+  {
+    "k": "status da resposta da requisição enviada",
+    "v": "response status of sent request"
+  },
+  {
+    "k": "status do envio da requisição ao Holyrics",
+    "v": "status of sending the request to the Holyrics"
+  },
+  {
+    "k": "Tamanho máximo do corpo da solicitação",
+    "v": "Maximum request body size"
+  },
+  {
+    "k": "Também é responsabilidade da implementação do usuário definir, se necessário, controle de acesso para evitar requisições não autorizadas.",
+    "v": "It is also the responsibility of the user implementation to define, if necessary, access control to prevent unauthorized requests."
+  },
+  {
+    "k": "URL padrão",
+    "v": "Default URL"
+  },
+  {
+    "k": "Utilize o valor **API_KEY** disponível nas configurações do API-Server para realizar as requisições no endpoint do servidor do Holyrics.",
+    "v": "Use the **API_KEY** value available in the API-Server settings to perform requests on the Holyrics server endpoint."
+  }
+]
