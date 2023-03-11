@@ -987,7 +987,7 @@ Remover letra de música na lista de reprodução
 | `id` | _String (opcional)_ | ID da letra |
 | `ids` | _Array&lt;String&gt; (opcional)_ | Lista com id de cada letra |
 | `index` | _Number (opcional)_ | Posição do item na lista que será removido (inicia em zero). |
-| `indexes` | _Number (opcional)_ | Lista com a posição de cada item na lista que será removido. (Inicia em zero) |
+| `indexes` | _Array&lt;Number&gt; (opcional)_ | Lista com a posição de cada item na lista que será removido. (Inicia em zero) |
 
 
 _Método sem retorno_
@@ -1088,7 +1088,7 @@ Remover itens da lista de reprodução de mídia
 | `id` | _String (opcional)_ | ID do item |
 | `ids` | _Array&lt;String&gt; (opcional)_ | Lista com id de cada item |
 | `index` | _Number (opcional)_ | Posição do item na lista que será removido (inicia em zero). |
-| `indexes` | _Number (opcional)_ | Lista com a posição de cada item na lista que será removido. (Inicia em zero) |
+| `indexes` | _Array&lt;Number&gt; (opcional)_ | Lista com a posição de cada item na lista que será removido. (Inicia em zero) |
 
 
 _Método sem retorno_

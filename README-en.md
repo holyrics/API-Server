@@ -987,7 +987,7 @@ Remove lyrics from playlist
 | `id` | _String (optional)_ | Lyrics ID |
 | `ids` | _Array&lt;String&gt; (optional)_ | List with id of each lyics |
 | `index` | _Number (optional)_ | Position of the item in the list to be removed (starts at zero). |
-| `indexes` | _Number (optional)_ | List with the position of each item in the list that will be removed. (Starts at zero) |
+| `indexes` | _Array&lt;Number&gt; (optional)_ | List with the position of each item in the list that will be removed. (Starts at zero) |
 
 
 _Method does not return value_
@@ -1088,7 +1088,7 @@ Remove items from media playlist
 | `id` | _String (optional)_ | Item ID |
 | `ids` | _Array&lt;String&gt; (optional)_ | List with id of each item |
 | `index` | _Number (optional)_ | Position of the item in the list to be removed (starts at zero). |
-| `indexes` | _Number (optional)_ | List with the position of each item in the list that will be removed. (Starts at zero) |
+| `indexes` | _Array&lt;Number&gt; (optional)_ | List with the position of each item in the list that will be removed. (Starts at zero) |
 
 
 _Method does not return value_
