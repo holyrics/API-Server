@@ -28,6 +28,10 @@
     "v": "the response has been received"
   },
   {
+    "k": "Ações disponíveis",
+    "v": "Available actions"
+  },
+  {
     "k": "Adicionar as letras na lista de reprodução de mídia",
     "v": "Add the lyrics to the media playlist"
   },
@@ -150,6 +154,10 @@
   {
     "k": "Anúncio",
     "v": "Announcement"
+  },
+  {
+    "k": "Ao realizar uma requisição, a implementação padrão desta documentação será utilizada.",
+    "v": "When perform a request, the default implementation of this documentation will be used."
   },
   {
     "k": "Apenas envia a requisição sem aguardar retorno",
@@ -288,6 +296,10 @@
     "v": "Available if type is **text**. Defines a list of suggested values, however the user can enter any value in the text field"
   },
   {
+    "k": "É necessário adicionar na URL da requisição o parâmetro `token`, que é criado nas configurações API Server, opção 'gerenciar permissões'.",
+    "v": "It is necessary to add the `token` parameter to the request URL, which is created in the API Server settings, option 'manage permissions'."
+  },
+  {
     "k": "Encerra a apresentação atual",
     "v": "End current presentation"
   },
@@ -350,6 +362,10 @@
   {
     "k": "Executa uma requisição para o receptor associado e retorna a resposta do receptor.",
     "v": "Executes a request to the associated receiver and returns the receiver's response."
+  },
+  {
+    "k": "executar sua própria ação e resposta",
+    "v": "perform your own action and response"
   },
   {
     "k": "Exemplo",
@@ -668,6 +684,10 @@
     "v": "Margins set in **Edit screen position** option. margin.top, margin.right, margin.bottom, margin.left"
   },
   {
+    "k": "Mas também é possível implementar um método JavaScript no próprio programa Holyrics para que as requisições sejam redirecionadas para esse método e executar ações customizadas conforme necessidade.",
+    "v": "But it is also possible to implement a JavaScript method in the Holyrics program itself so that requests are redirected to this method and perform custom actions as needed."
+  },
+  {
     "k": "Member",
     "v": "Member"
   },
@@ -678,6 +698,10 @@
   {
     "k": "Mensagem sem preenchimento",
     "v": "message without filling"
+  },
+  {
+    "k": "Menu arquivo > Configurações > API Server",
+    "v": "File menu > Settings > API Server"
   },
   {
     "k": "Mês (1-12)",
@@ -714,6 +738,10 @@
   {
     "k": "Nome",
     "v": "Name"
+  },
+  {
+    "k": "Nome da ação",
+    "v": "Action name"
   },
   {
     "k": "Nome da ação que será executada no player.",
@@ -804,6 +832,10 @@
     "v": "The Holyrics program provides a communication interface to receive requests both over the local network and over the internet."
   },
   {
+    "k": "O status das requisições **send** informa apenas se a requisição foi enviada ao Holyrics aberto no computador.",
+    "v": "The status of **send** requests only informs if the request was sent to Holyrics opened on the computer."
+  },
+  {
     "k": "o tempo aguardando a resposta foi esgotado",
     "v": "the time waiting for the response has expired"
   },
@@ -828,6 +860,10 @@
     "v": "Default"
   },
   {
+    "k": "Para acessar as configurações API Server:",
+    "v": "To access API Server settings:"
+  },
+  {
     "k": "Para exibir um versículo. ID do item no formato LLCCCVVV. Exemplo: '19023001' (ou seja, livro 19, capítulo 023, versículo 001)",
     "v": "To display a verse. Item ID in BBCCCVVV format. Example: '19023001' (i.e. book 19, chapter 023, verse 001)"
   },
@@ -850,6 +886,10 @@
   {
     "k": "Parâmetros da mensagem",
     "v": "message parameters"
+  },
+  {
+    "k": "Parâmetros do método",
+    "v": "Method parameters"
   },
   {
     "k": "Parar a contagem regressiva ao chegar em zero",
@@ -886,6 +926,10 @@
   {
     "k": "Progresso da sincronização de 0 a 100",
     "v": "Sync progress from 0 to 100"
+  },
+  {
+    "k": "Qualquer valor retornado que seja diferente de 'true', o programa irá considerar que a requisição já foi consumida e vai respondê-la com o valor retornado.",
+    "v": "Any returned value that is different from 'true', the program will consider that the request has already been consumed and will respond with the returned value."
   },
   {
     "k": "Quantidade de minutos",
@@ -996,6 +1040,10 @@
     "v": "Returns a song."
   },
   {
+    "k": "Retornando 'true' para o programa consumir esta requisição com a implementação padrão",
+    "v": "Returning 'true' for the program to consume this request with the default implementation"
+  },
+  {
     "k": "Retorno da requisição ou NULL para erro/timeout",
     "v": "Request return or NULL for error/timeout"
   },
@@ -1032,6 +1080,10 @@
     "v": "If informed, the presentation of the items will be automatic"
   },
   {
+    "k": "Se o campo **tags** estiver preenchido com múltiplos itens, a opção **intersection** define o tipo de junção. Se **true**, o filtro retornará apenas itens que contém **todas** as tags informadas, se **false**, o filtro retornará os itens que têm pelo menos uma tag das tags informadas",
+    "v": "If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will only return items that contain **all** the informed tags, if **false**, the filter will return items that have at least one tag of the informed tags"
+  },
+  {
     "k": "Se o integrande está escalado ou definido para uma função",
     "v": "Whether the integrand is scaled or defined for a function"
   },
@@ -1042,6 +1094,10 @@
   {
     "k": "Se uma contagem regressiva está em exibição",
     "v": "If a countdown is on display"
+  },
+  {
+    "k": "Se você criar sua própria implementação, é necessário retornar 'true' se quiser que o programa consuma a requisição utilizando a implementação padrão.",
+    "v": "If you create your own implementation, you need to return 'true' if you want the program to perform the request using the default implementation."
   },
   {
     "k": "Slide Additional Info",
@@ -1128,6 +1184,10 @@
     "v": "Song title"
   },
   {
+    "k": "token de acesso utilizado na requisição",
+    "v": "access token used in the request"
+  },
+  {
     "k": "Tom da música",
     "v": "Tone of music"
   },
@@ -1146,6 +1206,18 @@
   {
     "k": "Utilizar o tema personalizado nos versículos",
     "v": "Use custom theme in verses"
+  },
+  {
+    "k": "Utilize o método `POST` e o `Content-Type: application/json` para realizar as requisições.",
+    "v": "Use the `POST` method and the `Content-Type: application/json` to perform the requests."
+  },
+  {
+    "k": "Utilize o valor **API_KEY** disponível nas configurações do API Server para realizar as requisições no endpoint do servidor do Holyrics juntamente com o token de acesso.",
+    "v": "Use the **API_KEY** value available in the API Server settings to make requests to the Holyrics server endpoint along with the access token."
+  },
+  {
+    "k": "Utilize os métodos da classe [JSLIB](https://github.com/holyrics/jslib) para criar sua própria implementação.",
+    "v": "Use the methods of the [JSLIB](https://github.com/holyrics/jslib) class to create your own implementation."
   },
   {
     "k": "Valor BPM",
@@ -1216,83 +1288,63 @@
     "v": "Stage view enabled"
   },
   {
+    "k": "Você pode criar múltiplos tokens e definir as permissões de cada token.",
+    "v": "You can create multiple tokens and set permissions for each token."
+  },
+  {
     "k": "Volume atual do player",
     "v": "Current player volume"
   },
   {
-    "k": "Ações disponíveis",
-    "v": "Available actions"
+    "k": "Como obter um nonce",
+    "v": "How to get a nonce"
   },
   {
-    "k": "Ao realizar uma requisição, a implementação padrão desta documentação será utilizada.",
-    "v": "When perform a request, the default implementation of this documentation will be used."
+    "k": "deve ser 'auth' para autenticação",
+    "v": "must be 'auth' for authentication"
   },
   {
-    "k": "É necessário adicionar na URL da requisição o parâmetro `token`, que é criado nas configurações API Server, opção 'gerenciar permissões'.",
-    "v": "It is necessary to add the `token` parameter to the request URL, which is created in the API Server settings, option 'manage permissions'."
+    "k": "deve ser zero para autenticação",
+    "v": "must be zero for authentication"
   },
   {
-    "k": "executar sua própria ação e resposta",
-    "v": "perform your own action and response"
+    "k": "Enviado pelo cliente, um número positivo que deve ser sempre maior do que o utilizado na requisição anterior",
+    "v": "Sent by the client, a positive number that must always be greater than the one used in the previous request"
   },
   {
-    "k": "Mas também é possível implementar um método JavaScript no próprio programa Holyrics para que as requisições sejam redirecionadas para esse método e executar ações customizadas conforme necessidade.",
-    "v": "But it is also possible to implement a JavaScript method in the Holyrics program itself so that requests are redirected to this method and perform custom actions as needed."
+    "k": "hash gerado para cada requisição a partir de um 'nonce' (token temporário) obtido pelo servidor",
+    "v": "hash generated for each request from a 'nonce' (temporary token) obtained by the server"
   },
   {
-    "k": "Menu arquivo > Configurações > API Server",
-    "v": "File menu > Settings > API Server"
+    "k": "ID da sessão, obtido junto com o nonce",
+    "v": "Session ID, obtained along with the nonce"
   },
   {
-    "k": "Nome da ação",
-    "v": "Action name"
+    "k": "Porém por se tratar de conexão local sem SSL, se você quiser uma maior segurança, utilize o método \"hash\" para enviar as requisições sem precisar informar o token de acesso na requisição",
+    "v": "However, because it is a local connection without SSL, if you want greater security, use the \"hash\" method to send requests without having to inform the access token in the request"
   },
   {
-    "k": "O status das requisições **send** informa apenas se a requisição foi enviada ao Holyrics aberto no computador.",
-    "v": "The status of **send** requests only informs if the request was sent to Holyrics opened on the computer."
+    "k": "token de acesso",
+    "v": "access token"
   },
   {
-    "k": "Para acessar as configurações API Server:",
-    "v": "To access API Server settings:"
+    "k": "Utilizando hash",
+    "v": "Using hash"
   },
   {
-    "k": "Parâmetros do método",
-    "v": "Method parameters"
+    "k": "Utilizando token",
+    "v": "Using token"
   },
   {
-    "k": "Qualquer valor retornado que seja diferente de 'true', o programa irá considerar que a requisição já foi consumida e vai respondê-la com o valor retornado.",
-    "v": "Any returned value that is different from 'true', the program will consider that the request has already been consumed and will respond with the returned value."
+    "k": "Utilize a ação 'Auth' novamente para se autenticar, passando os parâmetros na URL",
+    "v": "Use the 'Auth' action again to authenticate, passing the parameters in the URL"
   },
   {
-    "k": "Retornando 'true' para o programa consumir esta requisição com a implementação padrão",
-    "v": "Returning 'true' for the program to consume this request with the default implementation"
+    "k": "Utilize a ação 'Auth' sem incluir parâmetros na URL para obter um nonce",
+    "v": "Use the 'Auth' action without including parameters in the URL to get a nonce"
   },
   {
-    "k": "Se o campo **tags** estiver preenchido com múltiplos itens, a opção **intersection** define o tipo de junção. Se **true**, o filtro retornará apenas itens que contém **todas** as tags informadas, se **false**, o filtro retornará os itens que têm pelo menos uma tag das tags informadas",
-    "v": "If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will only return items that contain **all** the informed tags, if **false**, the filter will return items that have at least one tag of the informed tags"
-  },
-  {
-    "k": "Se você criar sua própria implementação, é necessário retornar 'true' se quiser que o programa consuma a requisição utilizando a implementação padrão.",
-    "v": "If you create your own implementation, you need to return 'true' if you want the program to perform the request using the default implementation."
-  },
-  {
-    "k": "token de acesso utilizado na requisição",
-    "v": "access token used in the request"
-  },
-  {
-    "k": "Utilize o método `POST` e o `Content-Type: application/json` para realizar as requisições.",
-    "v": "Use the `POST` method and the `Content-Type: application/json` to perform the requests."
-  },
-  {
-    "k": "Utilize o valor **API_KEY** disponível nas configurações do API Server para realizar as requisições no endpoint do servidor do Holyrics juntamente com o token de acesso.",
-    "v": "Use the **API_KEY** value available in the API Server settings to make requests to the Holyrics server endpoint along with the access token."
-  },
-  {
-    "k": "Utilize os métodos da classe [JSLIB](https://github.com/holyrics/jslib) para criar sua própria implementação.",
-    "v": "Use the methods of the [JSLIB](https://github.com/holyrics/jslib) class to create your own implementation."
-  },
-  {
-    "k": "Você pode criar múltiplos tokens e definir as permissões de cada token.",
-    "v": "You can create multiple tokens and set permissions for each token."
+    "k": "Você pode passar o token na URL para realizar a requisição",
+    "v": "You can pass the token in the URL to perform the request"
   }
 ]
