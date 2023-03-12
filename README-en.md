@@ -57,14 +57,14 @@ curl -X 'POST' \
 
 ```
 Using hash
-nonce = '1a2b3c';  <- token temporário
-rid   = 4;         <- id da requisição
-token = 'abcdef';  <- token de acesso
-data  = '{}';      <- conteúdo da requisição
+nonce = '1a2b3c';  <- temporary token
+rid   = 4;         <- request id
+token = 'abcdef';  <- access token
+data  = '{}';      <- requisition content
 
-dtoken é o resumo sha256 da concatenação das informações da requisição conforme exemplo
+dtoken is the sha256 hash of the concatenation of the request information as shown in the example
 dtoken = sha256(nonce + ':' + rid + ':' + token + ':' + data);
-resultado: f3391f69cbe03940bd0d4a63ee191092aab2f3573f56b410a9cf94da05d4cdb5
+result: f3391f69cbe03940bd0d4a63ee191092aab2f3573f56b410a9cf94da05d4cdb5
 
 curl -X 'POST' \
   'http://ip:port/api/GetCPInfo?sid=abc&rid=3&dtoken=f3391f69cbe03940bd0d4a63ee191092aab2f3573f56b410a9cf94da05d4cdb5' \
@@ -109,7 +109,7 @@ token = 'abcdef';
 data  = '{"text": "Example", "show": true, "display_ahead": true}';
 
 dtoken = sha256(nonce + ':' + rid + ':' + token + ':' + data);
-resultado: 02a7789759694c535cd032489bf101110837c972d76cec51c7ad7e797696749d
+result: 02a7789759694c535cd032489bf101110837c972d76cec51c7ad7e797696749d
 
 curl -X 'POST' \
   'http://ip:port/api/SetTextCP?sid=abc&rid=7&dtoken=02a7789759694c535cd032489bf101110837c972d76cec51c7ad7e797696749d' \
@@ -160,7 +160,7 @@ token = '1234';  <- access token
 data  = 'auth';  <- must be 'auth' for authentication
 
 dtoken = sha256(nonce + ':' + rid + ':' + token + ':' + data);
-resultado: 5d632009dfde5e9771b4f98f1b28c88ac2f73ae1f9d81b62a9af241a304c4d7a
+result: 5d632009dfde5e9771b4f98f1b28c88ac2f73ae1f9d81b62a9af241a304c4d7a
 
 http://ip:port/api/Auth?sid=u80fbjbcknir&rid=0&dtoken=5d632009dfde5e9771b4f98f1b28c88ac2f73ae1f9d81b62a9af241a304c4d7a
 
