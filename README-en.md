@@ -20,35 +20,35 @@ File menu > Settings > API Server
 
 # Example of a local network request
 
-Você pode passar o token na URL para realizar a requisição.
+You can add the token in the URL to perform the request.
 <br/>
-Porém por se tratar de conexão local sem SSL, se você quiser uma maior segurança, utilize o método "hash" para enviar as requisições sem precisar informar o token de acesso na requisição.
+However, because it is a local connection without SSL, if you want greater security, use the "hash" method to send requests without having to inform the access token in the request.
 
-Default URL - Utilizando token
+Default URL - Using token
 
 ```
 http://[IP]:[PORT]/api/{action}?token=abcdef
 ```
 
-Default URL - Utilizando hash
+Default URL - Using hash
 
 ```
 http://[IP]:[PORT]/api/{action}?dtoken=xyz123&sid=456&rid=3
 
 dtoken
-hash gerado para cada requisição a partir de um 'nonce' (token temporário) obtido pelo servidor
+hash generated for each request from a 'nonce' (temporary token) obtained by the server
 
 sid
-ID da sessão, obtido junto com o nonce
+Session ID, obtained along with the nonce
 
 rid: request id
-Enviado pelo cliente, um número positivo que deve ser sempre maior do que o utilizado na requisição anterior
+Sent by the client, a positive number that must always be greater than the one used in the previous request
 ```
 
 Request
 
 ```
-Utilizando token
+Using token
 curl -X 'POST' \
   'http://ip:port/api/GetCPInfo?token=abcdef' \
   -H 'Content-Type: application/json' \
@@ -56,7 +56,7 @@ curl -X 'POST' \
 ```
 
 ```
-Utilizando hash
+Using hash
 nonce = '1a2b3c';  <- token temporário
 rid   = 4;         <- id da requisição
 token = 'abcdef';  <- token de acesso
@@ -94,7 +94,7 @@ Response
 Request
 
 ```
-Utilizando token
+Using token
 curl -X 'POST' \
   'http://ip:port/api/SetTextCP?token=abcdef' \
   -H 'Content-Type: application/json' \
@@ -102,7 +102,7 @@ curl -X 'POST' \
 ```
 
 ```
-Utilizando hash
+Using hash
 nonce = '1a2b3c';
 rid   = 5;
 token = 'abcdef';
@@ -134,9 +134,9 @@ In case of error, **status** will return **error**, example:
 }
 ```
 
-### Como obter um nonce
+### How to get a nonce
 
-Utilize a ação 'Auth' sem incluir parâmetros na URL para obter um nonce
+Use the 'Auth' action without including parameters in the URL to get a nonce
 ```
 Request
 http://ip:port/api/Auth
@@ -151,13 +151,13 @@ Response
 }
 ```
 
-Utilize a ação 'Auth' novamente para se autenticar, passando os parâmetros na URL
+Use the 'Auth' action again to authenticate, adding the parameters in the URL
 
 ```
 nonce = 'b58ba4f605bed27c40a20be53ee3cf3d';
-rid   = 0;       <- deve ser zero para autenticação
-token = '1234';  <- token de acesso
-data  = 'auth';  <- deve ser 'auth' para autenticação
+rid   = 0;       <- must be zero for authentication
+token = '1234';  <- access token
+data  = 'auth';  <- must be 'auth' for authentication
 
 dtoken = sha256(nonce + ':' + rid + ':' + token + ':' + data);
 resultado: 5d632009dfde5e9771b4f98f1b28c88ac2f73ae1f9d81b62a9af241a304c4d7a
