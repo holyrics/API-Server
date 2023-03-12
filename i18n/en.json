@@ -1337,7 +1337,7 @@
   },
   {
     "k": "Utilize a ação 'Auth' novamente para se autenticar, passando os parâmetros na URL",
-    "v": "Use the 'Auth' action again to authenticate, passing the parameters in the URL"
+    "v": "Use the 'Auth' action again to authenticate, adding the parameters in the URL"
   },
   {
     "k": "Utilize a ação 'Auth' sem incluir parâmetros na URL para obter um nonce",
@@ -1345,6 +1345,6 @@
   },
   {
     "k": "Você pode passar o token na URL para realizar a requisição",
-    "v": "You can pass the token in the URL to perform the request"
+    "v": "You can add the token in the URL to perform the request"
   }
 ]
