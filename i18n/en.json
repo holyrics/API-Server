@@ -220,6 +220,10 @@
     "v": "MIDI code"
   },
   {
+    "k": "Como obter um nonce",
+    "v": "How to get a nonce"
+  },
+  {
     "k": "Configuração atual do painel de comunicação",
     "v": "Current communication panel configuration"
   },
@@ -272,6 +276,14 @@
     "v": "Description"
   },
   {
+    "k": "deve ser 'auth' para autenticação",
+    "v": "must be 'auth' for authentication"
+  },
+  {
+    "k": "deve ser zero para autenticação",
+    "v": "must be zero for authentication"
+  },
+  {
     "k": "Display Settings",
     "v": "Display Settings"
   },
@@ -314,6 +326,10 @@
   {
     "k": "Envia a requisição e aguarda a resposta",
     "v": "Send the request and wait for the response"
+  },
+  {
+    "k": "Enviado pelo cliente, um número positivo que deve ser sempre maior do que o utilizado na requisição anterior",
+    "v": "Sent by the client, a positive number that must always be greater than the one used in the previous request"
   },
   {
     "k": "Estender papel de parede",
@@ -464,6 +480,10 @@
     "v": "Groups where music is added"
   },
   {
+    "k": "hash gerado para cada requisição a partir de um 'nonce' (token temporário) obtido pelo servidor",
+    "v": "hash generated for each request from a 'nonce' (temporary token) obtained by the server"
+  },
+  {
     "k": "Histórico de \"Música tocada\"",
     "v": "\"Music played\" history"
   },
@@ -486,6 +506,10 @@
   {
     "k": "ID da música",
     "v": "Song ID"
+  },
+  {
+    "k": "ID da sessão, obtido junto com o nonce",
+    "v": "Session ID, obtained along with the nonce"
   },
   {
     "k": "ID do anúncio. Pode ser **all** para exibir todos",
@@ -904,6 +928,10 @@
     "v": "It might be: theme, my_video, my_image, video, image"
   },
   {
+    "k": "Porém por se tratar de conexão local sem SSL, se você quiser uma maior segurança, utilize o método \"hash\" para enviar as requisições sem precisar informar o token de acesso na requisição",
+    "v": "However, because it is a local connection without SSL, if you want greater security, use the \"hash\" method to send requests without having to inform the access token in the request"
+  },
+  {
     "k": "Posição do item na lista que será removido (inicia em zero).",
     "v": "Position of the item in the list to be removed (starts at zero)."
   },
@@ -1184,6 +1212,10 @@
     "v": "Song title"
   },
   {
+    "k": "token de acesso",
+    "v": "access token"
+  },
+  {
     "k": "token de acesso utilizado na requisição",
     "v": "access token used in the request"
   },
@@ -1200,12 +1232,28 @@
     "v": "Default URL"
   },
   {
+    "k": "Utilizando hash",
+    "v": "Using hash"
+  },
+  {
+    "k": "Utilizando token",
+    "v": "Using token"
+  },
+  {
     "k": "Utilizar o tema personalizado nos textos",
     "v": "Use custom theme in texts"
   },
   {
     "k": "Utilizar o tema personalizado nos versículos",
     "v": "Use custom theme in verses"
+  },
+  {
+    "k": "Utilize a ação 'Auth' novamente para se autenticar, passando os parâmetros na URL",
+    "v": "Use the 'Auth' action again to authenticate, adding the parameters in the URL"
+  },
+  {
+    "k": "Utilize a ação 'Auth' sem incluir parâmetros na URL para obter um nonce",
+    "v": "Use the 'Auth' action without including parameters in the URL to get a nonce"
   },
   {
     "k": "Utilize o método `POST` e o `Content-Type: application/json` para realizar as requisições.",
@@ -1292,59 +1340,31 @@
     "v": "You can create multiple tokens and set permissions for each token."
   },
   {
+    "k": "Você pode passar o token na URL para realizar a requisição",
+    "v": "You can add the token in the URL to perform the request"
+  },
+  {
     "k": "Volume atual do player",
     "v": "Current player volume"
   },
   {
-    "k": "Como obter um nonce",
-    "v": "How to get a nonce"
+    "k": "conteúdo da requisição",
+    "v": "requisition content"
   },
   {
-    "k": "deve ser 'auth' para autenticação",
-    "v": "must be 'auth' for authentication"
+    "k": "dtoken é o resumo sha256 da concatenação das informações da requisição conforme exemplo",
+    "v": "dtoken is the sha256 hash of the concatenation of the request information as shown in the example"
   },
   {
-    "k": "deve ser zero para autenticação",
-    "v": "must be zero for authentication"
+    "k": "id da requisição",
+    "v": "request id"
   },
   {
-    "k": "Enviado pelo cliente, um número positivo que deve ser sempre maior do que o utilizado na requisição anterior",
-    "v": "Sent by the client, a positive number that must always be greater than the one used in the previous request"
+    "k": "resultado",
+    "v": "result"
   },
   {
-    "k": "hash gerado para cada requisição a partir de um 'nonce' (token temporário) obtido pelo servidor",
-    "v": "hash generated for each request from a 'nonce' (temporary token) obtained by the server"
-  },
-  {
-    "k": "ID da sessão, obtido junto com o nonce",
-    "v": "Session ID, obtained along with the nonce"
-  },
-  {
-    "k": "Porém por se tratar de conexão local sem SSL, se você quiser uma maior segurança, utilize o método \"hash\" para enviar as requisições sem precisar informar o token de acesso na requisição",
-    "v": "However, because it is a local connection without SSL, if you want greater security, use the \"hash\" method to send requests without having to inform the access token in the request"
-  },
-  {
-    "k": "token de acesso",
-    "v": "access token"
-  },
-  {
-    "k": "Utilizando hash",
-    "v": "Using hash"
-  },
-  {
-    "k": "Utilizando token",
-    "v": "Using token"
-  },
-  {
-    "k": "Utilize a ação 'Auth' novamente para se autenticar, passando os parâmetros na URL",
-    "v": "Use the 'Auth' action again to authenticate, adding the parameters in the URL"
-  },
-  {
-    "k": "Utilize a ação 'Auth' sem incluir parâmetros na URL para obter um nonce",
-    "v": "Use the 'Auth' action without including parameters in the URL to get a nonce"
-  },
-  {
-    "k": "Você pode passar o token na URL para realizar a requisição",
-    "v": "You can add the token in the URL to perform the request"
+    "k": "token temporário",
+    "v": "temporary token"
   }
 ]
