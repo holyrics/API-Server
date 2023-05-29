@@ -177,14 +177,16 @@ Utilize o valor **API_KEY** disponível nas configurações do API Server para r
 
 URL padrão
 ```
-https://api.holyrics.com.br/send/{action}?api_key=API_KEY&token=abcdef
+https://api.holyrics.com.br/send/{action}
 ```
 
 Requisição
 ```
 curl -X 'POST' \
-  'https://api.holyrics.com.br/send/SetTextCP?api_key=API_KEY&token=abcdef' \
+  'https://api.holyrics.com.br/send/SetTextCP' \
   -H 'Content-Type: application/json' \
+  -H 'api_key: API_KEY' \
+  -H 'token: abcdef' \
   -d '{"text": "Example", "show": true, "display_ahead": true}'
 ```
 
@@ -203,14 +205,16 @@ Envia a requisição e aguarda a resposta
 
 URL padrão
 ```
-https://api.holyrics.com.br/request/{action}?api_key=API_KEY&token=abcdef
+https://api.holyrics.com.br/request/{action}
 ```
 
 Requisição
 ```
 curl -X 'POST' \
-  'https://api.holyrics.com.br/request/GetCPInfo?api_key=API_KEY&token=abcdef' \
+  'https://api.holyrics.com.br/request/GetCPInfo' \
   -H 'Content-Type: application/json' \
+  -H 'api_key: API_KEY' \
+  -H 'token: abcdef' \
   -d '{}'
 ```
 

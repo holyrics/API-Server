@@ -177,14 +177,16 @@ Use the **API_KEY** value available in the API Server settings to make requests 
 
 Default URL
 ```
-https://api.holyrics.com.br/send/{action}?api_key=API_KEY&token=abcdef
+https://api.holyrics.com.br/send/{action}
 ```
 
 Request
 ```
 curl -X 'POST' \
-  'https://api.holyrics.com.br/send/SetTextCP?api_key=API_KEY&token=abcdef' \
+  'https://api.holyrics.com.br/send/SetTextCP' \
   -H 'Content-Type: application/json' \
+  -H 'api_key: API_KEY' \
+  -H 'token: abcdef' \
   -d '{"text": "Example", "show": true, "display_ahead": true}'
 ```
 
@@ -203,14 +205,16 @@ Send the request and wait for the response
 
 Default URL
 ```
-https://api.holyrics.com.br/request/{action}?api_key=API_KEY&token=abcdef
+https://api.holyrics.com.br/request/{action}
 ```
 
 Request
 ```
 curl -X 'POST' \
-  'https://api.holyrics.com.br/request/GetCPInfo?api_key=API_KEY&token=abcdef' \
+  'https://api.holyrics.com.br/request/GetCPInfo' \
   -H 'Content-Type: application/json' \
+  -H 'api_key: API_KEY' \
+  -H 'token: abcdef' \
   -d '{}'
 ```
 
