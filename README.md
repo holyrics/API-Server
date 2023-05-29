@@ -67,7 +67,7 @@ dtoken = sha256(nonce + ':' + rid + ':' + token + ':' + data);
 resultado: f3391f69cbe03940bd0d4a63ee191092aab2f3573f56b410a9cf94da05d4cdb5
 
 curl -X 'POST' \
-  'http://ip:port/api/GetCPInfo?sid=abc&rid=3&dtoken=f3391f69cbe03940bd0d4a63ee191092aab2f3573f56b410a9cf94da05d4cdb5' \
+  'http://ip:port/api/GetCPInfo?sid=abc&rid=4&dtoken=f3391f69cbe03940bd0d4a63ee191092aab2f3573f56b410a9cf94da05d4cdb5' \
   -H 'Content-Type: application/json' \
   -d '{}'
 ```
@@ -112,7 +112,7 @@ dtoken = sha256(nonce + ':' + rid + ':' + token + ':' + data);
 resultado: 02a7789759694c535cd032489bf101110837c972d76cec51c7ad7e797696749d
 
 curl -X 'POST' \
-  'http://ip:port/api/SetTextCP?sid=abc&rid=7&dtoken=02a7789759694c535cd032489bf101110837c972d76cec51c7ad7e797696749d' \
+  'http://ip:port/api/SetTextCP?sid=abc&rid=5&dtoken=02a7789759694c535cd032489bf101110837c972d76cec51c7ad7e797696749d' \
   -H 'Content-Type: application/json' \
   -d '{"text": "Example", "show": true, "display_ahead": true}'
 ```
