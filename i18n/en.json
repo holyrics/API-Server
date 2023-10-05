@@ -4,6 +4,10 @@
     "v": "**id**, **ids** or **references**"
   },
   {
+    "k": "**id**, **ids**, **name** ou **names**",
+    "v": "**id**, **ids**, **name** ou **names**"
+  },
+  {
     "k": "**true** ou **false**",
     "v": "**true** or **false**"
   },
@@ -32,8 +36,72 @@
     "v": "Available actions"
   },
   {
+    "k": "AddItem",
+    "v": "AddItem"
+  },
+  {
+    "k": "AddItemAnnouncement",
+    "v": "AddItemAnnouncement"
+  },
+  {
+    "k": "AddItemAPI",
+    "v": "AddItemAPI"
+  },
+  {
+    "k": "AddItemAudio",
+    "v": "AddItemAudio"
+  },
+  {
+    "k": "AddItemAutomaticPresentation",
+    "v": "AddItemAutomaticPresentation"
+  },
+  {
+    "k": "AddItemCountdown",
+    "v": "AddItemCountdown"
+  },
+  {
+    "k": "AddItemCountdownCommunicationPanel",
+    "v": "AddItemCountdownCommunicationPanel"
+  },
+  {
+    "k": "AddItemImage",
+    "v": "AddItemImage"
+  },
+  {
+    "k": "AddItemScript",
+    "v": "AddItemScript"
+  },
+  {
+    "k": "AddItemSong",
+    "v": "AddItemSong"
+  },
+  {
+    "k": "AddItemText",
+    "v": "AddItemText"
+  },
+  {
+    "k": "AddItemTextCommunicationPanel",
+    "v": "AddItemTextCommunicationPanel"
+  },
+  {
+    "k": "AddItemTitle",
+    "v": "AddItemTitle"
+  },
+  {
+    "k": "AddItemVerse",
+    "v": "AddItemVerse"
+  },
+  {
+    "k": "AddItemVideo",
+    "v": "AddItemVideo"
+  },
+  {
     "k": "Adicionar as letras na lista de reprodução de mídia",
     "v": "Add the lyrics to the media playlist"
+  },
+  {
+    "k": "Adicionar itens à lista de reprodução de mídias",
+    "v": "Adicionar itens à lista de reprodução de mídias"
   },
   {
     "k": "Adicionar letra de música na lista de reprodução",
@@ -128,6 +196,14 @@
     "v": "Change wallpaper settings"
   },
   {
+    "k": "Alterar configuração atual do painel de comunicação",
+    "v": "Alterar configuração atual do painel de comunicação"
+  },
+  {
+    "k": "Alterar o tempo atual da mídia em milissegundos",
+    "v": "Alterar o tempo atual da mídia em milissegundos"
+  },
+  {
     "k": "Alterar o texto de alerta",
     "v": "Change alert text"
   },
@@ -140,8 +216,16 @@
     "v": "Change the text of the communication panel. [Styled Text](#styled-text) from v2.19.0"
   },
   {
+    "k": "Alternativas",
+    "v": "Alternativas"
+  },
+  {
     "k": "Altura em porcentagem em relação à altura do slide",
     "v": "Height in percent of slide height"
+  },
+  {
+    "k": "announcement",
+    "v": "announcement"
   },
   {
     "k": "Ano",
@@ -162,6 +246,10 @@
   {
     "k": "Apenas envia a requisição sem aguardar retorno",
     "v": "Just send the request without waiting for a response"
+  },
+  {
+    "k": "api",
+    "v": "api"
   },
   {
     "k": "Apresenta um anúncio ou uma lista de anúncios",
@@ -192,16 +280,32 @@
     "v": "Item MIDI shortcut"
   },
   {
+    "k": "Ativar a exibição do alerta",
+    "v": "Ativar a exibição do alerta"
+  },
+  {
     "k": "Ativar/desativar a funcionalidade",
     "v": "Enable/disable functionality"
+  },
+  {
+    "k": "audio",
+    "v": "audio"
   },
   {
     "k": "Automatic Presentation",
     "v": "Automatic Presentation"
   },
   {
+    "k": "automatic_presentation",
+    "v": "automatic_presentation"
+  },
+  {
     "k": "Autor da música",
     "v": "Music author"
+  },
+  {
+    "k": "Azul",
+    "v": "Azul"
   },
   {
     "k": "Background",
@@ -212,6 +316,10 @@
     "v": "Full path of media in player"
   },
   {
+    "k": "Caractere separador. Valores permitidos:  ` `  `.`  `)`  `-`  `:`",
+    "v": "Caractere separador. Valores permitidos:  ` `  `.`  `)`  `-`  `:`"
+  },
+  {
     "k": "Chave/ID do item",
     "v": "Key of item"
   },
@@ -220,12 +328,20 @@
     "v": "MIDI code"
   },
   {
+    "k": "Começa em 1",
+    "v": "Começa em 1"
+  },
+  {
     "k": "Como obter um nonce",
     "v": "How to get a nonce"
   },
   {
     "k": "Configuração atual do painel de comunicação",
     "v": "Current communication panel configuration"
+  },
+  {
+    "k": "Configurações",
+    "v": "Configurações"
   },
   {
     "k": "Configurações da visão do palco. (Indisponível para tela público)",
@@ -240,8 +356,48 @@
     "v": "Contains the request headers."
   },
   {
+    "k": "conteúdo da requisição",
+    "v": "requisition content"
+  },
+  {
+    "k": "Copyright da música",
+    "v": "Copyright da música"
+  },
+  {
+    "k": "Cor da fonte da contagem regressiva",
+    "v": "Cor da fonte da contagem regressiva"
+  },
+  {
+    "k": "Cor da fonte da hora",
+    "v": "Cor da fonte da hora"
+  },
+  {
+    "k": "Cor da fonte do cronômetro",
+    "v": "Cor da fonte do cronômetro"
+  },
+  {
     "k": "Cor da fonte em hexadecimal. Se for **null**, utiliza a cor da fonte padrão do tema",
     "v": "Font color in hexadecimal. If it is **null**, use the theme's default font color"
+  },
+  {
+    "k": "Cor da fonte para a resposta correta",
+    "v": "Cor da fonte para a resposta correta"
+  },
+  {
+    "k": "Cor da fonte para a resposta incorreta",
+    "v": "Cor da fonte para a resposta incorreta"
+  },
+  {
+    "k": "Cor de fundo em hexadecimal, exemplo: 000080",
+    "v": "Cor de fundo em hexadecimal, exemplo: 000080"
+  },
+  {
+    "k": "Cor de fundo para a resposta correta",
+    "v": "Cor de fundo para a resposta correta"
+  },
+  {
+    "k": "Cor de fundo para a resposta incorreta",
+    "v": "Cor de fundo para a resposta incorreta"
   },
   {
     "k": "Cor em hexadecimal definida na opção **preencher**.",
@@ -250,6 +406,22 @@
   {
     "k": "Cor em hexadecimal definida na opção **preencher**. **NULL** para desativar",
     "v": "Color in hexadecimal defined in the **fill** option. **NULL** to disable"
+  },
+  {
+    "k": "Cor no formato hexadecimal",
+    "v": "Cor no formato hexadecimal"
+  },
+  {
+    "k": "countdown",
+    "v": "countdown"
+  },
+  {
+    "k": "countdown_cp",
+    "v": "countdown_cp"
+  },
+  {
+    "k": "cp_text",
+    "v": "cp_text"
   },
   {
     "k": "Custom Message",
@@ -274,6 +446,10 @@
   {
     "k": "Descrição",
     "v": "Description"
+  },
+  {
+    "k": "Descrição do item",
+    "v": "Descrição do item"
   },
   {
     "k": "deve ser 'auth' para autenticação",
@@ -308,6 +484,10 @@
     "v": "Available if type is **text**. Defines a list of suggested values, however the user can enter any value in the text field"
   },
   {
+    "k": "dtoken é o resumo sha256 da concatenação das informações da requisição conforme exemplo",
+    "v": "dtoken is the sha256 hash of the concatenation of the request information as shown in the example"
+  },
+  {
     "k": "É necessário adicionar na URL da requisição o parâmetro `token`, que é criado nas configurações API Server, opção 'gerenciar permissões'.",
     "v": "It is necessary to add the `token` parameter to the request URL, which is created in the API Server settings, option 'manage permissions'."
   },
@@ -318,6 +498,10 @@
   {
     "k": "Encerra a contagem regressiva atual do painel de comunicação",
     "v": "Ends current communication panel countdown"
+  },
+  {
+    "k": "Encerra o cronômetro atual do painel de comunicação",
+    "v": "Encerra o cronômetro atual do painel de comunicação"
   },
   {
     "k": "Endereço da origem da requisição",
@@ -342,6 +526,10 @@
   {
     "k": "Executa a ação de um item API existente no programa",
     "v": "Executes the action of an existing API item in the program"
+  },
+  {
+    "k": "Executa a opção 'chamar atenção' disponível no painel de comunicação",
+    "v": "Executa a opção 'chamar atenção' disponível no painel de comunicação"
   },
   {
     "k": "Executa ações no player",
@@ -384,6 +572,10 @@
     "v": "perform your own action and response"
   },
   {
+    "k": "Executar uma ação em uma apresentação de múltipla escolha",
+    "v": "Executar uma ação em uma apresentação de múltipla escolha"
+  },
+  {
     "k": "Exemplo",
     "v": "Example"
   },
@@ -406,6 +598,14 @@
   {
     "k": "Exemplos de erro no envio da requisição",
     "v": "Examples of error sending the request"
+  },
+  {
+    "k": "Exibir a pergunta e as alternativas em slides separados",
+    "v": "Exibir a pergunta e as alternativas em slides separados"
+  },
+  {
+    "k": "Exibir as alternativas uma a uma",
+    "v": "Exibir as alternativas uma a uma"
   },
   {
     "k": "Exibir comentários",
@@ -432,6 +632,10 @@
     "v": "Show in capital letters"
   },
   {
+    "k": "Exibir o texto atual",
+    "v": "Exibir o texto atual"
+  },
+  {
     "k": "Exibir papel de parede",
     "v": "Show wallpaper"
   },
@@ -440,8 +644,32 @@
     "v": "Show clock"
   },
   {
+    "k": "Exibir relógio como plano de fundo",
+    "v": "Exibir relógio como plano de fundo"
+  },
+  {
+    "k": "Exibir relógio junto da contagem regressiva ou cronômetro quando exibido em tela cheia",
+    "v": "Exibir relógio junto da contagem regressiva ou cronômetro quando exibido em tela cheia"
+  },
+  {
+    "k": "Exibir relógio no alerta",
+    "v": "Exibir relógio no alerta"
+  },
+  {
+    "k": "Exibir tempo restante da mídia em execução no VLC Player",
+    "v": "Exibir tempo restante da mídia em execução no VLC Player"
+  },
+  {
+    "k": "Exibir uma contagem regressiva na tela público",
+    "v": "Exibir uma contagem regressiva na tela público"
+  },
+  {
     "k": "Exibir uma mensagem personalizada. Obs.: Uma mensagem personalizada não é exibida diretamente na tela. é criada uma notificação no canto da tela para o operador aceitar e exibir.",
     "v": "Display a custom message. Note: A custom message is not displayed directly on the screen. a notification is created in the corner of the screen for the operator to accept and display."
+  },
+  {
+    "k": "Exibir VLC Player",
+    "v": "Exibir VLC Player"
   },
   {
     "k": "Exibir/ocultar a funcionalidade",
@@ -472,6 +700,10 @@
     "v": "Filter"
   },
   {
+    "k": "Fonte da resposta",
+    "v": "Fonte da resposta"
+  },
+  {
     "k": "Group",
     "v": "Group"
   },
@@ -482,6 +714,10 @@
   {
     "k": "hash gerado para cada requisição a partir de um 'nonce' (token temporário) obtido pelo servidor",
     "v": "hash generated for each request from a 'nonce' (temporary token) obtained by the server"
+  },
+  {
+    "k": "HH:MM ou MM:SS",
+    "v": "HH:MM ou MM:SS"
   },
   {
     "k": "Histórico de \"Música tocada\"",
@@ -506,6 +742,10 @@
   {
     "k": "ID da música",
     "v": "Song ID"
+  },
+  {
+    "k": "id da requisição",
+    "v": "request id"
   },
   {
     "k": "ID da sessão, obtido junto com o nonce",
@@ -540,6 +780,14 @@
     "v": "Custom Theme ID used in presentations"
   },
   {
+    "k": "ID ou nome do tema padrão",
+    "v": "ID ou nome do tema padrão"
+  },
+  {
+    "k": "image",
+    "v": "image"
+  },
+  {
     "k": "Imagem",
     "v": "Image"
   },
@@ -564,6 +812,10 @@
     "v": "Request information."
   },
   {
+    "k": "Inicia um cronômetro no painel de comunicação",
+    "v": "Inicia um cronômetro no painel de comunicação"
+  },
+  {
     "k": "Inicia uma apresentação de letra de música.",
     "v": "Starts a lyric show."
   },
@@ -578,6 +830,14 @@
   {
     "k": "Inicia uma contagem regressiva no painel de comunicação",
     "v": "Starts a countdown on the communication panel"
+  },
+  {
+    "k": "Iniciar uma apresentação no formato múltipla escolha",
+    "v": "Iniciar uma apresentação no formato múltipla escolha"
+  },
+  {
+    "k": "Iniciar uma contagem regressiva",
+    "v": "Iniciar uma contagem regressiva"
   },
   {
     "k": "Input Param",
@@ -644,6 +904,10 @@
     "v": "List with the name of each announcement"
   },
   {
+    "k": "Lista com os itens que serão adicionados",
+    "v": "Lista com os itens que serão adicionados"
+  },
+  {
     "k": "Lista com valores padrões para o parâmetro",
     "v": "List with default values for the parameter"
   },
@@ -688,12 +952,12 @@
     "v": "Item tag list"
   },
   {
-    "k": "Lista dos integrantes escalados",
-    "v": "List of members"
-  },
-  {
     "k": "Lista dos temas e planos de fundo",
     "v": "List of themes and backgrounds"
+  },
+  {
+    "k": "Local de exibição da contagem regressiva ou cronômetro.",
+    "v": "Local de exibição da contagem regressiva ou cronômetro."
   },
   {
     "k": "Local do arquivo na aba **Imagens**",
@@ -702,6 +966,10 @@
   {
     "k": "Lyrics",
     "v": "Lyrics"
+  },
+  {
+    "k": "Margem para exibição dos vídeos pelo VLC Player",
+    "v": "Margem para exibição dos vídeos pelo VLC Player"
   },
   {
     "k": "Margens definidas na opção **Editar posição da tela**. margin.top, margin.right, margin.bottom, margin.left",
@@ -750,6 +1018,10 @@
   {
     "k": "Música ou NULL se não for encontrado",
     "v": "Music or NULL if not found"
+  },
+  {
+    "k": "Não duplicar itens ao adicionar novos itens, ou seja, não adiciona um item se ele já estiver na lista.",
+    "v": "Não duplicar itens ao adicionar novos itens, ou seja, não adiciona um item se ele já estiver na lista."
   },
   {
     "k": "Negrito. Se for **null**, utiliza a configuração padrão do tema",
@@ -812,6 +1084,10 @@
     "v": "Announcement name"
   },
   {
+    "k": "Nome do arquivo",
+    "v": "Nome do arquivo"
+  },
+  {
     "k": "Nome do arquivo ou da pasta. Exemplo: **arquivo.jpg** ou **pasta** ou **pasta/arquivo.jpg**",
     "v": "File or folder name. Example: **file.jpg** or **folder** or **folder/file.jpg**"
   },
@@ -852,6 +1128,18 @@
     "v": "Tab number (1, 2 or 3) of the Bible translation displayed on the screen, as translations are loaded in the Bible window"
   },
   {
+    "k": "Número da alternativa correta. Começa em 1",
+    "v": "Número da alternativa correta. Começa em 1"
+  },
+  {
+    "k": "O item de acordo com o tipo informado:",
+    "v": "O item de acordo com o tipo informado:"
+  },
+  {
+    "k": "o nome da tela",
+    "v": "o nome da tela"
+  },
+  {
     "k": "O programa Holyrics disponibiliza uma interface de comunicação para receber requisições tanto pela rede local quanto pela internet.",
     "v": "The Holyrics program provides a communication interface to receive requests both over the local network and over the internet."
   },
@@ -868,12 +1156,24 @@
     "v": "The current countdown time displayed (in seconds)"
   },
   {
+    "k": "O tempo atual do cronômetro em exibição (em segundos)",
+    "v": "O tempo atual do cronômetro em exibição (em segundos)"
+  },
+  {
     "k": "Objeto com o conteúdo extraído da requisição.",
     "v": "Object with the content extracted from the request."
   },
   {
     "k": "Ocultar a tela",
     "v": "Hide screen"
+  },
+  {
+    "k": "Ocultar uma alternativa. Começa em 1",
+    "v": "Ocultar uma alternativa. Começa em 1"
+  },
+  {
+    "k": "Opção *'exibir à frente de tudo'*",
+    "v": "Opção *'exibir à frente de tudo'*"
   },
   {
     "k": "opcional",
@@ -888,12 +1188,12 @@
     "v": "To access API Server settings:"
   },
   {
-    "k": "Para exibir um versículo. ID do item no formato LLCCCVVV. Exemplo: '19023001' (ou seja, livro 19, capítulo 023, versículo 001)",
-    "v": "To display a verse. Item ID in BBCCCVVV format. Example: '19023001' (i.e. book 19, chapter 023, verse 001)"
+    "k": "Para exibir um versículo. ID do item no formato LLCCCVVV.<br/>Exemplo: '19023001' (livro 19, capítulo 023, versículo 001)",
+    "v": "To display a verse. Item ID in BBCCCVVV format.<br/>Example: '19023001' (book 19, chapter 023, verse 001)"
   },
   {
-    "k": "Para exibir uma lista de versículos. Lista com o ID de cada versículo. Exemplo: ['19023001', '43003016', '45012002']",
-    "v": "To display a list of verses. List with the ID of each verse. Example: ['19023001', '43003016', '45012002']"
+    "k": "Para exibir uma lista de versículos. Lista com o ID de cada versículo.<br/>Exemplo: ['19023001', '43003016', '45012002']",
+    "v": "To display a list of verses. List with the ID of each verse.<br/>Example: ['19023001', '43003016', '45012002']"
   },
   {
     "k": "Parâmetro aceita somente números",
@@ -918,6 +1218,10 @@
   {
     "k": "Parar a contagem regressiva ao chegar em zero",
     "v": "Stop the countdown when it reaches zero"
+  },
+  {
+    "k": "Pergunta",
+    "v": "Pergunta"
   },
   {
     "k": "Plano de fundo atual ou NULL se não houver apresentação em exibição",
@@ -948,6 +1252,10 @@
     "v": "Populates the media list of the currently selected playlist in the program with the given list"
   },
   {
+    "k": "Preencher o campo 'minuto' com zero à esquerda",
+    "v": "Preencher o campo 'minuto' com zero à esquerda"
+  },
+  {
     "k": "Programação atual (selecionada na janela principal do programa)",
     "v": "Current schedule (selected in the main program window)"
   },
@@ -966,6 +1274,18 @@
   {
     "k": "Quantidade de segundos",
     "v": "Number of seconds"
+  },
+  {
+    "k": "Questões para exibir",
+    "v": "Questões para exibir"
+  },
+  {
+    "k": "Quiz Question",
+    "v": "Quiz Question"
+  },
+  {
+    "k": "Quiz Settings",
+    "v": "Quiz Settings"
   },
   {
     "k": "Realiza uma busca na lista de letras do usuário",
@@ -1016,6 +1336,10 @@
     "v": "response received from computer"
   },
   {
+    "k": "resultado",
+    "v": "result"
+  },
+  {
     "k": "Retorna **true** ou uma lista com os erros ocorridos",
     "v": "Return **true** or a list of errors that occurred"
   },
@@ -1030,6 +1354,14 @@
   {
     "k": "Retorna a lista de programação de um mês específico",
     "v": "Returns the schedule list for a specific month"
+  },
+  {
+    "k": "Retorna as informações da apresentação automática em exibição",
+    "v": "Retorna as informações da apresentação automática em exibição"
+  },
+  {
+    "k": "Retorna as informações de cor predominante de um respectivo tipo de item<br/>O array retornado contém 8 índices, e cada índice corresponde ao trecho conforme imagem de exemplo a seguir.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>",
+    "v": "Retorna as informações de cor predominante de um respectivo tipo de item<br/>O array retornado contém 8 índices, e cada índice corresponde ao trecho conforme imagem de exemplo a seguir.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>"
   },
   {
     "k": "Retorna as informações do player",
@@ -1084,6 +1416,14 @@
     "v": "Schedule"
   },
   {
+    "k": "script",
+    "v": "script"
+  },
+  {
+    "k": "Se **true**, `time` deve ser HH:MM (hora e minuto exato). Se **false**, `time` deve ser MM:SS (quantidade de minutos e segundos)",
+    "v": "Se **true**, `time` deve ser HH:MM (hora e minuto exato). Se **false**, `time` deve ser MM:SS (quantidade de minutos e segundos)"
+  },
+  {
     "k": "Se a exibição do alerta está ativada",
     "v": "Whether the alert display is enabled"
   },
@@ -1120,6 +1460,10 @@
     "v": "Whether the current text is displayed"
   },
   {
+    "k": "Se um cronômetro está em exibição",
+    "v": "Se um cronômetro está em exibição"
+  },
+  {
     "k": "Se uma contagem regressiva está em exibição",
     "v": "If a countdown is on display"
   },
@@ -1128,8 +1472,16 @@
     "v": "If you create your own implementation, you need to return 'true' if you want the program to perform the request using the default implementation."
   },
   {
+    "k": "Selecionar uma alternativa. Começa em 1",
+    "v": "Selecionar uma alternativa. Começa em 1"
+  },
+  {
     "k": "Slide Additional Info",
     "v": "Slide Additional Info"
+  },
+  {
+    "k": "song",
+    "v": "song"
   },
   {
     "k": "Stage View",
@@ -1142,6 +1494,10 @@
   {
     "k": "status do envio da requisição ao Holyrics",
     "v": "status of sending the request to the Holyrics"
+  },
+  {
+    "k": "Tamanho relativo da contagem regressiva",
+    "v": "Tamanho relativo da contagem regressiva"
   },
   {
     "k": "Tempo atual da mídia em milissegundos",
@@ -1168,6 +1524,10 @@
     "v": "Total time in milliseconds"
   },
   {
+    "k": "text",
+    "v": "text"
+  },
+  {
     "k": "Texto",
     "v": "Text"
   },
@@ -1184,6 +1544,14 @@
     "v": "Current alert text"
   },
   {
+    "k": "Texto exibido na parte inferior da contagem regressiva",
+    "v": "Texto exibido na parte inferior da contagem regressiva"
+  },
+  {
+    "k": "Texto exibido na parte superior da contagem regressiva",
+    "v": "Texto exibido na parte superior da contagem regressiva"
+  },
+  {
     "k": "Texto que será exibido. [Styled Text](#styled-text) a partir da v2.19.0",
     "v": "Text to be displayed. [Styled Text](#styled-text) from v2.19.0"
   },
@@ -1196,16 +1564,24 @@
     "v": "Playlist type. Can be: temporary, service, event"
   },
   {
+    "k": "Tipo de caractere para listar as alternativas `number (1, 2, 3...)`  `alpha (A, B, C...)`",
+    "v": "Tipo de caractere para listar as alternativas `number (1, 2, 3...)`  `alpha (A, B, C...)`"
+  },
+  {
     "k": "Tipo de entrada. Pode ser: text, textarea, number, password, title, separator",
     "v": "Input type. Can be: text, textarea, number, password, title, separator"
   },
   {
-    "k": "Tipo do item. Pode ser: song, verse, text, audio, video, image, file, custom-text, announcement, countdown, countdown-cp, automatic_presentation, api, script",
-    "v": "Item type. It might be: song, verse, text, audio, video, image, file, custom-text, announcement, countdown, countdown-cp, automatic_presentation, api, script"
+    "k": "Tipo do item. Pode ser:",
+    "v": "Tipo do item. Pode ser:"
   },
   {
     "k": "Tipo do item. Pode ser: theme, my_video, my_image, video, image",
     "v": "Item type. It might be:theme, my_video, my_image, video, image"
+  },
+  {
+    "k": "title",
+    "v": "title"
   },
   {
     "k": "Título da música",
@@ -1220,12 +1596,24 @@
     "v": "access token used in the request"
   },
   {
+    "k": "token temporário",
+    "v": "temporary token"
+  },
+  {
     "k": "Tom da música",
     "v": "Tone of music"
   },
   {
+    "k": "Total de slides",
+    "v": "Total de slides"
+  },
+  {
     "k": "Troca o estado atual da respectiva opção **F8 (papel de parede), F9 (tela vazia) ou F10 (tela preta)**",
     "v": "Changes the current state of the respective option **F8 (wallpaper), F9 (empty screen) or F10 (black screen)**"
+  },
+  {
+    "k": "Um dos seguintes valores:",
+    "v": "Um dos seguintes valores:"
   },
   {
     "k": "URL padrão",
@@ -1296,12 +1684,20 @@
     "v": "Item default value"
   },
   {
+    "k": "Valor padrão para",
+    "v": "Valor padrão para"
+  },
+  {
     "k": "Variável adicionada na posição especificada conforme valor retornado em **variables.*.position** da classe CustomMessage.",
     "v": "Variable added at the specified position according to the value returned in **variables.*.position** of the CustomMessage class."
   },
   {
     "k": "Velocidade/intensidade midi",
     "v": "Speed/intensity midi"
+  },
+  {
+    "k": "Verde",
+    "v": "Verde"
   },
   {
     "k": "Verifica se a opção **aleatório** está ativada",
@@ -1328,8 +1724,20 @@
     "v": "Checks if the player is running"
   },
   {
+    "k": "Vermelho",
+    "v": "Vermelho"
+  },
+  {
+    "k": "verse",
+    "v": "verse"
+  },
+  {
     "k": "Versículo",
     "v": "Verse"
+  },
+  {
+    "k": "video",
+    "v": "video"
   },
   {
     "k": "Visão do palco ativada",
@@ -1346,25 +1754,5 @@
   {
     "k": "Volume atual do player",
     "v": "Current player volume"
-  },
-  {
-    "k": "conteúdo da requisição",
-    "v": "requisition content"
-  },
-  {
-    "k": "dtoken é o resumo sha256 da concatenação das informações da requisição conforme exemplo",
-    "v": "dtoken is the sha256 hash of the concatenation of the request information as shown in the example"
-  },
-  {
-    "k": "id da requisição",
-    "v": "request id"
-  },
-  {
-    "k": "resultado",
-    "v": "result"
-  },
-  {
-    "k": "token temporário",
-    "v": "temporary token"
   }
 ]
