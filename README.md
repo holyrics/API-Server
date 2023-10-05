@@ -300,7 +300,12 @@ Resposta
   - [GetCustomMessages](#getcustommessages)
   - [ShowCustomMessage](#showcustommessage)
   - [ShowQuickPresentation](#showquickpresentation)
+  - [ShowCountdown](#showcountdown)
+  - [ShowQuiz](#showquiz)
+  - [QuizAction](#quizaction)
   - [PlayAutomaticPresentation](#playautomaticpresentation)
+  - [GetAutomaticPresentationPlayerInfo](#getautomaticpresentationplayerinfo)
+  - [AutomaticPresentationPlayerAction](#automaticpresentationplayeraction)
   - [GetMediaPlayerInfo](#getmediaplayerinfo)
   - [MediaPlayerAction](#mediaplayeraction)
   - [GetLyricsPlaylist](#getlyricsplaylist)
@@ -308,6 +313,7 @@ Resposta
   - [RemoveFromLyricsPlaylist](#removefromlyricsplaylist)
   - [GetMediaPlaylist](#getmediaplaylist)
   - [MediaPlaylistAction](#mediaplaylistaction)
+  - [AddToPlaylist](#addtoplaylist)
   - [RemoveFromMediaPlaylist](#removefrommediaplaylist)
   - [GetFavorites](#getfavorites)
   - [FavoriteAction](#favoriteaction)
@@ -326,6 +332,7 @@ Resposta
   - [GetCurrentBackground](#getcurrentbackground)
   - [GetBackgrounds](#getbackgrounds)
   - [SetCurrentBackground](#setcurrentbackground)
+  - [GetColorMap](#getcolormap)
   - [SetAlert](#setalert)
   - [GetCurrentSchedule](#getcurrentschedule)
   - [GetSchedules](#getschedules)
@@ -336,10 +343,14 @@ Resposta
   - [GetMembers](#getmembers)
   - [GetRoles](#getroles)
   - [GetCommunicationPanelInfo](#getcommunicationpanelinfo)
+  - [SetCommunicationPanelSettings](#setcommunicationpanelsettings)
   - [StartCountdownCommunicationPanel](#startcountdowncommunicationpanel)
   - [StopCountdownCommunicationPanel](#stopcountdowncommunicationpanel)
+  - [StartTimerCommunicationPanel](#starttimercommunicationpanel)
+  - [StopTimerCommunicationPanel](#stoptimercommunicationpanel)
   - [SetTextCommunicationPanel](#settextcommunicationpanel)
   - [SetAlertCommunicationPanel](#setalertcommunicationpanel)
+  - [CommunicationPanelCallAttention](#communicationpanelcallattention)
   - [GetWallpaperSettings](#getwallpapersettings)
   - [SetWallpaperSettings](#setwallpapersettings)
   - [GetDisplaySettings](#getdisplaysettings)
@@ -423,10 +434,10 @@ Realiza uma busca na lista de letras do usuário
 | ---- | :---: | ------------|
 | `input` | _String_ | Filtro |
 | `text` | _String_ | Texto a ser pesquisado |
-| `title` | _Boolean (opcional)_ |  _(Padrão=*true*)_ |
-| `artist` | _Boolean (opcional)_ |  _(Padrão=*true*)_ |
-| `note` | _Boolean (opcional)_ |  _(Padrão=*true*)_ |
-| `lyrics` | _Boolean (opcional)_ |  _(Padrão=*false*)_ |
+| `title` | _Boolean (opcional)_ |  `Padrão: true` |
+| `artist` | _Boolean (opcional)_ |  `Padrão: true` |
+| `note` | _Boolean (opcional)_ |  `Padrão: true` |
+| `lyrics` | _Boolean (opcional)_ |  `Padrão: false` |
 | `group` | _String (opcional)_ |  |
 
 
@@ -540,8 +551,8 @@ Inicia uma apresentação de versículo da Bíblia.
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `input` | _Object_ | **id**, **ids** ou **references** |
-| `id` | _String (opcional)_ | Para exibir um versículo. ID do item no formato LLCCCVVV. Exemplo: '19023001' (ou seja, livro 19, capítulo 023, versículo 001) |
-| `ids` | _Array&lt;String&gt; (opcional)_ | Para exibir uma lista de versículos. Lista com o ID de cada versículo. Exemplo: ['19023001', '43003016', '45012002'] |
+| `id` | _String (opcional)_ | Para exibir um versículo. ID do item no formato LLCCCVVV.<br/>Exemplo: '19023001' (livro 19, capítulo 023, versículo 001) |
+| `ids` | _Array&lt;String&gt; (opcional)_ | Para exibir uma lista de versículos. Lista com o ID de cada versículo.<br/>Exemplo: ['19023001', '43003016', '45012002'] |
 | `references` | _String (opcional)_ | Referências. Exemplo: **João 3:16** ou **Rm 12:2** ou **Gn 1:1-3 Sl 23.1** |
 
 
@@ -860,6 +871,116 @@ Requisição
 
 ---
 
+### ShowCountdown
+- v2.19.0
+
+Exibir uma contagem regressiva na tela público
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `time` | _String_ | HH:MM ou MM:SS |
+| `exact_time` | _Boolean (opcional)_ | Se **true**, `time` deve ser HH:MM (hora e minuto exato). Se **false**, `time` deve ser MM:SS (quantidade de minutos e segundos) `Padrão: false` |
+| `text_before` | _String (opcional)_ | Texto exibido na parte superior da contagem regressiva |
+| `text_after` | _String (opcional)_ | Texto exibido na parte inferior da contagem regressiva |
+| `zero_fill` | _Boolean (opcional)_ | Preencher o campo 'minuto' com zero à esquerda `Padrão: false` |
+| `countdown_relative_size` | _Number (opcional)_ | Tamanho relativo da contagem regressiva `Padrão: 250` |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "time": "05:00",
+  "zero_fill": true
+}
+```
+
+
+---
+
+### ShowQuiz
+- v2.19.0
+
+Iniciar uma apresentação no formato múltipla escolha
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `questions` | _Array&lt;[QuizQuestion](#quiz-question)&gt;_ | Questões para exibir |
+| `settings` | _[QuizSettings](#quiz-settings)_ | Configurações |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "questions": [
+    {
+      "title": "Example 1",
+      "alternatives": [
+        "Example 1a",
+        "Example 2a",
+        "Example 3a",
+        "Example 4a"
+      ],
+      "correct_alternative_number": 2
+    },
+    {
+      "title": "Example 2",
+      "alternatives": [
+        "Example 1b",
+        "Example 2b",
+        "Example 3b",
+        "Example 4b"
+      ],
+      "correct_alternative_number": 2
+    }
+  ],
+  "settings": {
+    "display_alternatives_one_by_one": false,
+    "alternative_char_type": "number"
+  }
+}
+```
+
+
+---
+
+### QuizAction
+- v2.19.0
+
+Executar uma ação em uma apresentação de múltipla escolha
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `action` | _String (opcional)_ | Um dos seguintes valores: `previous_slide`  `next_slide`  `previous_question`  `next_question`  `show_result`  `close` |
+| `hide_alternative` | _Number (opcional)_ | Ocultar uma alternativa. Começa em 1 |
+| `select_alternative` | _Number (opcional)_ | Selecionar uma alternativa. Começa em 1 |
+| `countdown` | _Number (opcional)_ | Iniciar uma contagem regressiva. [1-120] |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "action": "next_slide"
+}
+```
+
+
+---
+
 ### PlayAutomaticPresentation
 ### PlayAP
 - v2.19.0
@@ -889,6 +1010,75 @@ Requisição
 
 ---
 
+### GetAutomaticPresentationPlayerInfo
+### GetAPPlayerInfo
+- v2.19.0
+
+Retorna as informações da apresentação automática em exibição
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data.name` | _String_ | Nome do item |
+| `data.playing` | _Boolean_ | Verifica se o player está em execução |
+| `data.time_ms` | _Number_ | Tempo atual da mídia em milissegundos |
+| `data.volume` | _Number_ | Volume atual do player. Mínimo=0, Máximo=100 |
+| `data.mute` | _Boolean_ | Verifica se a opção **mudo** está ativada |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "data": {
+      "name": "example",
+      "playing": true,
+      "time_ms": 34552,
+      "volume": 90,
+      "mute": false
+    }
+  }
+}
+```
+
+
+---
+
+### AutomaticPresentationPlayerAction
+### APPlayerAction
+- v2.19.0
+
+Executa ações no player
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `action` | _String (opcional)_ | Nome da ação que será executada no player. play, pause, stop |
+| `volume` | _Number (opcional)_ | Altera o volume do player. Mínimo=0, Máximo=100 |
+| `mute` | _Boolean (opcional)_ | Altera a opção **mudo** |
+| `time_ms` | _Boolean (opcional)_ | Alterar o tempo atual da mídia em milissegundos `v2.20.0+` |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "action": "play",
+  "volume": 80
+}
+```
+
+
+---
+
 ### GetMediaPlayerInfo
 - v2.19.0
 
@@ -900,19 +1090,19 @@ Retorna as informações do player
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `name` | _String_ | Nome da mídia atual no player |
-| `path` | _String_ | Caminho completo da mídia no player |
-| `playing` | _Boolean_ | Verifica se o player está em execução |
-| `duration_ms` | _Number_ | Tempo total em milissegundos |
-| `time_ms` | _Number_ | Tempo atual da mídia em milissegundos |
-| `time_elapsed` | _String_ | Tempo decorrido no formato HH:MM:SS |
-| `time_remaining` | _String_ | Tempo restante no formato HH:MM:SS |
-| `volume` | _Number_ | Volume atual do player. Mínimo=0, Máximo=100 |
-| `mute` | _Boolean_ | Verifica se a opção **mudo** está ativada |
-| `repeat` | _Boolean_ | Verifica se a opção **repetir** está ativada |
-| `execute_single` | _Boolean_ | Verifica se o player está definido para executar somente o item atual da lista |
-| `shuffle` | _Boolean_ | Verifica se a opção **aleatório** está ativada |
-| `fullscreen` | _Boolean_ | Verifica se a opção **tela cheia** está ativada |
+| `data.name` | _String_ | Nome da mídia atual no player |
+| `data.path` | _String_ | Caminho completo da mídia no player |
+| `data.playing` | _Boolean_ | Verifica se o player está em execução |
+| `data.duration_ms` | _Number_ | Tempo total em milissegundos |
+| `data.time_ms` | _Number_ | Tempo atual da mídia em milissegundos |
+| `data.time_elapsed` | _String_ | Tempo decorrido no formato HH:MM:SS |
+| `data.time_remaining` | _String_ | Tempo restante no formato HH:MM:SS |
+| `data.volume` | _Number_ | Volume atual do player. Mínimo=0, Máximo=100 |
+| `data.mute` | _Boolean_ | Verifica se a opção **mudo** está ativada |
+| `data.repeat` | _Boolean_ | Verifica se a opção **repetir** está ativada |
+| `data.execute_single` | _Boolean_ | Verifica se o player está definido para executar somente o item atual da lista |
+| `data.shuffle` | _Boolean_ | Verifica se a opção **aleatório** está ativada |
+| `data.fullscreen` | _Boolean_ | Verifica se a opção **tela cheia** está ativada |
 
 
 **Exemplo:**
@@ -957,6 +1147,7 @@ Executa ações no player
 | `shuffle` | _Boolean (opcional)_ | Altera a opção **aleatório** |
 | `execute_single` | _Boolean (opcional)_ | Altera a configuração do player para executar somente o item atual da lista |
 | `fullscreen` | _Boolean (opcional)_ | Altera a opção **tela cheia** do player |
+| `time_ms` | _Boolean (opcional)_ | Alterar o tempo atual da mídia em milissegundos `v2.20.0+` |
 
 
 _Método sem retorno_
@@ -1042,8 +1233,8 @@ Adicionar letra de música na lista de reprodução
 | ---- | :---: | ------------|
 | `id` | _String (opcional)_ | ID da letra |
 | `ids` | _Array&lt;String&gt; (opcional)_ | Lista com id de cada letra |
-| `index` | _Number (opcional)_ | Posição na lista onde o item será adicionado (inicia em zero). Os itens são adicionados no final da lista por padrão. _(Padrão=*-1*)_ |
-| `media_playlist` | _Boolean (opcional)_ | Adicionar as letras na lista de reprodução de mídia _(Padrão=*false*)_ |
+| `index` | _Number (opcional)_ | Posição na lista onde o item será adicionado (inicia em zero). Os itens são adicionados no final da lista por padrão. `Padrão: -1` |
+| `media_playlist` | _Boolean (opcional)_ | Adicionar as letras na lista de reprodução de mídia `Padrão: false` |
 
 
 _Método sem retorno_
@@ -1162,6 +1353,137 @@ _Método sem retorno_
 Requisição
 {
   "id": "abc"
+}
+```
+
+
+---
+
+### AddToPlaylist
+- v2.19.0
+
+Adicionar itens à lista de reprodução de mídias
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `items` | _Array&lt;[AddItem](#additem)&gt;_ | Lista com os itens que serão adicionados |
+| `index` | _Number (opcional)_ | Posição na lista onde o item será adicionado (inicia em zero). Os itens são adicionados no final da lista por padrão. `Padrão: -1` |
+| `ignore_duplicates` | _Boolean (opcional)_ | Não duplicar itens ao adicionar novos itens, ou seja, não adiciona um item se ele já estiver na lista. `Padrão: false` |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "items": [
+    {
+      "type": "title",
+      "name": "Título",
+      "background_color": "000080"
+    },
+    {
+      "type": "song",
+      "id": 12345678
+    },
+    {
+      "type": "verse",
+      "id": "19023001"
+    },
+    {
+      "type": "verse",
+      "ids": [
+        "19023001",
+        "43003016"
+      ]
+    },
+    {
+      "type": "verse",
+      "references": "Sl 23.1 Rm 12:2"
+    },
+    {
+      "type": "text",
+      "id": "abcxyz"
+    },
+    {
+      "type": "audio",
+      "name": "example.mp3"
+    },
+    {
+      "type": "video",
+      "name": "example.mp4"
+    },
+    {
+      "type": "image",
+      "name": "example.jpg"
+    },
+    {
+      "type": "automatic_presentation",
+      "name": "example.ap"
+    },
+    {
+      "type": "title",
+      "name": "Título 2"
+    },
+    {
+      "type": "announcement",
+      "id": 12345678
+    },
+    {
+      "type": "announcement",
+      "ids": [
+        123,
+        456
+      ]
+    },
+    {
+      "type": "announcement",
+      "name": "example"
+    },
+    {
+      "type": "announcement",
+      "names": [
+        "example 2",
+        "example 3"
+      ]
+    },
+    {
+      "type": "announcement",
+      "id": "all",
+      "automatic": {
+        "seconds": 8,
+        "repeat": false
+      }
+    },
+    {
+      "type": "title",
+      "name": "Título 3"
+    },
+    {
+      "type": "countdown",
+      "time": "03:15"
+    },
+    {
+      "type": "countdown_cp",
+      "minutes": 15,
+      "stop_at_zero": true
+    },
+    {
+      "type": "cp_text",
+      "text": "example"
+    },
+    {
+      "type": "script",
+      "id": "abcxyz"
+    },
+    {
+      "type": "api",
+      "id": "abcxyz"
+    }
+  ]
 }
 ```
 
@@ -1373,7 +1695,12 @@ Item sendo apresentado no momento ou **null** se não tiver apresentação sendo
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `data` | _[Item](#item)_ |  |
+| `data.id` | _String_ | ID do item |
+| `data.type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `api`  `script` |
+| `data.name` | _String_ | Nome do item |
+| `data.slide_number` | _Number_ | Começa em 1 `v2.20.0+` |
+| `data.total_slides` | _Number_ | Total de slides `v2.20.0+` |
+| `data.slide_type` | _String_ | Um dos seguintes valores: `default`  `wallpaper`  `blank`  `black`  `final_slide` `v2.20.0+` |
 
 
 **Exemplo:**
@@ -1604,7 +1931,7 @@ Lista dos temas e planos de fundo
 | `type` | _String (opcional)_ | Pode ser: theme, my_video, my_image, video, image |
 | `tag` | _String (opcional)_ |  |
 | `tags` | _Array&lt;String&gt; (opcional)_ |  |
-| `intersection` | _Boolean (opcional)_ | Se o campo **tags** estiver preenchido com múltiplos itens, a opção **intersection** define o tipo de junção. Se **true**, o filtro retornará apenas itens que contém **todas** as tags informadas, se **false**, o filtro retornará os itens que têm pelo menos uma tag das tags informadas _(Padrão=*false*)_ |
+| `intersection` | _Boolean (opcional)_ | Se o campo **tags** estiver preenchido com múltiplos itens, a opção **intersection** define o tipo de junção. Se **true**, o filtro retornará apenas itens que contém **todas** as tags informadas, se **false**, o filtro retornará os itens que têm pelo menos uma tag das tags informadas `Padrão: false` |
 
 
 **Resposta:**
@@ -1677,7 +2004,7 @@ Altera o plano de fundo (ou tema) da apresentação atual. Se mais de um item fo
 | `type` | _String (opcional)_ | Pode ser: theme, my_video, my_image, video, image |
 | `tag` | _String (opcional)_ |  |
 | `tags` | _Array&lt;String&gt; (opcional)_ |  |
-| `intersection` | _Boolean (opcional)_ | Se o campo **tags** estiver preenchido com múltiplos itens, a opção **intersection** define o tipo de junção. Se **true**, o filtro retornará apenas itens que contém **todas** as tags informadas, se **false**, o filtro retornará os itens que têm pelo menos uma tag das tags informadas _(Padrão=*false*)_ |
+| `intersection` | _Boolean (opcional)_ | Se o campo **tags** estiver preenchido com múltiplos itens, a opção **intersection** define o tipo de junção. Se **true**, o filtro retornará apenas itens que contém **todas** as tags informadas, se **false**, o filtro retornará os itens que têm pelo menos uma tag das tags informadas `Padrão: false` |
 
 
 _Método sem retorno_
@@ -1692,6 +2019,64 @@ Requisição
   "tag": "blue",
   "tags": [],
   "intersection": false
+}
+```
+
+
+---
+
+### GetColorMap
+- v2.19.0
+
+Retorna as informações de cor predominante de um respectivo tipo de item<br/>O array retornado contém 8 índices, e cada índice corresponde ao trecho conforme imagem de exemplo a seguir.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | Um dos seguintes valores:<br/>**background** - um item de tema ou plano de fundo<br/>**presentation** - apresentação atual em exibição<br/>**image** - uma imagem da aba 'imagens'<br/>**video** - um vídeo da aba 'vídeos'<br/>**printscreen** - um printscreen atual de uma tela do sistema<br/> |
+| `source` | _Object (opcional)_ | O item de acordo com o tipo informado:<br/>**background** - ID do tema ou plano de fundo<br/>**presentation** - não é necessário informar um valor, a apresentação da tela público será retornada<br/>**image** - o nome do arquivo da aba 'imagens'<br/>**video** - o nome do arquivo da aba 'vídeos'<br/>**printscreen** `opcional` -  o nome da tela (public, screen_2, screen_3, ...); o padrão é `public`<br/> |
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;Object&gt;_ |  |
+| `data.*.hex` | _String_ | Cor no formato hexadecimal |
+| `data.*.red` | _Number_ | Vermelho  0-255 |
+| `data.*.green` | _Number_ | Verde  0-255 |
+| `data.*.blue` | _Number_ | Azul  0-255 |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "type": "background",
+  "source": 12345678
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "hex": "0000FF",
+      "red": 0,
+      "green": 0,
+      "blue": 255
+    },
+    {
+      "...": "..."
+    },
+    {
+      "...": "..."
+    },
+    {
+      "...": "..."
+    }
+  ]
 }
 ```
 
@@ -2131,6 +2516,7 @@ Resposta
 
 ### GetCommunicationPanelInfo
 ### GetCPInfo
+### GetCPSettings
 - v2.19.0
 
 Configuração atual do painel de comunicação
@@ -2148,6 +2534,18 @@ Configuração atual do painel de comunicação
 | `data.alert_show` | _Boolean_ | Se a exibição do alerta está ativada |
 | `data.countdown_show` | _Boolean_ | Se uma contagem regressiva está em exibição |
 | `data.countdown_time` | _Number_ | O tempo atual da contagem regressiva em exibição (em segundos) |
+| `data.stopwatch_show` | _Boolean_ | Se um cronômetro está em exibição `v2.20.0+` |
+| `data.stopwatch_time` | _Number_ | O tempo atual do cronômetro em exibição (em segundos) `v2.20.0+` |
+| `data.theme` | _Number_ | ID do tema `v2.20.0+` |
+| `data.countdown_font_relative_size` | _Number_ | Tamanho relativo da contagem regressiva `v2.20.0+` |
+| `data.countdown_font_color` | _String_ | Cor da fonte da contagem regressiva `v2.20.0+` |
+| `data.stopwatch_font_color` | _String_ | Cor da fonte do cronômetro `v2.20.0+` |
+| `data.time_font_color` | _String_ | Cor da fonte da hora `v2.20.0+` |
+| `data.display_clock_as_background` | _Boolean_ | Exibir relógio como plano de fundo `v2.20.0+` |
+| `data.display_clock_on_alert` | _Boolean_ | Exibir relógio no alerta `v2.20.0+` |
+| `data.countdown_display_location` | _String_ | Local de exibição da contagem regressiva ou cronômetro. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` `v2.20.0+` |
+| `data.display_clock_with_countdown_fullscreen` | _Boolean_ | Exibir relógio junto da contagem regressiva ou cronômetro quando exibido em tela cheia `v2.20.0+` |
+| `data.display_vlc_player_remaining_time` | _Boolean_ | Exibir tempo restante da mídia em execução no VLC Player `v2.20.0+` |
 
 
 **Exemplo:**
@@ -2170,6 +2568,47 @@ Resposta
 
 ---
 
+### SetCommunicationPanelSettings
+### SetCPSettings
+- v2.19.0
+
+Alterar configuração atual do painel de comunicação
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `text` | _String (opcional)_ | Texto atual |
+| `show` | _Boolean (opcional)_ | Exibir o texto atual |
+| `display_ahead` | _Boolean (opcional)_ | Opção *'exibir à frente de tudo'* |
+| `theme` | _Boolean (opcional)_ | ID ou nome do tema padrão |
+| `alert_text` | _String (opcional)_ | Texto atual do alerta |
+| `alert_show` | _Boolean (opcional)_ | Ativar a exibição do alerta |
+| `countdown_font_relative_size` | _Number (opcional)_ | Tamanho relativo da contagem regressiva |
+| `countdown_font_color` | _String (opcional)_ | Cor da fonte da contagem regressiva |
+| `stopwatch_font_color` | _String (opcional)_ | Cor da fonte do cronômetro |
+| `time_font_color` | _String (opcional)_ | Cor da fonte da hora |
+| `display_clock_as_background` | _Boolean (opcional)_ | Exibir relógio como plano de fundo |
+| `display_clock_on_alert` | _Boolean (opcional)_ | Exibir relógio no alerta |
+| `countdown_display_location` | _String (opcional)_ | Local de exibição da contagem regressiva ou cronômetro. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` |
+| `display_clock_with_countdown_fullscreen` | _Boolean (opcional)_ | Exibir relógio junto da contagem regressiva ou cronômetro quando exibido em tela cheia |
+| `display_vlc_player_remaining_time` | _Boolean (opcional)_ | Exibir tempo restante da mídia em execução no VLC Player |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "display_clock_as_background": false,
+  "display_clock_on_alert": true
+}
+```
+
+
+---
+
 ### StartCountdownCommunicationPanel
 ### StartCountdownCP
 - v2.19.0
@@ -2183,7 +2622,7 @@ Inicia uma contagem regressiva no painel de comunicação
 | `minutes` | _Number_ | Quantidade de minutos |
 | `seconds` | _Number_ | Quantidade de segundos |
 | `yellow_starts_at` | _Number (opcional)_ | Valor em segundos para definir a partir de quanto tempo a contagem regressiva ficará amarela |
-| `stop_at_zero` | _Boolean (opcional)_ | Parar a contagem regressiva ao chegar em zero _(Padrão=*false*)_ |
+| `stop_at_zero` | _Boolean (opcional)_ | Parar a contagem regressiva ao chegar em zero `Padrão: false` |
 
 
 _Método sem retorno_
@@ -2207,6 +2646,34 @@ Requisição
 - v2.19.0
 
 Encerra a contagem regressiva atual do painel de comunicação
+
+
+
+_Método sem retorno_
+
+
+
+---
+
+### StartTimerCommunicationPanel
+### StartTimerCP
+- v2.19.0
+
+Inicia um cronômetro no painel de comunicação
+
+
+
+_Método sem retorno_
+
+
+
+---
+
+### StopTimerCommunicationPanel
+### StopTimerCP
+- v2.19.0
+
+Encerra o cronômetro atual do painel de comunicação
 
 
 
@@ -2270,6 +2737,20 @@ Requisição
   "show": false
 }
 ```
+
+
+---
+
+### CommunicationPanelCallAttention
+### CPCallAttention
+- v2.19.0
+
+Executa a opção 'chamar atenção' disponível no painel de comunicação
+
+
+
+_Método sem retorno_
+
 
 
 ---
@@ -2873,6 +3354,7 @@ function request(action, headers, content, info) {
 | `artist` | _String_ | Artista da música |
 | `author` | _String_ | Autor da música |
 | `note` | _String_ | Anotação da música |
+| `copyright` | _String_ | Copyright da música |
 | `key` | _String_ | Tom da música |
 | `time_sig` | _String_ | Tempo da música |
 | `groups` | _Array&lt;[Group](#group)&gt;_ | Grupos onde a música está adicionada |
@@ -2891,7 +3373,7 @@ function request(action, headers, content, info) {
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
-| `type` | _String_ | Tipo do item. Pode ser: song, verse, text, audio, video, image, file, custom-text, announcement, countdown, countdown-cp, automatic_presentation, api, script |
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `api`  `script` |
 | `name` | _String_ | Nome do item |
 ## Group
 | Nome | Tipo  | Descrição |
@@ -2916,7 +3398,7 @@ function request(action, headers, content, info) {
 | `lyrics_playlist` | _Array&lt;[Lyrics](#lyrics)&gt;_ | Lista de letras |
 | `media_playlist` | _Array&lt;[Item](#item)&gt;_ | Lista de mídias |
 | `responsible` | _[Member](#member)_ | Integrante definido como responsável pelo evento |
-| `members` | _Array&lt;Object&gt;_ | Lista dos integrantes escalados |
+| `members` | _Array&lt;Object&gt;_ | Lista de integrantes |
 | `members.*.id` | _String_ | ID do integrante |
 | `members.*.name` | _String_ | Nome do integrante escalado |
 | `members.*.scheduled` | _Boolean_ | Se o integrande está escalado ou definido para uma função |
@@ -2948,9 +3430,9 @@ function request(action, headers, content, info) {
 | `default_value` | _Object (opcional)_ | Valor padrão do item |
 | `allowed_values` | _Array&lt;String&gt; (opcional)_ | Disponível se o tipo for **text**. Define uma lista de valores permitidos, para serem selecionados como um combobox |
 | `suggested_values` | _Array&lt;String&gt; (opcional)_ | Disponível se o tipo for **text**. Define uma lista de valores sugeridos, porém o usuário pode inserir qualquer valor no campo de texto |
-| `min` | _Number (opcional)_ | Disponível se o tipo for **number**. Define o valor mínimo permitido _(Padrão=*0*)_ |
-| `max` | _Number (opcional)_ | Disponível se o tipo for **number**. Define o valor máximo permitido _(Padrão=*100*)_ |
-| `show_as_combobox` | _Boolean (opcional)_ | Disponível se o tipo for **number**. Exibe a lista de valores como combobox e não como spinner _(Padrão=*false*)_ |
+| `min` | _Number (opcional)_ | Disponível se o tipo for **number**. Define o valor mínimo permitido `Padrão: 0` |
+| `max` | _Number (opcional)_ | Disponível se o tipo for **number**. Define o valor máximo permitido `Padrão: 100` |
+| `show_as_combobox` | _Boolean (opcional)_ | Disponível se o tipo for **number**. Exibe a lista de valores como combobox e não como spinner `Padrão: false` |
 ## Display Settings
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
@@ -2971,6 +3453,8 @@ function request(action, headers, content, info) {
 | `show_items.image` | _Boolean_ | Imagem |
 | `show_items.alert` | _Boolean_ | Alerta |
 | `show_items.announcement` | _Boolean_ | Anúncio |
+| `media_player.show` | _Boolean_ | Exibir VLC Player `v2.20.0+` |
+| `media_player.margin` | _[Rectangle](#rectangle)_ | Margem para exibição dos vídeos pelo VLC Player `v2.20.0+` |
 ## Stage View
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
@@ -3028,3 +3512,119 @@ function request(action, headers, content, info) {
 | `only_number` | _Boolean_ | Parâmetro aceita somente números |
 | `uppercase` | _Boolean_ | Parâmetro exibido sempre em maiúsculo |
 | `suggestions` | _Array&lt;String&gt; (opcional)_ | Lista com valores padrões para o parâmetro |
+## Quiz Question
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `title` | _String_ | Pergunta |
+| `alternatives` | _Array&lt;String&gt;_ | Alternativas |
+| `correct_alternative_number` | _Number (opcional)_ | Número da alternativa correta. Começa em 1 `Padrão: 1` |
+| `source` | _String (opcional)_ | Fonte da resposta |
+## Quiz Settings
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `correct_answer_color_font` | _String (opcional)_ | Cor da fonte para a resposta correta |
+| `correct_answer_color_background` | _String (opcional)_ | Cor de fundo para a resposta correta |
+| `incorrect_answer_color_font` | _String (opcional)_ | Cor da fonte para a resposta incorreta |
+| `incorrect_answer_color_background` | _String (opcional)_ | Cor de fundo para a resposta incorreta |
+| `question_and_alternatives_different_slides` | _Boolean (opcional)_ | Exibir a pergunta e as alternativas em slides separados `Padrão: false` |
+| `display_alternatives_one_by_one` | _Boolean (opcional)_ | Exibir as alternativas uma a uma `Padrão: true` |
+| `alternative_char_type` | _String (opcional)_ | Tipo de caractere para listar as alternativas `number (1, 2, 3...)`  `alpha (A, B, C...)` `Padrão: 'alpha'` |
+| `alternative_separator_char` | _String (opcional)_ | Caractere separador. Valores permitidos:  ` `  `.`  `)`  `-`  `:` `Padrão: '.'` |
+## AddItem
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `api`  `script` |
+## AddItemTitle
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | title |
+| `name` | _String_ | Nome do item |
+| `background_color` | _String (opcional)_ | Cor de fundo em hexadecimal, exemplo: 000080 |
+| `collapsed` | _Boolean (opcional)_ |  `Padrão: false` |
+## AddItemSong
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | song |
+| `id` | _String_ | ID do item |
+## AddItemVerse
+**id**, **ids** ou **references**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | verse |
+| `id` | _String (opcional)_ | Para exibir um versículo. ID do item no formato LLCCCVVV.<br/>Exemplo: '19023001' (livro 19, capítulo 023, versículo 001) |
+| `ids` | _Array&lt;String&gt; (opcional)_ | Para exibir uma lista de versículos. Lista com o ID de cada versículo.<br/>Exemplo: ['19023001', '43003016', '45012002'] |
+| `references` | _String (opcional)_ | Referências. Exemplo: **João 3:16** ou **Rm 12:2** ou **Gn 1:1-3 Sl 23.1** |
+## AddItemText
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | text |
+| `id` | _String_ | ID do item |
+## AddItemAudio
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | audio |
+| `name` | _String_ | Nome do arquivo |
+## AddItemVideo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | video |
+| `name` | _String_ | Nome do arquivo |
+## AddItemImage
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | image |
+| `name` | _String_ | Nome do arquivo |
+## AddItemAutomaticPresentation
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | automatic_presentation |
+| `name` | _String_ | Nome do arquivo |
+## AddItemAnnouncement
+**id**, **ids**, **name** ou **names**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | announcement |
+| `id` | _String (opcional)_ | ID do anúncio. Pode ser **all** para exibir todos |
+| `ids` | _Array&lt;String&gt; (opcional)_ | Lista com o ID de cada anúncio |
+| `name` | _String (opcional)_ | Nome do anúncio |
+| `names` | _Array&lt;String&gt; (opcional)_ | Lista com o nome de cada anúncio |
+| `automatic` | _[Automatic](#automatic-presentation) (opcional)_ | Se informado, a apresentação dos itens será automática |
+## AddItemCountdown
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | countdown |
+| `time` | _String_ | HH:MM ou MM:SS |
+| `exact_time` | _Boolean (opcional)_ | Se **true**, `time` deve ser HH:MM (hora e minuto exato). Se **false**, `time` deve ser MM:SS (quantidade de minutos e segundos) `Padrão: false` |
+| `text_before` | _String (opcional)_ | Texto exibido na parte superior da contagem regressiva |
+| `text_after` | _String (opcional)_ | Texto exibido na parte inferior da contagem regressiva |
+| `zero_fill` | _Boolean (opcional)_ | Preencher o campo 'minuto' com zero à esquerda `Padrão: false` |
+| `countdown_relative_size` | _Number (opcional)_ | Tamanho relativo da contagem regressiva `Padrão: 250` |
+## AddItemCountdownCommunicationPanel
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | countdown_cp |
+| `minutes` | _Number_ | Quantidade de minutos |
+| `seconds` | _Number_ | Quantidade de segundos |
+| `stop_at_zero` | _Boolean (opcional)_ | Parar a contagem regressiva ao chegar em zero `Padrão: false` |
+| `description` | _String_ | Descrição do item |
+## AddItemTextCommunicationPanel
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | cp_text |
+| `name` | _String_ | Nome do item |
+| `text` | _String_ | Texto |
+| `display_ahead` | _Boolean (opcional)_ | Alterar a opção *'exibir à frente de tudo'* |
+## AddItemScript
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | script |
+| `description` | _String_ | Descrição do item |
+| `inputs` | _Object (opcional)_ | Valor padrão para [Function Input](https://github.com/holyrics/Scripts/blob/main/FunctionInput.md) |
+## AddItemAPI
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | api |
+| `description` | _String_ | Descrição do item |
+| `inputs` | _Object (opcional)_ | Valor padrão para [Function Input](https://github.com/holyrics/Scripts/blob/main/FunctionInput.md) |
