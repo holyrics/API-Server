@@ -872,7 +872,7 @@ Requisição
 ---
 
 ### ShowCountdown
-- v2.19.0
+- v2.20.0
 
 Exibir uma contagem regressiva na tela público
 
@@ -903,7 +903,7 @@ Requisição
 ---
 
 ### ShowQuiz
-- v2.19.0
+- v2.20.0
 
 Iniciar uma apresentação no formato múltipla escolha
 
@@ -954,7 +954,7 @@ Requisição
 ---
 
 ### QuizAction
-- v2.19.0
+- v2.20.0
 
 Executar uma ação em uma apresentação de múltipla escolha
 
@@ -1012,7 +1012,7 @@ Requisição
 
 ### GetAutomaticPresentationPlayerInfo
 ### GetAPPlayerInfo
-- v2.19.0
+- v2.20.0
 
 Retorna as informações da apresentação automática em exibição
 
@@ -1051,7 +1051,7 @@ Resposta
 
 ### AutomaticPresentationPlayerAction
 ### APPlayerAction
-- v2.19.0
+- v2.20.0
 
 Executa ações no player
 
@@ -1062,7 +1062,7 @@ Executa ações no player
 | `action` | _String (opcional)_ | Nome da ação que será executada no player. play, pause, stop |
 | `volume` | _Number (opcional)_ | Altera o volume do player. Mínimo=0, Máximo=100 |
 | `mute` | _Boolean (opcional)_ | Altera a opção **mudo** |
-| `time_ms` | _Boolean (opcional)_ | Alterar o tempo atual da mídia em milissegundos `v2.20.0+` |
+| `time_ms` | _Boolean (opcional)_ | Alterar o tempo atual da mídia em milissegundos |
 
 
 _Método sem retorno_
@@ -1360,7 +1360,7 @@ Requisição
 ---
 
 ### AddToPlaylist
-- v2.19.0
+- v2.20.0
 
 Adicionar itens à lista de reprodução de mídias
 
@@ -2026,7 +2026,7 @@ Requisição
 ---
 
 ### GetColorMap
-- v2.19.0
+- v2.20.0
 
 Retorna as informações de cor predominante de um respectivo tipo de item<br/>O array retornado contém 8 índices, e cada índice corresponde ao trecho conforme imagem de exemplo a seguir.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>
 
@@ -2570,7 +2570,7 @@ Resposta
 
 ### SetCommunicationPanelSettings
 ### SetCPSettings
-- v2.19.0
+- v2.20.0
 
 Alterar configuração atual do painel de comunicação
 
@@ -2657,7 +2657,7 @@ _Método sem retorno_
 
 ### StartTimerCommunicationPanel
 ### StartTimerCP
-- v2.19.0
+- v2.20.0
 
 Inicia um cronômetro no painel de comunicação
 
@@ -2671,7 +2671,7 @@ _Método sem retorno_
 
 ### StopTimerCommunicationPanel
 ### StopTimerCP
-- v2.19.0
+- v2.20.0
 
 Encerra o cronômetro atual do painel de comunicação
 
@@ -2743,7 +2743,7 @@ Requisição
 
 ### CommunicationPanelCallAttention
 ### CPCallAttention
-- v2.19.0
+- v2.20.0
 
 Executa a opção 'chamar atenção' disponível no painel de comunicação
 
