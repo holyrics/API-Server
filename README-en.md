@@ -3,34 +3,34 @@
 
 The Holyrics program provides a communication interface to receive requests both over the local network and over the internet.
 <br/>
-When perform a request, the default implementation of this documentation will be used.
+When making a request, the default implementation of this documentation will be used.
 <br/>
-But it is also possible to implement a JavaScript method in the Holyrics program itself so that requests are redirected to this method and perform custom actions as needed.
+But it is also possible to implement a JavaScript method in the Holyrics program itself so that requests are redirected to this method and execute customized actions as needed.
 <br/>
-Use the `POST` method and the `Content-Type: application/json` to perform the requests.
+Use the `POST` method and the `Content-Type: application/json` to make the requests.
 <br/>
-It is necessary to add the `token` parameter to the request URL, which is created in the API Server settings, option 'manage permissions'.
+It is necessary to add the `token` parameter to the request URL, which is created in the API Server settings, 'manage permissions' option.
 <br/>
-You can create multiple tokens and set permissions for each token.
+You can create multiple tokens and define the permissions of each token.
 <br/>
 
-To access API Server settings:
+To access the API Server settings:
 <br/>
 File menu > Settings > API Server
 
-# Example of a local network request
+# Example of a request over the local network
 
-You can add the token in the URL to perform the request.
+You can pass the token in the URL to make the request.
 <br/>
-However, because it is a local connection without SSL, if you want greater security, use the "hash" method to send requests without having to inform the access token in the request.
+However, as it is a local connection without SSL, if you want more security, use the "hash" method to send requests without having to inform the access token in the request.
 
-Default URL - Using token
+default URL - Using token
 
 ```
 http://[IP]:[PORT]/api/{action}?token=abcdef
 ```
 
-Default URL - Using hash
+default URL - Using hash
 
 ```
 http://[IP]:[PORT]/api/{action}?dtoken=xyz123&sid=456&rid=3
@@ -42,7 +42,7 @@ sid
 Session ID, obtained along with the nonce
 
 rid: request id
-Sent by the client, a positive number that must always be greater than the one used in the previous request
+Sent by the client, a positive number that should always be greater than the one used in the previous request
 ```
 
 Request
@@ -60,9 +60,9 @@ Using hash
 nonce = '1a2b3c';  <- temporary token
 rid   = 4;         <- request id
 token = 'abcdef';  <- access token
-data  = '{}';      <- requisition content
+data  = '{}';      <- request content
 
-dtoken is the sha256 hash of the concatenation of the request information as shown in the example
+dtoken is the sha256 summary of the concatenation of the request information as example
 dtoken = sha256(nonce + ':' + rid + ':' + token + ':' + data);
 result: f3391f69cbe03940bd0d4a63ee191092aab2f3573f56b410a9cf94da05d4cdb5
 
@@ -151,13 +151,13 @@ Response
 }
 ```
 
-Use the 'Auth' action again to authenticate, adding the parameters in the URL
+Use the 'Auth' action again to authenticate, passing the parameters in the URL
 
 ```
 nonce = 'b58ba4f605bed27c40a20be53ee3cf3d';
-rid   = 0;       <- must be zero for authentication
+rid   = 0;       <- should be zero for authentication
 token = '1234';  <- access token
-data  = 'auth';  <- must be 'auth' for authentication
+data  = 'auth';  <- should be 'auth' for authentication
 
 dtoken = sha256(nonce + ':' + rid + ':' + token + ':' + data);
 result: 5d632009dfde5e9771b4f98f1b28c88ac2f73ae1f9d81b62a9af241a304c4d7a
@@ -168,14 +168,14 @@ Response
 { "status": "ok" }
 ```
 
-# Example of internet request
+# Example of a request over the internet
 
 Use the **API_KEY** value available in the API Server settings to make requests to the Holyrics server endpoint along with the access token.
 
 ### Request - send
-**Just send the request without waiting for a response**
+**Just sends the request without waiting for a return**
 
-Default URL
+default URL
 ```
 https://api.holyrics.com.br/send/{action}
 ```
@@ -196,14 +196,14 @@ Response
 { "status": "ok" }
 ```
 
-The status of **send** requests only informs if the request was sent to Holyrics opened on the computer.
+The status of **send** requests only informs if the request was sent to Holyrics open on the computer.
 
 ---
 
 ### Request - request
-Send the request and wait for the response
+Sends the request and waits for the response
 
-Default URL
+default URL
 ```
 https://api.holyrics.com.br/request/{action}
 ```
@@ -222,8 +222,8 @@ Response
 
 ```
 {
-  "status": "ok",           <-  status of sending the request to the Holyrics
-  "response_status": "ok",  <-  response status of sent request
+  "status": "ok",           <-  status of sending the request to Holyrics
+  "response_status": "ok",  <-  status of the response of the sent request
   "response": {             <-  request response
     "status": "ok",
     "data": {
@@ -241,7 +241,7 @@ Response
 
 ---
 
-### Examples of error sending the request:
+### Examples of error in sending the request:
 
 ```
 {
@@ -265,13 +265,13 @@ Response
 }
 ```
 
-### Examples of request response error:
+### Examples of error in the request response:
 
 ```
 {
   "status": "ok",           <-  the request was sent to the computer
-  "response_status": "ok",  <-  the response has been received
-  "response": {             <-  response received from computer
+  "response_status": "ok",  <-  the response was received
+  "response": {             <-  response received from the computer
       "status": "error",
       "error": "invalid token"
     }
@@ -288,14 +288,20 @@ Response
 
 # Available actions 
   - [GetLyrics](#getlyrics)
+  - [GetSongs](#getsongs)
   - [SearchLyrics](#searchlyrics)
   - [ShowLyrics](#showlyrics)
+  - [GetText](#gettext)
+  - [GetTexts](#gettexts)
+  - [SearchText](#searchtext)
   - [ShowText](#showtext)
   - [ShowVerse](#showverse)
   - [GetAudios](#getaudios)
   - [PlayAudio](#playaudio)
   - [PlayVideo](#playvideo)
   - [ShowImage](#showimage)
+  - [ExecuteFile](#executefile)
+  - [AudioExists](#audioexists)
   - [ShowAnnouncement](#showannouncement)
   - [GetCustomMessages](#getcustommessages)
   - [ShowCustomMessage](#showcustommessage)
@@ -303,6 +309,7 @@ Response
   - [ShowCountdown](#showcountdown)
   - [ShowQuiz](#showquiz)
   - [QuizAction](#quizaction)
+  - [GetAutomaticPresentations](#getautomaticpresentations)
   - [PlayAutomaticPresentation](#playautomaticpresentation)
   - [GetAutomaticPresentationPlayerInfo](#getautomaticpresentationplayerinfo)
   - [AutomaticPresentationPlayerAction](#automaticpresentationplayeraction)
@@ -315,8 +322,12 @@ Response
   - [MediaPlaylistAction](#mediaplaylistaction)
   - [AddToPlaylist](#addtoplaylist)
   - [RemoveFromMediaPlaylist](#removefrommediaplaylist)
+  - [SetPlaylistItemDuration](#setplaylistitemduration)
+  - [GetSlideDescriptions](#getslidedescriptions)
   - [GetFavorites](#getfavorites)
   - [FavoriteAction](#favoriteaction)
+  - [GetApis](#getapis)
+  - [GetScripts](#getscripts)
   - [ApiAction](#apiaction)
   - [ScriptAction](#scriptaction)
   - [ApiRequest](#apirequest)
@@ -332,6 +343,7 @@ Response
   - [GetCurrentBackground](#getcurrentbackground)
   - [GetBackgrounds](#getbackgrounds)
   - [SetCurrentBackground](#setcurrentbackground)
+  - [GetThumbnail](#getthumbnail)
   - [GetColorMap](#getcolormap)
   - [SetAlert](#setalert)
   - [GetCurrentSchedule](#getcurrentschedule)
@@ -355,6 +367,11 @@ Response
   - [SetWallpaperSettings](#setwallpapersettings)
   - [GetDisplaySettings](#getdisplaysettings)
   - [SetDisplaySettings](#setdisplaysettings)
+  - [GetTransitionEffectSettings](#gettransitioneffectsettings)
+  - [SetTransitionEffectSettings](#settransitioneffectsettings)
+  - [GetBibleVersions](#getbibleversions)
+  - [GetBibleSettings](#getbiblesettings)
+  - [SetBibleSettings](#setbiblesettings)
   - [GetBpm](#getbpm)
   - [SetBpm](#setbpm)
   - [GetHue](#gethue)
@@ -363,6 +380,10 @@ Response
   - [SetRuntimeEnvironment](#setruntimeenvironment)
   - [SetLogo](#setlogo)
   - [GetSyncStatus](#getsyncstatus)
+  - [GetInterfaceInput](#getinterfaceinput)
+  - [SetInterfaceInput](#setinterfaceinput)
+  - [OpenDrawLots](#opendrawlots)
+  - [GetMediaDuration](#getmediaduration)
 
 
 ---
@@ -416,6 +437,55 @@ Response
     ],
     "archived": false
   }
+}
+```
+
+
+---
+
+### GetSongs
+- v2.21.0
+
+Returns the list of songs
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_ |  |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "0",
+      "title": "",
+      "artist": "",
+      "author": "",
+      "note": "",
+      "copyright": "",
+      "key": "",
+      "bpm": 0.0,
+      "time_sig": "",
+      "groups": [],
+      "extras": {
+        "extra": ""
+      },
+      "archived": false
+    },
+    {
+      "...": "..."
+    },
+    {
+      "...": "..."
+    }
+  ]
 }
 ```
 
@@ -516,6 +586,150 @@ Request
 
 ---
 
+### GetText
+- v2.21.0
+
+Returns a text.
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Text ID |
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _[Text](#text)_ | Text or NULL if not found |
+
+
+**Example:**
+```
+Request
+{
+  "id": "xyz"
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "id": "",
+    "title": "",
+    "folder": "",
+    "theme": null,
+    "slides": [
+      {
+        "text": "Slide 1 line 1\nSlide 1 line 2",
+        "background_id": null
+      },
+      {
+        "text": "Slide 2 line 1\nSlide 2 line 2",
+        "background_id": null
+      },
+      {
+        "text": "Slide 3 line 1\nSlide 3 line 2",
+        "background_id": null
+      }
+    ]
+  }
+}
+```
+
+
+---
+
+### GetTexts
+- v2.21.0
+
+Returns the list of texts
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;[Text](#text)&gt;_ |  |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "",
+      "title": "",
+      "folder": "",
+      "theme": null
+    },
+    {
+      "...": "..."
+    },
+    {
+      "...": "..."
+    }
+  ]
+}
+```
+
+
+---
+
+### SearchText
+- v2.21.0
+
+Performs a search in the user's text list
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `input` | _String_ | Filter |
+| `text` | _String_ | Text to be searched |
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_ |  |
+
+
+**Example:**
+```
+Request
+{
+  "text": "example"
+}
+
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "",
+      "title": "",
+      "folder": "",
+      "theme": null
+    },
+    {
+      "...": "..."
+    },
+    {
+      "...": "..."
+    }
+  ]
+}
+```
+
+
+---
+
 ### ShowText
 - v2.19.0
 
@@ -554,6 +768,7 @@ Starts a Bible verse presentation.
 | `id` | _String (optional)_ | To display a verse. Item ID in BBCCCVVV format.<br/>Example: '19023001' (book 19, chapter 023, verse 001) |
 | `ids` | _Array&lt;String&gt; (optional)_ | To display a list of verses. List with the ID of each verse.<br/>Example: ['19023001', '43003016', '45012002'] |
 | `references` | _String (optional)_ | References. Example: **John 3:16** or **Rm 12:2** or **Gn 1:1-3 Sl 23.1** |
+| `version` | _String (optional)_ | Name or abbreviation of the translation used `v2.21.0+` |
 
 
 _Method does not return value_
@@ -578,9 +793,10 @@ Request
 ### GetAudios
 ### GetVideos
 ### GetImages
+### GetFiles
 - v2.19.0
 
-Returns the file list of the respective tab: audio, video, image
+Returns the list of files from the respective tab: audio, video, image, file
 
 **Parameters:**
 
@@ -636,6 +852,7 @@ Play an audio or a list of audios (folder)
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `file` | _String_ | File or folder name. Example: **file.mp3** or **folder** or **folder/file.mp3** |
+| `settings` | _[PlayMediaSettings](#play-media-settings) (optional)_ | Settings for media execution `v2.21.0+` |
 
 
 _Method does not return value_
@@ -661,6 +878,7 @@ Play a video or a list of videos (folder)
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `file` | _String_ | File or folder name. Example: **file.mp4** or **folder** or **folder/file.mp4** |
+| `settings` | _[PlayMediaSettings](#play-media-settings) (optional)_ | Settings for media execution `v2.21.0+` |
 
 
 _Method does not return value_
@@ -696,6 +914,70 @@ _Method does not return value_
 Request
 {
   "file": "image.jpg"
+}
+```
+
+
+---
+
+### ExecuteFile
+- v2.21.0
+
+Execute a file. Available only for safe extensions, such as audio, video, image, documents, etc.
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `file` | _String_ | File name |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "file": "file.txt"
+}
+```
+
+
+---
+
+### AudioExists
+### VideoExists
+### ImageExists
+### FileExists
+- v2.21.0
+
+Checks if there is a file with the informed name
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `file` | _String_ | File name |
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Boolean_ |  |
+
+
+**Example:**
+```
+Request
+{
+  "file": "file.mp3"
+}
+
+Response
+{
+  "status": "ok",
+  "data": true
 }
 ```
 
@@ -817,7 +1099,8 @@ Display a custom message. Note: A custom message is not displayed directly on th
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `name` | _String_ | custom message name |
-| `position_?` | _Object_ | Variable added at the specified position according to the value returned in **variables.*.position** of the CustomMessage class. |
+| `position_?` | _Object (optional)_ | Variable added at the specified position according to the value returned in **variables.*.position** of the CustomMessage class. |
+| `params` | _Object (optional)_ | Alternative method. Key/value map where the key is the field name **variables.*.name** of the CustomMessage class. If necessary to add the same parameter, add `*_n` at the end of the name, starting at 2<br>Example: **params.name, params.name_2, params.name_3** `v2.21.0+` |
 | `note` | _String_ | Extra information displayed in popup window for operator |
 
 
@@ -852,6 +1135,8 @@ Quick display of text
 | `theme` | _Object (optional)_ | Filter selected theme for display |
 | `theme.id` | _String (optional)_ | Theme ID |
 | `theme.name` | _String (optional)_ | Theme name |
+| `theme.edit` | _[Theme](#theme) (optional)_ | Settings to modify the selected Theme for display `v2.21.0+` |
+| `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme used to display the text `v2.21.0+` |
 | `automatic` | _[Automatic](#automatic-presentation) (optional)_ | If informed, the presentation of the items will be automatic |
 
 
@@ -874,18 +1159,21 @@ Request
 ### ShowCountdown
 - v2.20.0
 
-Exibir uma contagem regressiva na tela público
+Display a countdown on the public screen
 
 **Parameters:**
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `time` | _String_ | HH:MM ou MM:SS |
-| `exact_time` | _Boolean (optional)_ | Se **true**, `time` deve ser HH:MM (hora e minuto exato). Se **false**, `time` deve ser MM:SS (quantidade de minutos e segundos) `Default: false` |
-| `text_before` | _String (optional)_ | Texto exibido na parte superior da contagem regressiva |
-| `text_after` | _String (optional)_ | Texto exibido na parte inferior da contagem regressiva |
-| `zero_fill` | _Boolean (optional)_ | Preencher o campo 'minuto' com zero à esquerda `Default: false` |
-| `countdown_relative_size` | _Number (optional)_ | Tamanho relativo da contagem regressiva `Default: 250` |
+| `time` | _String_ | HH:MM or MM:SS |
+| `exact_time` | _Boolean (optional)_ | If **true**, `time` should be HH:MM (exact hour and minute). If **false**, `time` should be MM:SS (amount of minutes and seconds) `Default: false` |
+| `text_before` | _String (optional)_ | Text displayed at the top of the countdown |
+| `text_after` | _String (optional)_ | Text displayed at the bottom of the countdown |
+| `zero_fill` | _Boolean (optional)_ | Fill in the 'minute' field with zero on the left `Default: false` |
+| `countdown_relative_size` | _Number (optional)_ | Relative size of the countdown `Default: 250` |
+| `theme` | _String (optional)_ | Theme ID `v2.21.0+` |
+| `countdown_style` | _[FontSettings](#font-settings) (optional)_ | Custom font for countdown `v2.21.0+` |
+| `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme `v2.21.0+` |
 
 
 _Method does not return value_
@@ -905,14 +1193,14 @@ Request
 ### ShowQuiz
 - v2.20.0
 
-Iniciar uma apresentação no formato múltipla escolha
+Start a multiple choice presentation
 
 **Parameters:**
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `questions` | _Array&lt;[QuizQuestion](#quiz-question)&gt;_ | Questões para exibir |
-| `settings` | _[QuizSettings](#quiz-settings)_ | Configurações |
+| `questions` | _Array&lt;[QuizQuestion](#quiz-question)&gt;_ | Questions to display |
+| `settings` | _[QuizSettings](#quiz-settings)_ | Settings |
 
 
 _Method does not return value_
@@ -956,16 +1244,16 @@ Request
 ### QuizAction
 - v2.20.0
 
-Executar uma ação em uma apresentação de múltipla escolha
+Execute an action in a multiple choice presentation
 
 **Parameters:**
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `action` | _String (optional)_ | Um dos seguintes valores: `previous_slide`  `next_slide`  `previous_question`  `next_question`  `show_result`  `close` |
-| `hide_alternative` | _Number (optional)_ | Ocultar uma alternativa. Começa em 1 |
-| `select_alternative` | _Number (optional)_ | Selecionar uma alternativa. Começa em 1 |
-| `countdown` | _Number (optional)_ | Iniciar uma contagem regressiva. [1-120] |
+| `action` | _String (optional)_ | One of the following values: `previous_slide`  `next_slide`  `previous_question`  `next_question`  `show_result`  `close` |
+| `hide_alternative` | _Number (optional)_ | Hide an alternative. Starts at 1 |
+| `select_alternative` | _Number (optional)_ | Select an alternative. Starts at 1 |
+| `countdown` | _Number (optional)_ | Start a countdown. [1-120] |
 
 
 _Method does not return value_
@@ -975,6 +1263,44 @@ _Method does not return value_
 Request
 {
   "action": "next_slide"
+}
+```
+
+
+---
+
+### GetAutomaticPresentations
+### GetAPs
+- v2.21.0
+
+Returns the list of automatic presentations
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;Object&gt;_ |  |
+| `data.*.name` | _String_ | File name. Example: **file.ap** |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "name": "file 1.ap"
+    },
+    {
+      "name": "file 2.ap"
+    },
+    {
+      "name": "file 3.ap"
+    }
+  ]
 }
 ```
 
@@ -995,6 +1321,8 @@ Play an automatic presentation item
 | `theme` | _Object (optional)_ | Filter selected theme for display |
 | `theme.id` | _String (optional)_ | Theme ID |
 | `theme.name` | _String (optional)_ | Theme name |
+| `theme.edit` | _[Theme](#theme) (optional)_ | Settings to modify the selected Theme for display `v2.21.0+` |
+| `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme used to display the automatic presentation `v2.21.0+` |
 
 
 _Method does not return value_
@@ -1014,7 +1342,7 @@ Request
 ### GetAPPlayerInfo
 - v2.20.0
 
-Retorna as informações da apresentação automática em exibição
+Returns the information of the automatic presentation on display
 
 
 
@@ -1027,6 +1355,7 @@ Retorna as informações da apresentação automática em exibição
 | `data.time_ms` | _Number_ | Current media time in milliseconds |
 | `data.volume` | _Number_ | Current player volume. Minimum=0, Maximum=100 |
 | `data.mute` | _Boolean_ | Checks if the **mute** option is enabled |
+| `data.duration_ms` | _Number_ | Total time in milliseconds `v2.21.0+` |
 
 
 **Example:**
@@ -1062,7 +1391,7 @@ Perform actions in the player
 | `action` | _String (optional)_ | Name of the action that will be performed on the player. play, pause, stop |
 | `volume` | _Number (optional)_ | Change the volume of the player. Minimum=0, Maximum=100 |
 | `mute` | _Boolean (optional)_ | Change the **mute** option |
-| `time_ms` | _Boolean (optional)_ | Alterar o tempo atual da mídia em milissegundos |
+| `time_ms` | _Boolean (optional)_ | Change the current media time in milliseconds |
 
 
 _Method does not return value_
@@ -1147,7 +1476,7 @@ Perform actions in the player
 | `shuffle` | _Boolean (optional)_ | Change the **random** option |
 | `execute_single` | _Boolean (optional)_ | Change player setting to play only current list item |
 | `fullscreen` | _Boolean (optional)_ | Change player **full screen** option |
-| `time_ms` | _Boolean (optional)_ | Alterar o tempo atual da mídia em milissegundos `v2.20.0+` |
+| `time_ms` | _Boolean (optional)_ | Change the current media time in milliseconds `v2.20.0+` |
 
 
 _Method does not return value_
@@ -1362,15 +1691,15 @@ Request
 ### AddToPlaylist
 - v2.20.0
 
-Adicionar itens à lista de reprodução de mídias
+Add items to the media playlist
 
 **Parameters:**
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `items` | _Array&lt;[AddItem](#additem)&gt;_ | Lista com os itens que serão adicionados |
+| `items` | _Array&lt;[AddItem](#additem)&gt;_ | List with the items that will be added |
 | `index` | _Number (optional)_ | Position in the list where the item will be added (starts at zero). Items are added to the end of the list by default. `Default: -1` |
-| `ignore_duplicates` | _Boolean (optional)_ | Não duplicar itens ao adicionar novos itens, ou seja, não adiciona um item se ele já estiver na lista. `Default: false` |
+| `ignore_duplicates` | _Boolean (optional)_ | Do not duplicate items when adding new items, that is, do not add an item if it is already on the list. `Default: false` |
 
 
 _Method does not return value_
@@ -1527,6 +1856,75 @@ Request
 
 ---
 
+### SetPlaylistItemDuration
+- v2.21.0
+
+Change duration of an item in the media playlist.
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String (optional)_ | Item ID |
+| `index` | _Number (optional)_ | Item position in the list (starts at zero). |
+| `duration` | _Number (optional)_ | Item duration (in seconds) |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "id": "xyz",
+  "duration": 300
+}
+```
+
+
+---
+
+### GetSlideDescriptions
+- v2.21.0
+
+List of available slide descriptions
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;[SlideDescription](#slide-description)&gt;_ |  |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "name": "Chorus",
+      "tag": "C",
+      "aliases": [],
+      "font_color": "FFFFFF",
+      "bg_color": "000080",
+      "background": null
+    },
+    {
+      "...": "..."
+    },
+    {
+      "...": "..."
+    }
+  ]
+}
+```
+
+
+---
+
 ### GetFavorites
 - v2.19.0
 
@@ -1538,7 +1936,7 @@ Favorites bar items
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `data` | _Array&lt;[Favorite Item](#favorite-item)&gt;_ |  |
+| `data` | _Array&lt;[FavoriteItem](#favorite-item)&gt;_ |  |
 
 
 **Example:**
@@ -1585,6 +1983,80 @@ _Method does not return value_
 Request
 {
   "id": "abcxyz"
+}
+```
+
+
+---
+
+### GetApis
+- v2.21.0
+
+Returns the list of APIs
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;Object&gt;_ |  |
+| `data.*.id` | _String_ | Item ID |
+| `data.*.name` | _String_ | Item name |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "xyz1",
+      "name": "abc1"
+    },
+    {
+      "id": "xyz2",
+      "name": "abc2"
+    }
+  ]
+}
+```
+
+
+---
+
+### GetScripts
+- v2.21.0
+
+Returns the list of scripts
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;Object&gt;_ |  |
+| `data.*.id` | _String_ | Item ID |
+| `data.*.name` | _String_ | Item name |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "xyz1",
+      "name": "abc1"
+    },
+    {
+      "id": "xyz2",
+      "name": "abc2"
+    }
+  ]
 }
 ```
 
@@ -1689,6 +2161,14 @@ Response
 
 Item currently being presented or **null** if no presentation is being displayed
 
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `include_slides` | _Boolean (optional)_ | Return the list of slides from the current presentation. Unavailable for verse presentation. `Default: false` `v2.21.0+` |
+| `include_slide_comment` | _Boolean (optional)_ | Include comments (if any) in the slide text. Available if **include_slides=true**. `Default: false` `v2.21.0+` |
+| `include_slide_preview` | _Boolean (optional)_ | Include slide preview image. Available if **include_slides=true**. `Default: false` `v2.21.0+` |
+| `slide_preview_size` | _String (optional)_ | Preview size in WxH format (ex. 320x180).<br>Available if **include_slide_preview=true** `Default: false` `v2.21.0+` |
 
 
 **Response:**
@@ -1696,15 +2176,19 @@ Item currently being presented or **null** if no presentation is being displayed
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `data.id` | _String_ | Item ID |
-| `data.type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `api`  `script` |
+| `data.type` | _String_ | Type of item. It can be: `song` `verse` `text` `audio` `image` `announcement` `automatic_presentation` `quick_presentation` |
 | `data.name` | _String_ | Item name |
-| `data.slide_number` | _Number_ | Começa em 1 `v2.20.0+` |
-| `data.total_slides` | _Number_ | Total de slides `v2.20.0+` |
-| `data.slide_type` | _String_ | Um dos seguintes valores: `default`  `wallpaper`  `blank`  `black`  `final_slide` `v2.20.0+` |
+| `data.slide_number` | _Number_ | Starts at 1 `v2.20.0+` |
+| `data.total_slides` | _Number_ | Total slides `v2.20.0+` |
+| `data.slide_type` | _String_ | One of the following values: `default`  `wallpaper`  `blank`  `black`  `final_slide` `v2.20.0+` |
+| `data.slides` | _Array&lt;[PresentationSlideInfo](#presentation-slide-info)&gt;_ | List with the slides of the current presentation. Available if **include_slides=true** `v2.21.0+` |
 
 
 **Example:**
 ```
+Request
+{}
+
 Response
 {
   "status": "ok",
@@ -1928,10 +2412,10 @@ List of themes and backgrounds
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `input` | _Object (optional)_ | Filter |
-| `type` | _String (optional)_ | It might be: theme, my_video, my_image, video, image |
+| `type` | _String (optional)_ | Can be: `theme` `my_video` `my_image` `video` `image` |
 | `tag` | _String (optional)_ |  |
 | `tags` | _Array&lt;String&gt; (optional)_ |  |
-| `intersection` | _Boolean (optional)_ | If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will only return items that contain **all** the informed tags, if **false**, the filter will return items that have at least one tag of the informed tags `Default: false` |
+| `intersection` | _Boolean (optional)_ | If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will return only items that contain **all** the informed tags, if **false**, the filter will return the items that have at least one of the informed tags `Default: false` |
 
 
 **Response:**
@@ -2001,10 +2485,12 @@ Changes the background (or theme) of the current presentation. If more than one 
 | `input` | _Object (optional)_ | Filter |
 | `id` | _String (optional)_ | Theme or background ID |
 | `name` | _String (optional)_ | Theme name or background |
-| `type` | _String (optional)_ | It might be: theme, my_video, my_image, video, image |
+| `type` | _String (optional)_ | Can be: `theme` `my_video` `my_image` `video` `image` |
 | `tag` | _String (optional)_ |  |
 | `tags` | _Array&lt;String&gt; (optional)_ |  |
-| `intersection` | _Boolean (optional)_ | If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will only return items that contain **all** the informed tags, if **false**, the filter will return items that have at least one tag of the informed tags `Default: false` |
+| `intersection` | _Boolean (optional)_ | If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will return only items that contain **all** the informed tags, if **false**, the filter will return the items that have at least one of the informed tags `Default: false` |
+| `edit` | _[Theme](#theme) (optional)_ | Settings to modify the selected Theme for display `v2.21.0+` |
+| `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme `v2.21.0+` |
 
 
 _Method does not return value_
@@ -2025,17 +2511,18 @@ Request
 
 ---
 
-### GetColorMap
-- v2.20.0
+### GetThumbnail
+- v2.21.0
 
-Retorna as informações de cor predominante de um respectivo tipo de item<br/>O array retornado contém 8 índices, e cada índice corresponde ao trecho conforme imagem de exemplo a seguir.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>
+Returns the thumbnail image of an item in the program
 
 **Parameters:**
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `type` | _String_ | Um dos seguintes valores:<br/>**background** - um item de tema ou plano de fundo<br/>**presentation** - apresentação atual em exibição<br/>**image** - uma imagem da aba 'imagens'<br/>**video** - um vídeo da aba 'vídeos'<br/>**printscreen** - um printscreen atual de uma tela do sistema<br/> |
-| `source` | _Object (optional)_ | O item de acordo com o tipo informado:<br/>**background** - ID do tema ou plano de fundo<br/>**presentation** - não é necessário informar um valor, a apresentação da tela público será retornada<br/>**image** - o nome do arquivo da aba 'imagens'<br/>**video** - o nome do arquivo da aba 'vídeos'<br/>**printscreen** `opcional` -  o nome da tela (public, screen_2, screen_3, ...); o padrão é `public`<br/> |
+| `id` | _String (optional)_ | Item ID |
+| `ids` | _Array&lt;String&gt; (optional)_ | Item IDs |
+| `type` | _String_ | Type of item. Can be: `video` `image` `announcement` `theme` `background` `api` `script` |
 
 
 **Response:**
@@ -2043,10 +2530,57 @@ Retorna as informações de cor predominante de um respectivo tipo de item<br/>O
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `data` | _Array&lt;Object&gt;_ |  |
-| `data.*.hex` | _String_ | Cor no formato hexadecimal |
-| `data.*.red` | _Number_ | Vermelho  0-255 |
-| `data.*.green` | _Number_ | Verde  0-255 |
-| `data.*.blue` | _Number_ | Azul  0-255 |
+| `data.*.type` | _String_ | Type of item |
+| `data.*.id` | _String_ | Item ID |
+| `data.*.image` | _String_ | Image in base64 format |
+
+
+**Example:**
+```
+Request
+{
+  "id": "image.jpg",
+  "type": "image"
+}
+
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "type": "image",
+      "id": "image.jpg",
+      "image": "..."
+    }
+  ]
+}
+```
+
+
+---
+
+### GetColorMap
+- v2.20.0
+
+Returns the information of the predominant color of a respective type of item<br/>The returned array contains 8 indices, and each index corresponds to the section according to the following example image.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `type` | _String_ | One of the following values:<br/>**background** - um item de tema ou plano de fundo<br/>**presentation** - apresentação atual em exibição<br/>**image** - uma imagem da aba 'imagens'<br/>**video** - um vídeo da aba 'vídeos'<br/>**printscreen** - um printscreen atual de uma tela do sistema<br/> |
+| `source` | _Object (optional)_ | The item according to the type informed:<br/>**background** - ID do tema ou plano de fundo<br/>**presentation** - não é necessário informar um valor, a apresentação da tela público será retornada<br/>**image** - o nome do arquivo da aba 'imagens'<br/>**video** - o nome do arquivo da aba 'vídeos'<br/>**printscreen** `opcional` -  the name of the screen (public, screen_2, screen_3, ...); o padrão é `public`<br/> |
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;Object&gt;_ |  |
+| `data.*.hex` | _String_ | Color in hexadecimal format |
+| `data.*.red` | _Number_ | Red  0-255 |
+| `data.*.green` | _Number_ | Green  0-255 |
+| `data.*.blue` | _Number_ | Blue  0-255 |
 
 
 **Example:**
@@ -2534,18 +3068,18 @@ Current communication panel configuration
 | `data.alert_show` | _Boolean_ | Whether the alert display is enabled |
 | `data.countdown_show` | _Boolean_ | If a countdown is on display |
 | `data.countdown_time` | _Number_ | The current countdown time displayed (in seconds) |
-| `data.stopwatch_show` | _Boolean_ | Se um cronômetro está em exibição `v2.20.0+` |
-| `data.stopwatch_time` | _Number_ | O tempo atual do cronômetro em exibição (em segundos) `v2.20.0+` |
+| `data.stopwatch_show` | _Boolean_ | If a timer is on display `v2.20.0+` |
+| `data.stopwatch_time` | _Number_ | The current time of the timer on display (in seconds) `v2.20.0+` |
 | `data.theme` | _Number_ | Theme ID `v2.20.0+` |
-| `data.countdown_font_relative_size` | _Number_ | Tamanho relativo da contagem regressiva `v2.20.0+` |
-| `data.countdown_font_color` | _String_ | Cor da fonte da contagem regressiva `v2.20.0+` |
-| `data.stopwatch_font_color` | _String_ | Cor da fonte do cronômetro `v2.20.0+` |
-| `data.time_font_color` | _String_ | Cor da fonte da hora `v2.20.0+` |
-| `data.display_clock_as_background` | _Boolean_ | Exibir relógio como plano de fundo `v2.20.0+` |
-| `data.display_clock_on_alert` | _Boolean_ | Exibir relógio no alerta `v2.20.0+` |
-| `data.countdown_display_location` | _String_ | Local de exibição da contagem regressiva ou cronômetro. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` `v2.20.0+` |
-| `data.display_clock_with_countdown_fullscreen` | _Boolean_ | Exibir relógio junto da contagem regressiva ou cronômetro quando exibido em tela cheia `v2.20.0+` |
-| `data.display_vlc_player_remaining_time` | _Boolean_ | Exibir tempo restante da mídia em execução no VLC Player `v2.20.0+` |
+| `data.countdown_font_relative_size` | _Number_ | Relative size of the countdown `v2.20.0+` |
+| `data.countdown_font_color` | _String_ | Color of the countdown font `v2.20.0+` |
+| `data.stopwatch_font_color` | _String_ | Color of the stopwatch font `v2.20.0+` |
+| `data.time_font_color` | _String_ | Color of the time font `v2.20.0+` |
+| `data.display_clock_as_background` | _Boolean_ | Display clock as background `v2.20.0+` |
+| `data.display_clock_on_alert` | _Boolean_ | Display clock in the alert `v2.20.0+` |
+| `data.countdown_display_location` | _String_ | Location of the countdown or stopwatch display. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` `v2.20.0+` |
+| `data.display_clock_with_countdown_fullscreen` | _Boolean_ | Display clock along with the countdown or stopwatch when displayed in full screen `v2.20.0+` |
+| `data.display_vlc_player_remaining_time` | _Boolean_ | Display remaining time of the media playing in VLC Player `v2.20.0+` |
 
 
 **Example:**
@@ -2572,27 +3106,28 @@ Response
 ### SetCPSettings
 - v2.20.0
 
-Alterar configuração atual do painel de comunicação
+Change the current setting of the communication panel
 
 **Parameters:**
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `text` | _String (optional)_ | Current text |
-| `show` | _Boolean (optional)_ | Exibir o texto atual |
-| `display_ahead` | _Boolean (optional)_ | Opção *'exibir à frente de tudo'* |
-| `theme` | _Boolean (optional)_ | ID ou nome do tema padrão |
+| `show` | _Boolean (optional)_ | Display the current text |
+| `display_ahead` | _Boolean (optional)_ | Option *'display ahead of everything'* |
+| `theme` | _Number (optional)_ | ID or name of the default theme |
+| `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme `v2.21.0+` |
 | `alert_text` | _String (optional)_ | Current alert text |
-| `alert_show` | _Boolean (optional)_ | Ativar a exibição do alerta |
-| `countdown_font_relative_size` | _Number (optional)_ | Tamanho relativo da contagem regressiva |
-| `countdown_font_color` | _String (optional)_ | Cor da fonte da contagem regressiva |
-| `stopwatch_font_color` | _String (optional)_ | Cor da fonte do cronômetro |
-| `time_font_color` | _String (optional)_ | Cor da fonte da hora |
-| `display_clock_as_background` | _Boolean (optional)_ | Exibir relógio como plano de fundo |
-| `display_clock_on_alert` | _Boolean (optional)_ | Exibir relógio no alerta |
-| `countdown_display_location` | _String (optional)_ | Local de exibição da contagem regressiva ou cronômetro. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` |
-| `display_clock_with_countdown_fullscreen` | _Boolean (optional)_ | Exibir relógio junto da contagem regressiva ou cronômetro quando exibido em tela cheia |
-| `display_vlc_player_remaining_time` | _Boolean (optional)_ | Exibir tempo restante da mídia em execução no VLC Player |
+| `alert_show` | _Boolean (optional)_ | Enable the display of the alert |
+| `countdown_font_relative_size` | _Number (optional)_ | Relative size of the countdown |
+| `countdown_font_color` | _String (optional)_ | Color of the countdown font |
+| `stopwatch_font_color` | _String (optional)_ | Color of the stopwatch font |
+| `time_font_color` | _String (optional)_ | Color of the time font |
+| `display_clock_as_background` | _Boolean (optional)_ | Display clock as background |
+| `display_clock_on_alert` | _Boolean (optional)_ | Display clock in the alert |
+| `countdown_display_location` | _String (optional)_ | Location of the countdown or stopwatch display. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` |
+| `display_clock_with_countdown_fullscreen` | _Boolean (optional)_ | Display clock along with the countdown or stopwatch when displayed in full screen |
+| `display_vlc_player_remaining_time` | _Boolean (optional)_ | Display remaining time of the media playing in VLC Player |
 
 
 _Method does not return value_
@@ -2659,7 +3194,7 @@ _Method does not return value_
 ### StartTimerCP
 - v2.20.0
 
-Inicia um cronômetro no painel de comunicação
+Start a stopwatch on the communication panel
 
 
 
@@ -2673,7 +3208,7 @@ _Method does not return value_
 ### StopTimerCP
 - v2.20.0
 
-Encerra o cronômetro atual do painel de comunicação
+End the current stopwatch of the communication panel
 
 
 
@@ -2696,6 +3231,8 @@ Change communication panel text
 | `text` | _String (optional)_ | Change the text of the communication panel. [Styled Text](#styled-text) from v2.19.0 |
 | `show` | _Boolean (optional)_ | Show/hide the text |
 | `display_ahead` | _Boolean (optional)_ | Change the *'display in front of all'* option |
+| `theme` | _Object (optional)_ | ID or name of the Theme used to display the text `v2.21.0+` |
+| `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme to display the text `v2.21.0+` |
 
 
 _Method does not return value_
@@ -2745,7 +3282,7 @@ Request
 ### CPCallAttention
 - v2.20.0
 
-Executa a opção 'chamar atenção' disponível no painel de comunicação
+Execute the 'call attention' option available in the communication panel
 
 
 
@@ -3088,6 +3625,231 @@ Response
 
 ---
 
+### GetTransitionEffectSettings
+- v2.21.0
+
+List of transition effect configuration
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `music` | _[TransitionEffectSettings](#transition-effect-settings)_ |  |
+| `bible` | _[TransitionEffectSettings](#transition-effect-settings)_ |  |
+| `image` | _[TransitionEffectSettings](#transition-effect-settings)_ |  |
+| `announcement` | _[TransitionEffectSettings](#transition-effect-settings)_ |  |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": {
+    "music": {
+      "enabled": true,
+      "type": "fade",
+      "duration": 500,
+      "only_area_within_margin": false,
+      "merge": false,
+      "division_point": 30,
+      "increase_duration_blank_slides": false
+    },
+    "bible": {
+      "...": "..."
+    },
+    "image": {
+      "...": "..."
+    },
+    "announcement": {
+      "...": "..."
+    }
+  }
+}
+```
+
+
+---
+
+### SetTransitionEffectSettings
+- v2.21.0
+
+Change the settings of a transition effect
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _Object_ | Item ID |
+| `settings` | _[TransitionEffectSettings](#transition-effect-settings)_ | New settings. Settings are individually optional. Fill in only the fields you want to change. |
+
+
+**Response:**
+
+| Type  | Description |
+| :---: | ------------|
+| _Object_ | Return **true** or a list of errors that occurred |
+
+
+**Example:**
+```
+Request
+{
+  "id": "music",
+  "settings": {
+    "enabled": true,
+    "type": "fade",
+    "duration": 500,
+    "only_area_within_margin": false,
+    "merge": false,
+    "division_point": 30,
+    "increase_duration_blank_slides": false
+  }
+}
+
+Response
+{
+  "status": "ok",
+  "data": true
+}
+```
+
+
+---
+
+### GetBibleVersions
+- v2.21.0
+
+Returns the list of available versions of the Bible, and also the associated shortcuts
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Object_ |  |
+| `data.*.key` | _String_ | Abbreviation of the version or the name of the shortcut, if it starts with '#shortcut ' |
+| `data.*.title` | _String_ | Version name |
+| `data.*.version` | _String (optional)_ | Abbreviation of the version. Available if the item is a shortcut, that is if 'key' starts with '#shortcut ' |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "key": "en_kjv",
+      "title": "King James Version"
+    },
+    {
+      "key": "en_akjv",
+      "title": "American King James Version"
+    },
+    {
+      "key": "#shortcut Example",
+      "title": "King James Version",
+      "version": "en_kjv"
+    }
+  ]
+}
+```
+
+
+---
+
+### GetBibleSettings
+- v2.21.0
+
+Bible module settings
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _[BibleSettings](#bible-settings)_ |  |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": {
+    "tab_version_1": "pt_???",
+    "tab_version_2": "es_???",
+    "tab_version_3": "en_???",
+    "show_x_verses": 1,
+    "uppercase": false,
+    "show_only_reference": false,
+    "show_two_versions": false,
+    "book_panel_type": "grid",
+    "book_panel_order": "automatic",
+    "book_panel_order_available_items": [
+      "automatic",
+      "standard",
+      "ru",
+      "tyv"
+    ],
+    "multiple_verses_separator_type": "double_line_break",
+    "versification": true,
+    "theme": {
+      "public": 123,
+      "screen_n": null
+    }
+  }
+}
+```
+
+
+---
+
+### SetBibleSettings
+- v2.21.0
+
+Change the settings of the Bible module
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `input` | _[BibleSettings](#bible-settings)_ | New settings. Settings are individually optional. Fill in only the fields you want to change. |
+
+
+**Response:**
+
+| Type  | Description |
+| :---: | ------------|
+| _Object_ | Return **true** or a list of errors that occurred |
+
+
+**Example:**
+```
+Request
+{
+  "tab_version_1": "pt_acf",
+  "show_x_verses": 1,
+  "theme": {
+    "public": "123"
+  }
+}
+
+Response
+{
+  "status": "ok",
+  "data": true
+}
+```
+
+
+---
+
 ### GetBpm
 - v2.19.0
 
@@ -3302,21 +4064,161 @@ Response
 
 ---
 
+### GetInterfaceInput
+- v2.21.0
+
+Returns the value of a field from the program interface
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Item ID. Can be: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme` |
+
+
+**Response:**
+
+| Type  | Description |
+| :---: | ------------|
+| _String_ | Item content |
+
+
+**Example:**
+```
+Request
+{
+  "id": "main_lyrics_tab_search"
+}
+
+Response
+{
+  "status": "ok",
+  "data": "input value"
+}
+```
+
+
+---
+
+### SetInterfaceInput
+- v2.21.0
+
+Change the value of a field in the program interface
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Item ID |
+| `value` | _String_ | New value |
+| `focus` | _Boolean (optional)_ | Make the component receive system focus |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "id": "main_lyrics_tab_search",
+  "value": "new input value",
+  "focus": true
+}
+```
+
+
+---
+
+### OpenDrawLots
+- v2.21.0
+
+Opens the draw window from a list of items
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `items` | _Array&lt;String&gt;_ | List with the items to be drawn |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "items": [
+    "Item 1",
+    "Item 2",
+    "Item 3"
+  ]
+}
+```
+
+
+---
+
+### GetMediaDuration
+- v2.21.0
+
+Returns the duration of the media
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `type` | _String_ | Type of item. Can be: `video`, `audio`, `automatic_presentation` |
+| `name` | _String_ | Item name |
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data.type` | _String_ |  |
+| `data.name` | _String_ |  |
+| `data.duration` | _Number_ | Duration in seconds |
+| `data.duration_ms` | _Number_ | Duration in milliseconds |
+
+
+**Example:**
+```
+Request
+{
+  "type": "audio",
+  "name": "file.mp3"
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "type": "audio",
+    "name": "file.mp3",
+    "duration": 128,
+    "duration_ms": 128320
+  }
+}
+```
+
+
+---
+
 
 
 # JavaScript implementation example
 
 Use the methods of the [JSLIB](https://github.com/holyrics/jslib) class to create your own implementation.
 <br/>
-If you create your own implementation, you need to return 'true' if you want the program to perform the request using the default implementation.
+If you create your own implementation, you need to return 'true' if you want the program to consume the request using the default implementation.
 <br/>
-Any returned value that is different from 'true', the program will consider that the request has already been consumed and will respond with the returned value.
+Any returned value that is different from 'true', the program will consider that the request has already been consumed and will respond to it with the returned value.
 
 ```javascript
 function request(action, headers, content, info) {
     switch (action) {
         case 'my_custom_action':
-            //perform your own action and response
+            //execute your own action and response
             return {'status': 'ok'}; //  <-  Requisition response
     }
     //Returning 'true' for the program to consume this request with the default implementation
@@ -3335,13 +4237,13 @@ function request(action, headers, content, info) {
 
 `info` - Request information.
 <br/>
-`info.client_address` Request source address
+`info.client_address` Address of the request origin
 <br/>
 `info.token` access token used in the request
 <br/>
-`info.local` **true** if the source of the request is from the local network
+`info.local` **true** if the request origin is from the local network
 <br/>
-`info.web` **true** if the origin of the request is from the internet
+`info.web` **true** if the request origin is from the internet
 <br/>
 
 # Classes
@@ -3354,41 +4256,309 @@ function request(action, headers, content, info) {
 | `artist` | _String_ | Music artist |
 | `author` | _String_ | Music author |
 | `note` | _String_ | Music annotation |
-| `copyright` | _String_ | Copyright da música |
-| `key` | _String_ | Tone of music |
-| `time_sig` | _String_ | Music time |
+| `copyright` | _String_ | Music copyright |
+| `slides` | _Array&lt;Object&gt;_ |  `v2.21.0+` |
+| `slides.*.text` | _String_ | Slide text `v2.21.0+` |
+| `slides.*.background_id` | _Number_ | ID of the theme or background saved for the slide `v2.21.0+` |
+| `order` | _String_ | Order of slides (index from 1), separated by comma `v2.21.0+` |
+| `key` | _String_ | Tone of music.<br>Can be: `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
+| `bpm` | _Number_ | BPM of the song |
+| `time_sig` | _String_ | Music time.<br>Can be: `2/2` `2/4` `3/4` `4/4` `5/4` `6/4` `3/8` `6/8` `7/8` `9/8` `12/8` |
 | `groups` | _Array&lt;[Group](#group)&gt;_ | Groups where music is added |
 | `midi` | _[Midi](#midi)_ | Item MIDI shortcut |
+| `extras` | _Object_ | Map of extra objects (added by the user) `v2.21.0+` |
 | `archived` | _Boolean_ | If the song is archived |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "0",
+  "title": "",
+  "artist": "",
+  "author": "",
+  "note": "",
+  "copyright": "",
+  "slides": [
+    {
+      "text": "Slide 1 line 1\nSlide 1 line 2",
+      "background_id": null
+    },
+    {
+      "text": "Slide 2 line 1\nSlide 2 line 2",
+      "background_id": null
+    },
+    {
+      "text": "Slide 3 line 1\nSlide 3 line 2",
+      "background_id": null
+    }
+  ],
+  "order": "1,2,3,2,2",
+  "key": "",
+  "bpm": 0.0,
+  "time_sig": "",
+  "groups": [],
+  "extras": {
+    "extra": ""
+  },
+  "archived": false
+}
+```
+</details>
+
+## Text
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Text ID |
+| `title` | _String_ | Text title |
+| `folder` | _String_ | Path of the location folder |
+| `theme` | _String_ | ID of the theme saved for the text |
+| `slides` | _Array&lt;Object&gt;_ |  |
+| `slides.*.text` | _String_ | Slide text |
+| `slides.*.background_id` | _Number_ | ID of the theme or background saved for the slide |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "",
+  "title": "",
+  "folder": "",
+  "theme": null,
+  "slides": [
+    {
+      "text": "Slide 1 line 1\nSlide 1 line 2",
+      "background_id": null
+    },
+    {
+      "text": "Slide 2 line 1\nSlide 2 line 2",
+      "background_id": null
+    },
+    {
+      "text": "Slide 3 line 1\nSlide 3 line 2",
+      "background_id": null
+    }
+  ]
+}
+```
+</details>
+
+## Theme
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `copy_from_id` | _String (optional)_ | ID of an existing Theme to use as initial copy when creating a new item |
+| `id` | _String_ | Item ID |
+| `name` | _String_ | Item name |
+| <br>**background** |  | <br>Background |
+| `background.type` | _String_ | Type of background. Can be: `color`  `my_video`  `my_image`  `video`  `image`  `pattern`  `transparent`  `image_file`  `video_file` |
+| `background.id` | _String_ | <table><tr><td><p align="right">**Type**</p></td><td>Value</td></tr><tr><td><p align="right">color</p></td><td>Color in hexadecimal format</td></tr><tr><td><p align="right">my_video</p></td><td>Item ID</td></tr><tr><td><p align="right">my_image</p></td><td>Item ID</td></tr><tr><td><p align="right">video</p></td><td>Item ID</td></tr><tr><td><p align="right">image</p></td><td>Item ID</td></tr><tr><td><p align="right">pattern</p></td><td>Item ID</td></tr><tr><td><p align="right">transparent</p></td><td>"transparent"</td></tr><tr><td><p align="right">image_file</p></td><td>File name in the library</td></tr><tr><td><p align="right">video_file</p></td><td>File name in the library</td></tr></table> |
+| `background.adjust_type` | _String_ | `fill` `extend` `adjust` `side_by_side` `center`<br>Available for: **type=my_image**, **type=image** |
+| `background.opacity` | _Number_ | Opacity. `0 ~ 100` |
+| `background.velocity` | _Number_ | Available for: **type=my_video**, **type=video**<br>`0.25 ~ 4.0` |
+| `base_color` | _String_ | Color in hexadecimal format. Base color of the background when reducing opacity. |
+| <br>**font** |  | <br>Source |
+| `font.name` | _String_ | Font name |
+| `font.bold` | _Boolean_ | Bold |
+| `font.italic` | _Boolean_ | Italic |
+| `font.size` | _Number_ | Size `0.0 ~ 0.4`<br>Value in percentage, based on the slide height. |
+| `font.color` | _String_ | Color in hexadecimal format |
+| `font.line_spacing` | _Number_ | Line spacing. `-0.5 ~ 1.0`<br>Value in percentage based on the line height. |
+| `font.char_spacing` | _Number_ | Spacing between characters. `-40 ~ 120` |
+| <br>**align** |  | <br>Alignment |
+| `align.horizontal` | _String_ | `left`  `center`  `right`  `justify` |
+| `align.vertical` | _String_ | `top`  `middle`  `bottom` |
+| `align.margin.top` | _Number_ | `0 ~ 90` |
+| `align.margin.right` | _Number_ | `0 ~ 90` |
+| `align.margin.bottom` | _Number_ | `0 ~ 90` |
+| `align.margin.left` | _Number_ | `0 ~ 90` |
+| <br>**effect** |  | <br>Font effects |
+| `effect.outline_color` | _String_ | Color in hexadecimal format |
+| `effect.outline_weight` | _Number_ | `0.0 ~ 100.0` |
+| `effect.brightness_color` | _String_ | Color in hexadecimal format |
+| `effect.brightness_weight` | _Number_ | `0.0 ~ 100.0` |
+| `effect.shadow_color` | _String_ | Color in hexadecimal format |
+| `effect.shadow_x_weight` | _Number_ | `-100.0 ~ 100.0` |
+| `effect.shadow_y_weight` | _Number_ | `-100.0 ~ 100.0` |
+| `effect.blur` | _Boolean_ | Apply 'blur' effect on brightness and shadow |
+| <br>**shape_fill** |  | <br>Background color |
+| `shape_fill.type` | _String_ | `box`  `line`  `line_fill`  `theme_margin` |
+| `shape_fill.enabled` | _Boolean_ |  |
+| `shape_fill.color` | _String_ | Color in hexadecimal format (RGBA) |
+| `shape_fill.margin.top` | _Number_ | `0 ~ 100` |
+| `shape_fill.margin.right` | _Number_ | `0 ~ 100` |
+| `shape_fill.margin.bottom` | _Number_ | `0 ~ 100` |
+| `shape_fill.margin.left` | _Number_ | `0 ~ 100` |
+| `shape_fill.corner` | _Number_ | `0 ~ 100` |
+| <br>**shape_outline** |  | <br>Outline |
+| `shape_outline.type` | _String_ | `box`  `line`  `line_fill`  `theme_margin` |
+| `shape_outline.enabled` | _Boolean_ |  |
+| `shape_outline.color` | _String_ | Color in hexadecimal format (RGBA) |
+| `shape_outline.outline_thickness` | _Number_ | `0 ~ 25` |
+| `shape_outline.margin.top` | _Number_ | `0 ~ 100` |
+| `shape_outline.margin.right` | _Number_ | `0 ~ 100` |
+| `shape_outline.margin.bottom` | _Number_ | `0 ~ 100` |
+| `shape_outline.margin.left` | _Number_ | `0 ~ 100` |
+| `shape_outline.corner` | _Number_ | `0 ~ 100` |
+| <br>**comment** |  | <br>Comment |
+| `comment.font_name` | _String_ | Font name |
+| `comment.bold` | _Boolean_ | Bold |
+| `comment.italic` | _Boolean_ | Italic |
+| `comment.relative_size` | _Number_ | relative font size. `40 ~ 100` |
+| `comment.color` | _String_ | Color in hexadecimal format |
+| <br>**settings** |  | <br>Settings |
+| `settings.uppercase` | _Boolean_ | Display the text in uppercase |
+| `settings.line_break` | _String_ | Apply line break. `system`  `true`  `false`<br> `Default: system` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "123",
+  "name": "",
+  "background": {
+    "type": "color", "id": "212121", "opacity": 100
+  },
+  "base_color": "FFFFFF",
+  "font": {
+    "name": "CMG Sans", "bold": true,
+    "italic": false,
+    "size": 10.0,
+    "color": "F5F5F5", "line_spacing": 0.3,
+    "char_spacing": 0
+  },
+  "align": {
+    "horizontal": "center", "vertical": "middle", "margin": {
+      "top": 3.0,
+      "right": 3.0,
+      "bottom": 3.0,
+      "left": 3.0
+    }
+  },
+  "effect": {
+    "outline_color": "404040", "outline_weight": 0.0,
+    "brightness_color": "C0C0C0", "brightness_weight": 0.0,
+    "shadow_color": "404040", "shadow_x_weight": 0.0,
+    "shadow_y_weight": 0.0,
+    "blur": true
+  },
+  "shape_fill": {
+    "type": "box", "enabled": false,
+    "color": "000000", "margin": {
+      "top": 5.0,
+      "right": 30.0,
+      "bottom": 10.0,
+      "left": 30.0
+    },
+    "corner": 0
+  },
+  "shape_outline": {
+    "type": "box", "enabled": false,
+    "color": "000000", "outline_thickness": 10,
+    "margin": {
+      "top": 5.0,
+      "right": 30.0,
+      "bottom": 10.0,
+      "left": 30.0
+    },
+    "corner": 0
+  },
+  "comment": {
+    "font_name": "Arial", "bold": false,
+    "italic": true,
+    "relative_size": 100,
+    "color": "A0A0A0"
+  },
+  "settings": {
+    "uppercase": false,
+    "line_break": "system"
+  }
+}
+```
+</details>
+
 ## Background
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
-| `type` | _String_ | Item type. It might be:theme, my_video, my_image, video, image |
+| `type` | _String_ | Type of item. Can be: `theme` `my_video` `my_image` `video` `image` |
 | `name` | _String_ | Item name |
 | `tags` | _Array&lt;String&gt;_ | Item tag list |
 | `bpm` | _Number_ | BPM value of item |
 | `midi` | _[Midi](#midi) (optional)_ | Item MIDI shortcut |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "10",
+  "type": "video",
+  "name": "Hexagons",
+  "tags": [],
+  "bpm": 0.0
+}
+```
+</details>
+
+## Slide Description
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `name` | _String_ | Item name |
+| `tag` | _String_ | Short name of the item |
+| `aliases` | _Array&lt;String&gt;_ | List with alternative names |
+| `font_color` | _String_ | Font color in hexadecimal format |
+| `bg_color` | _String_ | Background color in hexadecimal format |
+| `background` | _Number_ | ID of the custom background |
+| `midi` | _[Midi](#midi) (optional)_ | Item MIDI shortcut |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "name": "Chorus",
+  "tag": "C",
+  "aliases": [],
+  "font_color": "FFFFFF",
+  "bg_color": "000080",
+  "background": null,
+  "midi": null
+}
+```
+</details>
+
 ## Item
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `api`  `script` |
+| `type` | _String_ | Type of item. It can be: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `uri`  `global_action`  `api`  `script` |
 | `name` | _String_ | Item name |
+
 ## Group
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `name` | _String_ | Item name |
-## MIDI
+
+## Midi
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `code` | _Number_ | MIDI code |
 | `velocity` | _Number_ | Speed/intensity midi |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "code": 80,
+  "velocity": 20
+}
+```
+</details>
+
 ## Favorite Item
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
 | `name` | _String_ | Item name |
+
 ## Schedule
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -3406,37 +4576,142 @@ function request(action, headers, content, info) {
 | `roles.*.id` | _String_ | Function ID |
 | `roles.*.name` | _String_ | Function name |
 | `roles.*.member` | _[Member](#member)_ | Member assigned to the role |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "temporary",
+  "name": "",
+  "datetime": "2024-01-16 20:00",
+  "lyrics_playlist": [
+    {
+      "id": 1,
+      "title": "Title 1",
+      "artist": "",
+      "author": "",
+      "...": ".."
+    },
+    {
+      "id": 2,
+      "title": "Title 2",
+      "artist": "",
+      "author": "",
+      "...": ".."
+    },
+    {
+      "id": 3,
+      "title": "Title 3",
+      "artist": "",
+      "author": "",
+      "...": ".."
+    }
+  ],
+  "media_playlist": [
+    {
+      "id": "a",
+      "type": "video",
+      "name": "file.mp4"
+    },
+    {
+      "id": "b",
+      "type": "audio",
+      "name": "file.mp3"
+    },
+    {
+      "id": "c",
+      "type": "image",
+      "name": "file.jpg"
+    }
+  ],
+  "responsible": null,
+  "members": [],
+  "roles": []
+}
+```
+</details>
+
 ## Member
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
 | `name` | _String_ | Item name |
+
 ## Role
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
 | `name` | _String_ | Item name |
+
 ## Automatic Presentation
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `seconds` | _Number_ | Time each item will be displayed |
 | `repeat` | _Boolean_ | **true** to keep repeating the presentation (go back to the first item after the last one) |
+
+## Presentation Slide Info
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `number` | _Number_ | Slide number (starts at 1) |
+| `text` | _String_ | Slide text |
+| `theme_id` | _String_ | Slide theme ID |
+| `slide_description` | _String (optional)_ | Slide description name. Available if it is a music presentation. |
+| `preview` | _String (optional)_ | Image in base64 format |
+
 ## Input Param
+Uses the same structure/syntax as the FunctionInput feature [documentation](https://github.com/holyrics/Scripts/blob/main/FunctionInput.md#syntax)
+
+
+## Trigger Item
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `key` | _String_ | Key of item |
-| `type` | _String_ | Input type. Can be: text, textarea, number, password, title, separator |
-| `label` | _String_ | Item name |
-| `default_value` | _Object (optional)_ | Item default value |
-| `allowed_values` | _Array&lt;String&gt; (optional)_ | Available if type is **text**. Defines a list of allowed values, to be selected as a combobox |
-| `suggested_values` | _Array&lt;String&gt; (optional)_ | Available if type is **text**. Defines a list of suggested values, however the user can enter any value in the text field |
-| `min` | _Number (optional)_ | Available if type is **number**. Sets the minimum allowed value `Default: 0` |
-| `max` | _Number (optional)_ | Available if type is **number**. Sets the maximum allowed value `Default: 100` |
-| `show_as_combobox` | _Boolean (optional)_ | Available if type is **number**. Display the list of values as a combobox and not as a spinner `Default: false` |
+| `id` | _String (optional)_ | Item ID |
+| `when` | _String_ | `displaying` `closing` `change` |
+| `item` | _String_ | Type of item. Can be:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` |
+| `action` | _Function_ | Action to be executed |
+<details>
+  <summary>See example</summary>
+
+```javascript
+{
+  "id": "",
+  "when": "displaying",
+  "item": "any_song",
+  "action": function(obj) { /* TODO */ }
+}
+```
+</details>
+
+## Play Media Settings
+Settings for media execution
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `volume` | _Number_ | Change the volume of the player |
+| `repeat` | _Boolean_ | Change the **repeat** option |
+| `shuffle` | _Boolean_ | Change the **random** option |
+| `start_time` | _String_ | Start time for execution in SS, MM:SS or HH:MM:SS format |
+| `stop_time` | _String_ | End time for execution in SS, MM:SS or HH:MM:SS format |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "volume": "80",
+  "repeat": true,
+  "shuffle": false,
+  "start_time": "00:30",
+  "stop_time": "02:00"
+}
+```
+</details>
+
 ## Display Settings
+Display settings
+
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `id` | _String_ | Item ID |
+| `id` | _String_ | Item ID. `public` `screen_2` `screen_3` `screen_?` `stream_image` `stream_html_1` `stream_html_2` `stream_html_3` |
 | `name` | _String_ | Item name |
 | `stage_view` | _[StageView](#stage-view)_ | Stage view settings. (Unavailable for public screen) |
 | `slide_info` | _[SlideAdditionalInfo](#slide-additional-info)_ | Additional slide info |
@@ -3453,8 +4728,173 @@ function request(action, headers, content, info) {
 | `show_items.image` | _Boolean_ | Image |
 | `show_items.alert` | _Boolean_ | Alert |
 | `show_items.announcement` | _Boolean_ | Announcement |
-| `media_player.show` | _Boolean_ | Exibir VLC Player `v2.20.0+` |
-| `media_player.margin` | _[Rectangle](#rectangle)_ | Margem para exibição dos vídeos pelo VLC Player `v2.20.0+` |
+| `media_player.show` | _Boolean_ | Display VLC Player `v2.20.0+` |
+| `media_player.margin` | _[Rectangle](#rectangle)_ | Margin for displaying videos by VLC Player `v2.20.0+` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "public",
+  "name": "Público",
+  "slide_info": {
+    "info_1": {
+      "show_page_count": false,
+      "show_slide_description": false,
+      "horizontal_align": "right",
+      "vertical_align": "bottom"
+    },
+    "info_2": {
+      "show": false,
+      "layout_row_1": "<title>< (%author_or_artist%)>",
+      "horizontal_align": "right",
+      "vertical_align": "bottom"
+    },
+    "font": {
+      "name": null,
+      "bold": null,
+      "italic": null,
+      "color": null
+    },
+    "height": 7,
+    "paint_theme_effect": true
+  },
+  "slide_translation": null,
+  "margin": {
+    "top": 0.0,
+    "right": 0.0,
+    "bottom": 0.0,
+    "left": 0.0
+  },
+  "area": {
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  "total_area": {
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  "hide": false,
+  "media_player": {
+    "margin": {
+      "top": 0.0,
+      "right": 0.0,
+      "bottom": 0.0,
+      "left": 0.0
+    },
+    "area": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    }
+  }
+}
+```
+</details>
+
+## Transition Effect Settings
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `type` | _String_ | Type of effect. Can be: `random` `fade` `slide` `accordion` `linear_fade` `zoom` `curtain` |
+| `enabled` | _Boolean_ | Whether it is enabled or disabled |
+| `duration` | _Number_ | Total duration of the transition (in milliseconds) `200 ~ 2400` |
+| `only_area_within_margin` | _Number_ | Performs the transition effect only within the margin defined in the Theme. (Available only for text transition) |
+| <br>**type=fade** |  |  |
+| `merge` | _Object_ | Accepted values: true,&nbsp;false |
+| `division_point` | _Object_ | Accepted values: min:&nbsp;10,&nbsp;max:&nbsp;100 |
+| `increase_duration_blank_slides` | _Object_ | Accepted values: true,&nbsp;false |
+| <br>**type=slide** |  |  |
+| `direction` | _Object_ | Accepted values: random,&nbsp;left,&nbsp;up |
+| `slide_move_type` | _Object_ | Accepted values: random,&nbsp;move_new,&nbsp;move_old,&nbsp;move_both |
+| <br>**type=accordion** |  |  |
+| `direction` | _Object_ | Accepted values: random,&nbsp;horizontal,&nbsp;vertical |
+| <br>**type=linear_fade** |  |  |
+| `direction` | _Object_ | Accepted values: random,&nbsp;horizontal,&nbsp;vertical,&nbsp;up,&nbsp;down,&nbsp;left,&nbsp;right |
+| `distance` | _Object_ | Accepted values: min:&nbsp;5,&nbsp;max:&nbsp;90 |
+| `fade` | _Object_ | Accepted values: min:&nbsp;2,&nbsp;max:&nbsp;90 |
+| <br>**type=zoom** |  |  |
+| `zoom_type` | _Object_ | Accepted values: random,&nbsp;increase,&nbsp;decrease |
+| `directions` | _Object_ | Accepted values: {<br>&nbsp;&nbsp;top_left:&nbsp;boolean,<br>&nbsp;&nbsp;top_center:&nbsp;boolean,<br>&nbsp;&nbsp;top_right:&nbsp;boolean,<br>&nbsp;&nbsp;middle_left:&nbsp;boolean,<br>&nbsp;&nbsp;middle_center:&nbsp;boolean,<br>&nbsp;&nbsp;middle_right:&nbsp;boolean,<br>&nbsp;&nbsp;bottom_left:&nbsp;boolean,<br>&nbsp;&nbsp;bottom_center:&nbsp;boolean,<br>&nbsp;&nbsp;bottom_right:&nbsp;boolean<br>} |
+| <br>**type=curtain** |  |  |
+| `direction` | _Object_ | Accepted values: random,&nbsp;horizontal,&nbsp;vertical |
+| `direction_lines` | _Object_ | Accepted values: random,&nbsp;down_right,&nbsp;up_left,&nbsp;alternate |
+| `slide_move_type` | _Object_ | Accepted values: random,&nbsp;new,&nbsp;old,&nbsp;both |
+| <br>**type=random** |  |  |
+| `random_enabled_types` | _Object_ | Accepted values: {<br>&nbsp;&nbsp;fade:&nbsp;boolean,<br>&nbsp;&nbsp;slide:&nbsp;boolean,<br>&nbsp;&nbsp;accordion:&nbsp;boolean,<br>&nbsp;&nbsp;linear_fade:&nbsp;boolean,<br>&nbsp;&nbsp;zoom:&nbsp;boolean,<br>&nbsp;&nbsp;curtain:&nbsp;boolean<br>} |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "enabled": true,
+  "type": "fade",
+  "duration": 500,
+  "only_area_within_margin": false,
+  "merge": false,
+  "division_point": 30,
+  "increase_duration_blank_slides": false
+}
+```
+</details>
+
+## Bible Settings
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `tab_version_1` | _String_ | Bible version set in the first tab |
+| `tab_version_2` | _String_ | Bible version set in the second tab |
+| `tab_version_3` | _String_ | Bible version set in the third tab |
+| `show_x_verses` | _Number_ | Number of verses displayed in the projection |
+| `uppercase` | _Boolean_ | Display the verse text in uppercase |
+| `show_only_reference` | _Boolean_ | Display only the verse reference |
+| `show_two_versions` | _Boolean_ | Display two versions |
+| `book_panel_type` | _String_ | Type of view of the books of the Bible `grid` `list` |
+| `book_panel_order` | _String_ | Type of sorting of the books of the Bible |
+| `book_panel_order_available_items` | _Array&lt;String&gt;_ |  |
+| `multiple_verses_separator_type` | _String_ | Type of separation in the display of multiple verses. Can be: no_line_break, single_line_break, double_line_break |
+| `versification` | _Boolean_ | Apply verse mapping |
+| `theme` | _Object_ | Display Theme ID for the different system screens |
+| `theme.public` | _String_ |  |
+| `theme.screen_n` | _String_ | n >= 2 |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "tab_version_1": "pt_???",
+  "tab_version_2": "es_???",
+  "tab_version_3": "en_???",
+  "show_x_verses": 1,
+  "uppercase": false,
+  "show_only_reference": false,
+  "show_two_versions": false,
+  "book_panel_type": "grid",
+  "book_panel_order": "automatic",
+  "book_panel_order_available_items": [
+    "automatic", "standard", "ru", "tyv"
+  ],
+  "multiple_verses_separator_type": "double_line_break",
+  "versification": true,
+  "theme": {
+    "public": 123,
+    "screen_n": null
+  }
+}
+```
+</details>
+
+## Font Settings
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `font_name` | _String (optional)_ | Font name `Default: null` |
+| `bold` | _Boolean (optional)_ | Bold `Default: null` |
+| `italic` | _Boolean (optional)_ | Italic `Default: null` |
+| `color` | _String (optional)_ | Color in hexadecimal `Default: null` |
+
 ## Stage View
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -3465,9 +4905,32 @@ function request(action, headers, content, info) {
 | `show_comment` | _Boolean_ | Show comments |
 | `show_advanced_editor` | _Boolean_ | Show advanced editor |
 | `show_communication_panel` | _Boolean_ | Show communication panel content |
+| `show_next_image` | _Boolean_ | Display next image `v2.21.0+` |
 | `custom_theme` | _Number_ | Custom Theme ID used in presentations |
 | `apply_custom_theme_to_bible` | _Boolean_ | Use custom theme in verses |
 | `apply_custom_theme_to_text` | _Boolean_ | Use custom theme in texts |
+| `apply_custom_theme_to_quick_presentation` | _Boolean_ | Use the custom theme in the **Quick Presentation** option `v2.21.0+` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "enabled": false,
+  "preview_mode": "FIRST_LINE_OF_THE_NEXT_SLIDE_WITH_SEPARATOR",
+  "uppercase": false,
+  "remove_line_break": false,
+  "show_comment": true,
+  "show_advanced_editor": false,
+  "show_communication_panel": true,
+  "show_next_image": false,
+  "custom_theme": null,
+  "apply_custom_theme_to_bible": true,
+  "apply_custom_theme_to_text": true,
+  "apply_custom_theme_to_quick_presentation": false
+}
+```
+</details>
+
 ## Slide Additional Info
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -3487,8 +4950,34 @@ function request(action, headers, content, info) {
 | `font.bold` | _Boolean_ | Bold. If it is **null**, use the default theme setting |
 | `font.italic` | _Boolean_ | Italid. If it is **null**, use the default theme setting |
 | `font.color` | _String_ | Font color in hexadecimal. If it is **null**, use the theme's default font color |
-| `height` | _Number_ | Height in percent of slide height |
+| `height` | _Number_ | Height in percent of slide height `4 ~ 15` |
 | `paint_theme_effect` | _String_ | Render text with theme outline, glow, and shadow effects, if available |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "info_1": {
+    "show_page_count": false,
+    "show_slide_description": false,
+    "horizontal_align": "right", "vertical_align": "bottom"
+  },
+  "info_2": {
+    "show": false,
+    "layout_row_1": "<title>< (%author_or_artist%)>", "horizontal_align": "right", "vertical_align": "bottom"
+  },
+  "font": {
+    "name": null,
+    "bold": null,
+    "italic": null,
+    "color": null
+  },
+  "height": 7,
+  "paint_theme_effect": true
+}
+```
+</details>
+
 ## Rectangle
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -3496,6 +4985,7 @@ function request(action, headers, content, info) {
 | `y` | _Number_ |  |
 | `width` | _Number_ |  |
 | `height` | _Number_ |  |
+
 ## Custom Message
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -3504,6 +4994,53 @@ function request(action, headers, content, info) {
 | `message_model` | _String_ | message without filling |
 | `message_example` | _String_ | Example message with the name of the parameters filled in |
 | `variables` | _Array&lt;[CustomMessageParam](#custom-message-param)&gt;_ | message parameters |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "123",
+  "name": "Chamar pessoa",
+  "message_model": "   , favor comparecer  .",
+  "message_example": "função nome, favor comparecer local.",
+  "variables": [
+    {
+      "position": 0,
+      "name": "função",
+      "only_number": false,
+      "uppercase": false,
+      "suggestions": [
+        "Diácono",
+        "Presbítero",
+        "Pastor",
+        "Professor",
+        "Ministro"
+      ]
+    },
+    {
+      "position": 2,
+      "name": "nome",
+      "only_number": false,
+      "uppercase": false,
+      "suggestions": []
+    },
+    {
+      "position": 22,
+      "name": "local",
+      "only_number": false,
+      "uppercase": false,
+      "suggestions": [
+        "ao estacionamento",
+        "ao hall de entrada",
+        "à mesa de som",
+        "ao berçário"
+      ]
+    }
+  ]
+}
+```
+</details>
+
 ## Custom Message Param
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -3512,40 +5049,111 @@ function request(action, headers, content, info) {
 | `only_number` | _Boolean_ | Parameter accepts only numbers |
 | `uppercase` | _Boolean_ | Parameter always displayed in uppercase |
 | `suggestions` | _Array&lt;String&gt; (optional)_ | List with default values for the parameter |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "position": 0,
+  "name": "",
+  "only_number": false,
+  "uppercase": false,
+  "suggestions": []
+}
+```
+</details>
+
 ## Quiz Question
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `title` | _String_ | Pergunta |
-| `alternatives` | _Array&lt;String&gt;_ | Alternativas |
-| `correct_alternative_number` | _Number (optional)_ | Número da alternativa correta. Começa em 1 `Default: 1` |
-| `source` | _String (optional)_ | Fonte da resposta |
+| `title` | _String_ | Question |
+| `alternatives` | _Array&lt;String&gt;_ | Alternatives |
+| `correct_alternative_number` | _Number (optional)_ | Number of the correct alternative. Starts at 1 `Default: 1` |
+| `source` | _String (optional)_ | Answer font |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "title": "...",
+  "alternatives": [
+    "Item 1", "Item 2", "Item 3"
+  ],
+  "correct_alternative_number": 2,
+  "source": ""
+}
+```
+</details>
+
 ## Quiz Settings
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `correct_answer_color_font` | _String (optional)_ | Cor da fonte para a resposta correta |
-| `correct_answer_color_background` | _String (optional)_ | Cor de fundo para a resposta correta |
-| `incorrect_answer_color_font` | _String (optional)_ | Cor da fonte para a resposta incorreta |
-| `incorrect_answer_color_background` | _String (optional)_ | Cor de fundo para a resposta incorreta |
-| `question_and_alternatives_different_slides` | _Boolean (optional)_ | Exibir a pergunta e as alternativas em slides separados `Default: false` |
-| `display_alternatives_one_by_one` | _Boolean (optional)_ | Exibir as alternativas uma a uma `Default: true` |
-| `alternative_char_type` | _String (optional)_ | Tipo de caractere para listar as alternativas `number (1, 2, 3...)`  `alpha (A, B, C...)` `Default: 'alpha'` |
-| `alternative_separator_char` | _String (optional)_ | Caractere separador. Valores permitidos:  ` `  `.`  `)`  `-`  `:` `Default: '.'` |
+| `correct_answer_color_font` | _String (optional)_ | Font color for the correct answer |
+| `correct_answer_color_background` | _String (optional)_ | Background color for the correct answer |
+| `incorrect_answer_color_font` | _String (optional)_ | Font color for the incorrect answer |
+| `incorrect_answer_color_background` | _String (optional)_ | Background color for the incorrect answer |
+| `question_and_alternatives_different_slides` | _Boolean (optional)_ | Display the question and alternatives on separate slides `Default: false` |
+| `display_alternatives_one_by_one` | _Boolean (optional)_ | Display the alternatives one by one `Default: true` |
+| `alternative_char_type` | _String (optional)_ | Type of character to list the alternatives `number (1, 2, 3...)`  `alpha (A, B, C...)` `Default: 'alpha'` |
+| `alternative_separator_char` | _String (optional)_ | Separator character. Allowed values:  ` `  `.`  `)`  `-`  `:` `Default: '.'` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "correct_answer_color_font": "00796B",
+  "correct_answer_color_background": "CCFFCC",
+  "incorrect_answer_color_font": "721C24",
+  "incorrect_answer_color_background": "F7D7DB",
+  "question_and_alternatives_different_slides": false,
+  "display_alternatives_one_by_one": true,
+  "alternative_separator_char": ".",
+  "alternative_char_type": "alpha"
+}
+```
+</details>
+
 ## AddItem
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `api`  `script` |
+| `type` | _String_ | Type of item. It can be: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `uri`  `global_action`  `api`  `script` |
+
 ## AddItemTitle
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | title |
 | `name` | _String_ | Item name |
-| `background_color` | _String (optional)_ | Cor de fundo em hexadecimal, exemplo: 000080 |
+| `background_color` | _String (optional)_ | Background color in hexadecimal, example: 000080 |
 | `collapsed` | _Boolean (optional)_ |  `Default: false` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "title",
+  "name": "Example",
+  "background_color": "0000FF",
+  "collapsed": false
+}
+```
+</details>
+
 ## AddItemSong
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | song |
 | `id` | _String_ | Item ID |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "song",
+  "id": "123"
+}
+```
+</details>
+
 ## AddItemVerse
 **id**, **ids** or **references**
 
@@ -3555,33 +5163,105 @@ function request(action, headers, content, info) {
 | `id` | _String (optional)_ | To display a verse. Item ID in BBCCCVVV format.<br/>Example: '19023001' (book 19, chapter 023, verse 001) |
 | `ids` | _Array&lt;String&gt; (optional)_ | To display a list of verses. List with the ID of each verse.<br/>Example: ['19023001', '43003016', '45012002'] |
 | `references` | _String (optional)_ | References. Example: **John 3:16** or **Rm 12:2** or **Gn 1:1-3 Sl 23.1** |
+| `version` | _String (optional)_ | Name or abbreviation of the translation used `v2.21.0+` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "verse",
+  "references": "Ps 23.1-6 Rm 12.2",
+  "version": "en_kjv"
+}
+```
+</details>
+
 ## AddItemText
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | text |
 | `id` | _String_ | Item ID |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "text",
+  "id": "xyz"
+}
+```
+</details>
+
 ## AddItemAudio
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | audio |
-| `name` | _String_ | Nome do arquivo |
+| `name` | _String_ | File name |
+| `settings` | _[PlayMediaSettings](#play-media-settings) (optional)_ | Settings for media execution `v2.21.0+` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "",
+  "type": "audio",
+  "name": "file.mp3"
+}
+```
+</details>
+
 ## AddItemVideo
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | video |
-| `name` | _String_ | Nome do arquivo |
+| `name` | _String_ | File name |
+| `settings` | _[PlayMediaSettings](#play-media-settings) (optional)_ | Settings for media execution `v2.21.0+` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "",
+  "type": "video",
+  "name": "file.mp4"
+}
+```
+</details>
+
 ## AddItemImage
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | image |
-| `name` | _String_ | Nome do arquivo |
+| `name` | _String_ | File name |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "image",
+  "name": "file.ext"
+}
+```
+</details>
+
 ## AddItemAutomaticPresentation
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | automatic_presentation |
-| `name` | _String_ | Nome do arquivo |
+| `name` | _String_ | File name |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "automatic_presentation",
+  "name": "filename.ap"
+}
+```
+</details>
+
 ## AddItemAnnouncement
-**id**, **ids**, **name** ou **names**
+**id**, **ids**, **name** or **names**
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -3591,16 +5271,58 @@ function request(action, headers, content, info) {
 | `name` | _String (optional)_ | Announcement name |
 | `names` | _Array&lt;String&gt; (optional)_ | List with the name of each announcement |
 | `automatic` | _[Automatic](#automatic-presentation) (optional)_ | If informed, the presentation of the items will be automatic |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "announcement",
+  "names": [
+    "Anúncio 1", "Anúncio 2", "Anúncio 3"
+  ],
+  "automatic": {
+    "seconds": 10,
+    "repeat": true
+  }
+}
+```
+</details>
+
 ## AddItemCountdown
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | countdown |
-| `time` | _String_ | HH:MM ou MM:SS |
-| `exact_time` | _Boolean (optional)_ | Se **true**, `time` deve ser HH:MM (hora e minuto exato). Se **false**, `time` deve ser MM:SS (quantidade de minutos e segundos) `Default: false` |
-| `text_before` | _String (optional)_ | Texto exibido na parte superior da contagem regressiva |
-| `text_after` | _String (optional)_ | Texto exibido na parte inferior da contagem regressiva |
-| `zero_fill` | _Boolean (optional)_ | Preencher o campo 'minuto' com zero à esquerda `Default: false` |
-| `countdown_relative_size` | _Number (optional)_ | Tamanho relativo da contagem regressiva `Default: 250` |
+| `time` | _String_ | HH:MM or MM:SS |
+| `exact_time` | _Boolean (optional)_ | If **true**, `time` should be HH:MM (exact hour and minute). If **false**, `time` should be MM:SS (amount of minutes and seconds) `Default: false` |
+| `text_before` | _String (optional)_ | Text displayed at the top of the countdown |
+| `text_after` | _String (optional)_ | Text displayed at the bottom of the countdown |
+| `zero_fill` | _Boolean (optional)_ | Fill in the 'minute' field with zero on the left `Default: false` |
+| `countdown_relative_size` | _Number (optional)_ | Relative size of the countdown `Default: 250` |
+| `theme` | _String (optional)_ | Theme ID `v2.21.0+` |
+| `countdown_style` | _[FontSettings](#font-settings) (optional)_ | Custom font for countdown `v2.21.0+` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "countdown",
+  "time": "05:00",
+  "exact_time": false,
+  "text_before": "",
+  "text_after": "",
+  "zero_fill": false,
+  "countdown_relative_size": 250,
+  "theme": null,
+  "countdown_style": {
+    "font_name": null,
+    "bold": null,
+    "italic": true,
+    "color": null
+  }
+}
+```
+</details>
+
 ## AddItemCountdownCommunicationPanel
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -3608,7 +5330,21 @@ function request(action, headers, content, info) {
 | `minutes` | _Number_ | Number of minutes |
 | `seconds` | _Number_ | Number of seconds |
 | `stop_at_zero` | _Boolean (optional)_ | Stop the countdown when it reaches zero `Default: false` |
-| `description` | _String_ | Descrição do item |
+| `description` | _String_ | Item description |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "countdown_cp",
+  "minutes": 5,
+  "seconds": 0,
+  "stop_at_zero": false,
+  "description": ""
+}
+```
+</details>
+
 ## AddItemTextCommunicationPanel
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -3616,15 +5352,85 @@ function request(action, headers, content, info) {
 | `name` | _String_ | Item name |
 | `text` | _String_ | Text |
 | `display_ahead` | _Boolean (optional)_ | Change the *'display in front of all'* option |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "cp_text",
+  "name": "",
+  "text": "Example",
+  "display_ahead": false
+}
+```
+</details>
+
 ## AddItemScript
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | script |
-| `description` | _String_ | Descrição do item |
-| `inputs` | _Object (optional)_ | Valor padrão para [Function Input](https://github.com/holyrics/Scripts/blob/main/FunctionInput.md) |
+| `id` | _String_ | Item ID |
+| `description` | _String_ | Item description |
+| `inputs` | _Object (optional)_ | Default value for [Function Input](https://github.com/holyrics/Scripts/blob/main/FunctionInput.md) |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "script",
+  "id": "xyz",
+  "description": "",
+  "inputs": {
+    "message": "Example", "duration": 30
+  }
+}
+```
+</details>
+
 ## AddItemAPI
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | api |
-| `description` | _String_ | Descrição do item |
-| `inputs` | _Object (optional)_ | Valor padrão para [Function Input](https://github.com/holyrics/Scripts/blob/main/FunctionInput.md) |
+| `id` | _String_ | Item ID |
+| `description` | _String_ | Item description |
+| `inputs` | _Object (optional)_ | Default value for [Function Input](https://github.com/holyrics/Scripts/blob/main/FunctionInput.md) |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "api",
+  "id": "xyz",
+  "description": "",
+  "inputs": {
+    "message": "Example", "duration": 30
+  }
+}
+```
+</details>
+
+## AddItemURI
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `type` | _String_ | uri |
+| `title` | _String_ | Item title |
+| `uri_type` | _String_ | Can be: `spotify` `youtube` `deezer` |
+| `value` | _String_ | URI |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "type": "uri",
+  "title": "Holyrics",
+  "uri_type": "youtube",
+  "value": "https://youtube.com/watch?v=umYQpAxL4dI"
+}
+```
+</details>
+
+## AddItemGlobalAction
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `type` | _String_ | global_action |
+| `action` | _String_ | Can be: `slide_exit` `vlc_stop` `vlc_stop_fade_out` |
