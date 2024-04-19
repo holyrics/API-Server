@@ -318,8 +318,18 @@ Resposta
   - [GetLyricsPlaylist](#getlyricsplaylist)
   - [AddLyricsToPlaylist](#addlyricstoplaylist)
   - [RemoveFromLyricsPlaylist](#removefromlyricsplaylist)
+  - [SetLyricsPlaylistItem](#setlyricsplaylistitem)
   - [GetMediaPlaylist](#getmediaplaylist)
+  - [SetMediaPlaylistItem](#setmediaplaylistitem)
   - [MediaPlaylistAction](#mediaplaylistaction)
+  - [GetNextSongPlaylist](#getnextsongplaylist)
+  - [GetNextMediaPlaylist](#getnextmediaplaylist)
+  - [ShowNextSongPlaylist](#shownextsongplaylist)
+  - [ShowNextMediaPlaylist](#shownextmediaplaylist)
+  - [GetPreviousSongPlaylist](#getprevioussongplaylist)
+  - [GetPreviousMediaPlaylist](#getpreviousmediaplaylist)
+  - [ShowPreviousSongPlaylist](#showprevioussongplaylist)
+  - [ShowPreviousMediaPlaylist](#showpreviousmediaplaylist)
   - [AddToPlaylist](#addtoplaylist)
   - [RemoveFromMediaPlaylist](#removefrommediaplaylist)
   - [SetPlaylistItemDuration](#setplaylistitemduration)
@@ -341,10 +351,12 @@ Resposta
   - [ActionGoToIndex](#actiongotoindex)
   - [ActionGoToSlideDescription](#actiongotoslidedescription)
   - [GetCurrentBackground](#getcurrentbackground)
+  - [GetCurrentTheme](#getcurrenttheme)
   - [GetBackgrounds](#getbackgrounds)
   - [SetCurrentBackground](#setcurrentbackground)
   - [GetThumbnail](#getthumbnail)
   - [GetColorMap](#getcolormap)
+  - [GetAlert](#getalert)
   - [SetAlert](#setalert)
   - [GetCurrentSchedule](#getcurrentschedule)
   - [GetSchedules](#getschedules)
@@ -352,8 +364,13 @@ Resposta
   - [LoadSavedPlaylist](#loadsavedplaylist)
   - [GetHistory](#gethistory)
   - [GetHistories](#gethistories)
+  - [GetTeams](#getteams)
   - [GetMembers](#getmembers)
   - [GetRoles](#getroles)
+  - [GetServices](#getservices)
+  - [GetEvents](#getevents)
+  - [GetAnnouncement](#getannouncement)
+  - [GetAnnouncements](#getannouncements)
   - [GetCommunicationPanelInfo](#getcommunicationpanelinfo)
   - [SetCommunicationPanelSettings](#setcommunicationpanelsettings)
   - [StartCountdownCommunicationPanel](#startcountdowncommunicationpanel)
@@ -384,6 +401,7 @@ Resposta
   - [SetInterfaceInput](#setinterfaceinput)
   - [OpenDrawLots](#opendrawlots)
   - [GetMediaDuration](#getmediaduration)
+  - [GetVersion](#getversion)
 
 
 ---
@@ -804,6 +822,8 @@ Retorna a lista de arquivos da respectiva aba: áudio, vídeo, imagem, arquivo
 | ---- | :---: | ------------|
 | `folder` | _String (opcional)_ | Nome da subpasta para listar os arquivos |
 | `filter` | _String (opcional)_ | Filtrar arquivos pelo nome |
+| `include_metadata` | _Boolean (opcional)_ | Adicionar metadados na resposta `Padrão: false` `v2.22.0+` |
+| `include_thumbnail` | _Boolean (opcional)_ | Adicionar thumbnail na resposta (80x45) `Padrão: false` `v2.22.0+` |
 
 
 **Resposta:**
@@ -813,6 +833,17 @@ Retorna a lista de arquivos da respectiva aba: áudio, vídeo, imagem, arquivo
 | `data` | _Array&lt;Object&gt;_ |  |
 | `data.*.name` | _String_ | Nome do item |
 | `data.*.isDir` | _Boolean_ | Retorna **true** se for uma pasta ou **false** se for arquivo. |
+| <br>Disponível se **include_metadata=true** |  |  |
+| `data.*.length` | _Number_ | Tamanho do arquivo (bytes). Disponível se **isDir=false** `v2.22.0+` |
+| `data.*.modified_time` | _String_ | Data de modificação do arquivo. Data e hora no formato: YYYY-MM-DD HH:MM `v2.22.0+` |
+| `data.*.duration_ms` | _Number_ | Duração do arquivo. Disponível se o arquivo for: audio ou vídeo `v2.22.0+` |
+| `data.*.width` | _Number_ | Largura. Disponível se o arquivo for: imagem ou vídeo `v2.22.0+` |
+| `data.*.height` | _Number_ | Altura. Disponível se o arquivo for: imagem ou vídeo `v2.22.0+` |
+| `data.*.position` | _String_ | Ajuste da imagem. Disponível para imagens. Pode ser: `adjust` `extend` `fill` `v2.22.0+` |
+| `data.*.blur` | _Boolean_ | Aplicar efeito blur `v2.22.0+` |
+| `data.*.transparent` | _Boolean_ | Exibir imagens com transparência `v2.22.0+` |
+| <br>Disponível se **include_thumbnail=true** |  |  |
+| `data.*.thumbnail` | _String_ | Imagem no formato base64 `v2.22.0+` |
 
 
 **Exemplo:**
@@ -1626,6 +1657,34 @@ Requisição
 
 ---
 
+### SetLyricsPlaylistItem
+### SetSongPlaylistItem
+- v2.22.0
+
+Alterar um item da lista de reprodução de letra de música
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `index` | _Number_ | Índice do item na lista |
+| `song_id` | _String_ | Novo item |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "index": 2,
+  "song_id": "123"
+}
+```
+
+
+---
+
 ### GetMediaPlaylist
 - v2.19.0
 
@@ -1663,6 +1722,36 @@ Resposta
 
 ---
 
+### SetMediaPlaylistItem
+- v2.22.0
+
+Alterar um item da lista de reprodução de mídia
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `index` | _Number_ | Índice do item na lista |
+| `item` | _[AddItem](#additem)_ | Novo item |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "index": 0,
+  "item": {
+    "type": "song",
+    "id": "123"
+  }
+}
+```
+
+
+---
+
 ### MediaPlaylistAction
 - v2.19.0
 
@@ -1684,6 +1773,192 @@ Requisição
   "id": "abc"
 }
 ```
+
+
+---
+
+### GetNextSongPlaylist
+- v2.22.0
+
+Retorna a próxima música da lista de reprodução. Pode ser null
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _[Lyrics](#lyrics)_ |  |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "123",
+    "title": "",
+    "artist": "",
+    "author": "",
+    "note": "",
+    "key": "",
+    "bpm": 0,
+    "time_sig": "",
+    "groups": [],
+    "archived": false
+  }
+}
+```
+
+
+---
+
+### GetNextMediaPlaylist
+- v2.22.0
+
+Retorna o próximo item executável da lista de reprodução de mídia. Pode ser null
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _[Item](#item)_ |  |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "abc123",
+    "type": "song",
+    "name": ""
+  }
+}
+```
+
+
+---
+
+### ShowNextSongPlaylist
+- v2.22.0
+
+Executa a próxima música da lista de reprodução
+
+
+
+_Método sem retorno_
+
+
+
+---
+
+### ShowNextMediaPlaylist
+- v2.22.0
+
+Executa o próximo item da lista de reprodução de mídia
+
+
+
+_Método sem retorno_
+
+
+
+---
+
+### GetPreviousSongPlaylist
+- v2.22.0
+
+Retorna a música anterior da lista de reprodução. Pode ser null
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _[Lyrics](#lyrics)_ |  |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "123",
+    "title": "",
+    "artist": "",
+    "author": "",
+    "note": "",
+    "key": "",
+    "bpm": 0,
+    "time_sig": "",
+    "groups": [],
+    "archived": false
+  }
+}
+```
+
+
+---
+
+### GetPreviousMediaPlaylist
+- v2.22.0
+
+Retorna o item anterior executável da lista de reprodução de mídia. Pode ser null
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _[Item](#item)_ |  |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "abc123",
+    "type": "song",
+    "name": ""
+  }
+}
+```
+
+
+---
+
+### ShowPreviousSongPlaylist
+- v2.22.0
+
+Executa a música anterior da lista de reprodução
+
+
+
+_Método sem retorno_
+
+
+
+---
+
+### ShowPreviousMediaPlaylist
+- v2.22.0
+
+Executa o item anterior da lista de reprodução de mídia
+
+
+
+_Método sem retorno_
+
 
 
 ---
@@ -2168,7 +2443,7 @@ Item sendo apresentado no momento ou **null** se não tiver apresentação sendo
 | `include_slides` | _Boolean (opcional)_ | Retornar a lista de slides da apresentação atual. Indisponível para apresentação de versículos. `Padrão: false` `v2.21.0+` |
 | `include_slide_comment` | _Boolean (opcional)_ | Incluir comentários (se houver) no texto dos slides. Disponível se **include_slides=true**. `Padrão: false` `v2.21.0+` |
 | `include_slide_preview` | _Boolean (opcional)_ | Incluir imagem preview do slide. Disponível se **include_slides=true**. `Padrão: false` `v2.21.0+` |
-| `slide_preview_size` | _String (opcional)_ | Tamanho do preview no formato WxH (ex. 320x180).<br>Disponível se **include_slide_preview=true** `Padrão: false` `v2.21.0+` |
+| `lide_preview_size` | _String (opcional)_ | Tamanho do preview no formato WxH (ex. 320x180). (max 640x360)<br>Disponível se **include_slide_preview=true** `Padrão: false` `v2.21.0+` |
 
 
 **Resposta:**
@@ -2402,6 +2677,41 @@ Resposta
 
 ---
 
+### GetCurrentTheme
+- v2.22.0
+
+Retorna o tema da apresentação em exibição.
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _[Background](#background)_ | Tema atual ou NULL se não houver apresentação em exibição |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "123",
+    "type": "theme",
+    "name": "Theme Name",
+    "tags": [
+      "circle",
+      "blue"
+    ],
+    "bpm": 80
+  }
+}
+```
+
+
+---
+
 ### GetBackgrounds
 - v2.19.0
 
@@ -2617,6 +2927,36 @@ Resposta
 
 ---
 
+### GetAlert
+- v2.20.0
+
+Retorna as configurações da mensagem de alerta
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data.text` | _String_ | Texto atual do alerta |
+| `data.show` | _Boolean_ | Se a exibição do alerta está ativada |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "text": "Example",
+    "show": false
+  }
+}
+```
+
+
+---
+
 ### SetAlert
 - v2.19.0
 
@@ -2655,7 +2995,7 @@ Programação atual (selecionada na janela principal do programa)
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `data` | _[Schedule](#schedule)_ |  |
+| `data` | _Array&lt;[Schedule](#schedule)&gt;_ |  |
 
 
 **Exemplo:**
@@ -2978,6 +3318,43 @@ Resposta
 
 ---
 
+### GetTeams
+- v2.22.0
+
+Lista de times
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;[Team](#team)&gt;_ |  |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "abc",
+      "name": "abc",
+      "description": ""
+    },
+    {
+      "id": "xyz",
+      "name": "xyz",
+      "description": ""
+    }
+  ]
+}
+```
+
+
+---
+
 ### GetMembers
 - v2.19.0
 
@@ -3040,6 +3417,182 @@ Resposta
     {
       "id": "xyz",
       "name": ""
+    }
+  ]
+}
+```
+
+
+---
+
+### GetServices
+- v2.22.0
+
+Lista de cultos
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;[Service](#service)&gt;_ |  |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "name": "",
+      "week": "all",
+      "day": "sun",
+      "hour": 19,
+      "minute": 0,
+      "description": "",
+      "hide_week": [
+        "second"
+      ]
+    },
+    {
+      "name": "Supper Worship",
+      "week": "second",
+      "day": "sun",
+      "hour": 19,
+      "minute": 0,
+      "description": ""
+    }
+  ]
+}
+```
+
+
+---
+
+### GetEvents
+- v2.22.0
+
+Lista de eventos
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `month` | _Number_ | Mês (1-12) |
+| `year` | _Number_ | Ano |
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;[Event](#event)&gt;_ |  |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "month": 8,
+  "year": 2022
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "name": "Event name",
+      "datetime": "2022-08-19 18:00",
+      "wallpaper": ""
+    },
+    {
+      "name": "Event name",
+      "datetime": "2022-08-20 18:00",
+      "wallpaper": ""
+    }
+  ]
+}
+```
+
+
+---
+
+### GetAnnouncement
+- v2.22.0
+
+Anúncio
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String (opcional)_ | ID do anúncio |
+| `name` | _String (opcional)_ | Nome do anúncio |
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _[Announcement](#announcement)_ |  |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "123"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "abc",
+    "name": "",
+    "text": "",
+    "archived": false
+  }
+}
+```
+
+
+---
+
+### GetAnnouncements
+- v2.22.0
+
+Lista de anúncios
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;[Announcement](#announcement)&gt;_ |  |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "abc",
+      "name": "",
+      "text": "",
+      "archived": false
+    },
+    {
+      "id": "xyz",
+      "name": "",
+      "text": "",
+      "archived": false
     }
   ]
 }
@@ -3115,7 +3668,9 @@ Alterar configuração atual do painel de comunicação
 | `text` | _String (opcional)_ | Texto atual |
 | `show` | _Boolean (opcional)_ | Exibir o texto atual |
 | `display_ahead` | _Boolean (opcional)_ | Opção *'exibir à frente de tudo'* |
-| `theme` | _Number (opcional)_ | ID ou nome do tema padrão |
+| `theme` | _Object (opcional)_ | ID ou nome do tema padrão |
+| `theme.id` | _String (opcional)_ |  |
+| `theme.name` | _String (opcional)_ |  |
 | `custom_theme` | _[Theme](#theme) (opcional)_ | Tema personalizado `v2.21.0+` |
 | `alert_text` | _String (opcional)_ | Texto atual do alerta |
 | `alert_show` | _Boolean (opcional)_ | Ativar a exibição do alerta |
@@ -3306,7 +3861,8 @@ Configurações do papel de parede
 | `data.image_base64` | _String_ | Imagem do papel de parede em base 64 |
 | `data.enabled` | _Boolean_ | Exibir papel de parede |
 | `data.fill_color` | _String_ | Cor em hexadecimal definida na opção **preencher**. |
-| `data.extend` | _Boolean_ | Estender papel de parede |
+| `data.extend` | _Boolean_ | `deprecated` Substituído por `adjust_type`<br>Estender papel de parede |
+| `data.adjust_type` | _String_ | Ajuste da imagem: Pode ser: `ADJUST` `EXTEND` `FILL` `ADJUST_BLUR` `v2.22.0+` |
 | `data.show_clock` | _Boolean_ | Exibir relógio |
 
 
@@ -3340,7 +3896,8 @@ Alterar as configurações do papel de parede
 | `file` | _String (opcional)_ | Local do arquivo na aba **Imagens** |
 | `enabled` | _Boolean (opcional)_ | Exibir papel de parede |
 | `fill_color` | _String (opcional)_ | Cor em hexadecimal definida na opção **preencher**. **NULL** para desativar |
-| `extend` | _Boolean (opcional)_ | Estender papel de parede |
+| `extend` | _Boolean (opcional)_ | `deprecated` Substituído por `adjust_type`<br>Estender papel de parede |
+| `data.adjust_type` | _String_ | Ajuste da imagem: Pode ser: `ADJUST` `EXTEND` `FILL` `ADJUST_BLUR` `v2.22.0+` |
 | `show_clock` | _Boolean (opcional)_ | Exibir relógio |
 
 
@@ -3788,7 +4345,8 @@ Resposta
     "show_x_verses": 1,
     "uppercase": false,
     "show_only_reference": false,
-    "show_two_versions": false,
+    "show_second_version": false,
+    "show_third_version": false,
     "book_panel_type": "grid",
     "book_panel_order": "automatic",
     "book_panel_order_available_items": [
@@ -4204,6 +4762,40 @@ Resposta
 
 ---
 
+### GetVersion
+- v2.22.0
+
+Retorna informações da versão do programa em execução
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data.version` | _String_ | Versão do programa |
+| `data.platform` | _String_ | Sistema operacional. Pode ser: `win` `uni` `osx` |
+| `data.platformDescription` | _String_ | Nome detalhado do sistema operacional |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "data": {
+      "version": "2.22.0",
+      "platform": "win",
+      "platformDescription": "Windows 10"
+    }
+  }
+}
+```
+
+
+---
+
 
 
 # Exemplo de implementação JavaScript
@@ -4259,12 +4851,24 @@ function request(action, headers, content, info) {
 | `copyright` | _String_ | Copyright da música |
 | `slides` | _Array&lt;Object&gt;_ |  `v2.21.0+` |
 | `slides.*.text` | _String_ | Texto do slide `v2.21.0+` |
+| `slides.*.slide_description` | _Number_ | Descrição do slide `v2.21.1+` |
 | `slides.*.background_id` | _Number_ | ID do tema ou plano de fundo salvo para o slide `v2.21.0+` |
 | `order` | _String_ | Ordem dos slides (índice a partir do 1), separado por vírgula `v2.21.0+` |
 | `key` | _String_ | Tom da música.<br>Pode ser: `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
 | `bpm` | _Number_ | BPM da música |
 | `time_sig` | _String_ | Tempo da música.<br>Pode ser: `2/2` `2/4` `3/4` `4/4` `5/4` `6/4` `3/8` `6/8` `7/8` `9/8` `12/8` |
 | `groups` | _Array&lt;[Group](#group)&gt;_ | Grupos onde a música está adicionada |
+| `linked_audio_file` | _String_ | Caminho do arquivo de áudio linkado com a música `v2.22.0+` |
+| `linked_backing_track_file` | _String_ | Caminho do arquivo de áudio (playback) linkado com a música `v2.22.0+` |
+| `streaming` | _Object_ | URI ou ID dos streamings `v2.22.0+` |
+| `streaming.audio` | _Object_ | Áudio `v2.22.0+` |
+| `streaming.audio.spotify` | _String_ |  `v2.22.0+` |
+| `streaming.audio.youtube` | _String_ |  `v2.22.0+` |
+| `streaming.audio.deezer` | _String_ |  `v2.22.0+` |
+| `streaming.backing_track` | _Object_ | Playback `v2.22.0+` |
+| `streaming.backing_track.spotify` | _String_ |  `v2.22.0+` |
+| `streaming.backing_track.youtube` | _String_ |  `v2.22.0+` |
+| `streaming.backing_track.deezer` | _String_ |  `v2.22.0+` |
 | `midi` | _[Midi](#midi)_ | Atalho MIDI do item |
 | `extras` | _Object_ | Mapa de objetos extras (adicionados pelo usuário) `v2.21.0+` |
 | `archived` | _Boolean_ | Se a música está arquivada |
@@ -4282,14 +4886,17 @@ function request(action, headers, content, info) {
   "slides": [
     {
       "text": "Slide 1 line 1\nSlide 1 line 2",
+      "slide_description": "Verse 1",
       "background_id": null
     },
     {
       "text": "Slide 2 line 1\nSlide 2 line 2",
+      "slide_description": "Chorus",
       "background_id": null
     },
     {
       "text": "Slide 3 line 1\nSlide 3 line 2",
+      "slide_description": "Verse 3",
       "background_id": null
     }
   ],
@@ -4298,6 +4905,20 @@ function request(action, headers, content, info) {
   "bpm": 0.0,
   "time_sig": "",
   "groups": [],
+  "linked_audio_file": "",
+  "linked_backing_track_file": "",
+  "streaming": {
+    "audio": {
+      "spotify": "",
+      "youtube": "",
+      "deezer": ""
+    },
+    "backing_track": {
+      "spotify": "",
+      "youtube": "",
+      "deezer": ""
+    }
+  },
   "extras": {
     "extra": ""
   },
@@ -4529,13 +5150,22 @@ function request(action, headers, content, info) {
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `uri`  `global_action`  `api`  `script` |
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script` |
 | `name` | _String_ | Nome do item |
 
 ## Group
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `name` | _String_ | Nome do item |
+| `songs` | _Array&lt;Number&gt;_ | Lista dos IDs das músicas |
+
+## Announcement
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `name` | _String_ | Nome do item |
+| `text` | _String_ | Texto do anúncio |
+| `archived` | _Boolean_ | Se o item está arquivado |
 
 ## Midi
 | Nome | Tipo  | Descrição |
@@ -4559,6 +5189,24 @@ function request(action, headers, content, info) {
 | `id` | _String_ | ID do item |
 | `name` | _String_ | Nome do item |
 
+## Service
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `name` | _String_ | Nome do item |
+| `week` | _String_ | Semana. Pode ser: `all` `first` `second` `third` `fourth` `last` |
+| `day` | _String_ | Dia da semana. Pode ser: `sun` `mon` `tue` `wed` `thu` `fri` `sat` |
+| `hour` | _Number_ | Hora [0-23] |
+| `minute` | _Number_ | Minuto [0-59] |
+| `type` | _String_ | Tipo do item. Pode ser: `service` `event` |
+| `hide_week` | _Array&lt;String&gt;_ | Lista com as semanas ocultadas. Disponível se `week=all` |
+
+## Event
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `name` | _String_ | Nome do evento |
+| `datetime` | _String_ | Data e hora no formato: YYYY-MM-DD HH:MM |
+| `wallpaper` | _String_ | Caminho relativo do arquivo utilizado como papel de parede do evento |
+
 ## Schedule
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
@@ -4576,6 +5224,7 @@ function request(action, headers, content, info) {
 | `roles.*.id` | _String_ | ID da função |
 | `roles.*.name` | _String_ | Nome da função |
 | `roles.*.member` | _[Member](#member)_ | Integrante escalado para a função |
+| `notes` | _String_ | Anotações `v2.21.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -4626,22 +5275,33 @@ function request(action, headers, content, info) {
   ],
   "responsible": null,
   "members": [],
-  "roles": []
+  "roles": [],
+  "notes": ""
 }
 ```
 </details>
+
+## Team
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `name` | _String_ | Nome do item |
+| `description` | _String_ | Descrição do item |
 
 ## Member
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
 | `name` | _String_ | Nome do item |
+| `skills` | _String_ | Habilidades |
+| `roles` | _Array&lt;[Role](#role)&gt;_ | Funções |
 
 ## Role
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
 | `name` | _String_ | Nome do item |
+| `team` | _[Team](#team)_ | Time |
 
 ## Automatic Presentation
 | Nome | Tipo  | Descrição |
@@ -4851,11 +5511,14 @@ Configurações de exibição
 | `show_x_verses` | _Number_ | Quantidade de versículos exibidos na projeção |
 | `uppercase` | _Boolean_ | Exibir o texto do versículo em maiúsculo |
 | `show_only_reference` | _Boolean_ | Exibir somente a referência do versículo |
-| `show_two_versions` | _Boolean_ | Exibir duas versões |
+| `show_two_versions` | _Boolean_ | `deprecated` Substituído por: `show_second_version` `show_third_version`<br>Exibir duas versões. |
+| `show_second_version` | _Boolean_ | Exibir segunda versão `v2.22.0+` |
+| `show_third_version` | _Boolean_ | Exibir terceira versão `v2.22.0+` |
 | `book_panel_type` | _String_ | Tipo de visualização dos livros da Bíblia `grid` `list` |
 | `book_panel_order` | _String_ | Tipo de ordenação dos livros da Bíblia |
 | `book_panel_order_available_items` | _Array&lt;String&gt;_ |  |
 | `multiple_verses_separator_type` | _String_ | Tipo de separação na exibição de múltiplos versículos. Pode ser: no_line_break, single_line_break, double_line_break |
+| `multiple_versions_separator_type` | _String_ | Tipo de separação na exibição de múltiplas versões. Pode ser: no_line_break, single_line_break, double_line_break `v2.22.0+` |
 | `versification` | _Boolean_ | Aplicar mapeamento de versículos |
 | `theme` | _Object_ | ID do Tema de exibição para as diferentes telas do sistema |
 | `theme.public` | _String_ |  |
@@ -4872,12 +5535,15 @@ Configurações de exibição
   "uppercase": false,
   "show_only_reference": false,
   "show_two_versions": false,
+  "show_second_version": false,
+  "show_third_version": false,
   "book_panel_type": "grid",
   "book_panel_order": "automatic",
   "book_panel_order_available_items": [
     "automatic", "standard", "ru", "tyv"
   ],
   "multiple_verses_separator_type": "double_line_break",
+  "multiple_versions_separator_type": "double_line_break",
   "versification": true,
   "theme": {
     "public": 123,
@@ -5116,7 +5782,7 @@ Configurações de exibição
 ## AddItem
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `uri`  `global_action`  `api`  `script` |
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script` |
 
 ## AddItemTitle
 | Nome | Tipo  | Descrição |
@@ -5205,7 +5871,8 @@ Configurações de exibição
 {
   "id": "",
   "type": "audio",
-  "name": "file.mp3"
+  "name": "file.mp3",
+  "isDir": false
 }
 ```
 </details>
@@ -5223,7 +5890,8 @@ Configurações de exibição
 {
   "id": "",
   "type": "video",
-  "name": "file.mp4"
+  "name": "file.mp4",
+  "isDir": false
 }
 ```
 </details>
