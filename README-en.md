@@ -680,7 +680,8 @@ Response
         "text": "Slide 3 line 1\nSlide 3 line 2",
         "background_id": null
       }
-    ]
+    ],
+    "extras": {}
   }
 }
 ```
@@ -875,6 +876,7 @@ Returns the list of files from the respective tab: audio, video, image, file
 | `data` | _Array&lt;Object&gt;_ |  |
 | `data.*.name` | _String_ | Item name |
 | `data.*.isDir` | _Boolean_ | Return **true** if it's a folder or **false** if it's a file. |
+| `data.*.properties` | _Object_ | Map with the custom properties defined for the file `v2.24.0+` |
 | <br>Available if **include_metadata=true** |  |  |
 | `data.*.length` | _Number_ | File size (bytes). Available if **isDir=false** `v2.22.0+` |
 | `data.*.modified_time` | _String_ | File modification date. Date and time format: YYYY-MM-DD HH:MM `v2.22.0+` |
@@ -889,7 +891,6 @@ Returns the list of files from the respective tab: audio, video, image, file
 | `data.*.last_executed_time_millis` | _Boolean_ |  `v2.24.0+` |
 | <br>Available if **include_thumbnail=true** |  |  |
 | `data.*.thumbnail` | _String_ | Image in base64 format `v2.22.0+` |
-| `data.*.properties` | _Object_ | Map with the custom properties defined for the file `v2.24.0+` |
 
 
 **Example:**
@@ -906,11 +907,13 @@ Response
   "data": [
     {
       "name": "abcd",
-      "isDir": true
+      "isDir": true,
+      "properties": {}
     },
     {
       "name": "abcd.jpg",
-      "isDir": false
+      "isDir": false,
+      "properties": {}
     }
   ]
 }
@@ -943,6 +946,7 @@ Returns the data of a file from the list of files in the respective tab: audio, 
 | `data` | _Object_ |  |
 | `data.name` | _String_ | Item name |
 | `data.isDir` | _Boolean_ | Return **true** if it's a folder or **false** if it's a file. |
+| `data.properties` | _Object_ | Map with the custom information saved in the file |
 | <br>Available if **include_metadata=true** |  |  |
 | `data.length` | _Number_ | File size (bytes). Available if **isDir=false** |
 | `data.modified_time` | _String_ | File modification date. Date and time format: YYYY-MM-DD HH:MM |
@@ -957,7 +961,6 @@ Returns the data of a file from the list of files in the respective tab: audio, 
 | `data.last_executed_time_millis` | _Number_ |  |
 | <br>Available if **include_thumbnail=true** |  |  |
 | `data.thumbnail` | _String_ | Image in base64 format |
-| `data.properties` | _Object_ | Map with the custom information saved in the file |
 
 
 **Example:**
@@ -1395,6 +1398,7 @@ Request
 {
   "questions": [
     {
+      "name": "Name",
       "title": "Example 1",
       "alternatives": [
         "Example 1a",
@@ -1670,6 +1674,7 @@ Response
   "data": {
     "name": "video.mp4",
     "path": "C:\\Holyrics\\Holyrics\\files\\media\\video\\video.mp4",
+    "relative_path": "video\\video.mp4",
     "playing": false,
     "duration_ms": 321456,
     "time_ms": -1,
@@ -4638,17 +4643,30 @@ Returns the list of available versions of the Bible, and also the associated sho
 Response
 {
   "status": "ok",
-  "data": {
-    "key": "en_kjv",
-    "version": "en_kjv",
-    "title": "King James Version",
-    "language": {
-      "id": "en",
-      "iso": "en",
-      "name": "English",
-      "alt_name": "English"
+  "data": [
+    {
+      "key": "en_kjv",
+      "version": "en_kjv",
+      "title": "King James Version",
+      "language": {
+        "id": "en",
+        "iso": "en",
+        "name": "English",
+        "alt_name": "English"
+      }
+    },
+    {
+      "key": "pt_acf",
+      "version": "pt_acf",
+      "title": "Almeida Corrigida Fiel",
+      "language": {
+        "id": "pt",
+        "iso": "pt",
+        "name": "Portuguese",
+        "alt_name": "Português"
+      }
     }
-  }
+  ]
 }
 ```
 
@@ -5225,7 +5243,11 @@ Response
     "data": {
       "version": "2.22.0",
       "platform": "win",
-      "platformDescription": "Windows 10"
+      "platformDescription": "Windows 10",
+      "baseDir": "C:\\Holyrics",
+      "language": "pt",
+      "theme": "DARK_STRONG",
+      "jscVersion": "24.10.12"
     }
   }
 }

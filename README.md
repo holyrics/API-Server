@@ -680,7 +680,8 @@ Resposta
         "text": "Slide 3 line 1\nSlide 3 line 2",
         "background_id": null
       }
-    ]
+    ],
+    "extras": {}
   }
 }
 ```
@@ -875,6 +876,7 @@ Retorna a lista de arquivos da respectiva aba: áudio, vídeo, imagem, arquivo
 | `data` | _Array&lt;Object&gt;_ |  |
 | `data.*.name` | _String_ | Nome do item |
 | `data.*.isDir` | _Boolean_ | Retorna **true** se for uma pasta ou **false** se for arquivo. |
+| `data.*.properties` | _Object_ | Mapa com as propriedades customizadas definidas para o arquivo `v2.24.0+` |
 | <br>Disponível se **include_metadata=true** |  |  |
 | `data.*.length` | _Number_ | Tamanho do arquivo (bytes). Disponível se **isDir=false** `v2.22.0+` |
 | `data.*.modified_time` | _String_ | Data de modificação do arquivo. Data e hora no formato: YYYY-MM-DD HH:MM `v2.22.0+` |
@@ -889,7 +891,6 @@ Retorna a lista de arquivos da respectiva aba: áudio, vídeo, imagem, arquivo
 | `data.*.last_executed_time_millis` | _Boolean_ |  `v2.24.0+` |
 | <br>Disponível se **include_thumbnail=true** |  |  |
 | `data.*.thumbnail` | _String_ | Imagem no formato base64 `v2.22.0+` |
-| `data.*.properties` | _Object_ | Mapa com as propriedades customizadas definidas para o arquivo `v2.24.0+` |
 
 
 **Exemplo:**
@@ -906,11 +907,13 @@ Resposta
   "data": [
     {
       "name": "abcd",
-      "isDir": true
+      "isDir": true,
+      "properties": {}
     },
     {
       "name": "abcd.jpg",
-      "isDir": false
+      "isDir": false,
+      "properties": {}
     }
   ]
 }
@@ -943,6 +946,7 @@ Retorna os dados de um arquivo da lista de arquivos da respectiva aba: áudio, v
 | `data` | _Object_ |  |
 | `data.name` | _String_ | Nome do item |
 | `data.isDir` | _Boolean_ | Retorna **true** se for uma pasta ou **false** se for arquivo. |
+| `data.properties` | _Object_ | Mapa com as informações customizadas salvas no arquivo |
 | <br>Disponível se **include_metadata=true** |  |  |
 | `data.length` | _Number_ | Tamanho do arquivo (bytes). Disponível se **isDir=false** |
 | `data.modified_time` | _String_ | Data de modificação do arquivo. Data e hora no formato: YYYY-MM-DD HH:MM |
@@ -957,7 +961,6 @@ Retorna os dados de um arquivo da lista de arquivos da respectiva aba: áudio, v
 | `data.last_executed_time_millis` | _Number_ |  |
 | <br>Disponível se **include_thumbnail=true** |  |  |
 | `data.thumbnail` | _String_ | Imagem no formato base64 |
-| `data.properties` | _Object_ | Mapa com as informações customizadas salvas no arquivo |
 
 
 **Exemplo:**
@@ -1395,6 +1398,7 @@ Requisição
 {
   "questions": [
     {
+      "name": "Name",
       "title": "Example 1",
       "alternatives": [
         "Example 1a",
@@ -1670,6 +1674,7 @@ Resposta
   "data": {
     "name": "video.mp4",
     "path": "C:\\Holyrics\\Holyrics\\files\\media\\video\\video.mp4",
+    "relative_path": "video\\video.mp4",
     "playing": false,
     "duration_ms": 321456,
     "time_ms": -1,
@@ -4638,17 +4643,30 @@ Retorna a lista de versões disponíveis da Bíblia, e também dos atalhos assoc
 Resposta
 {
   "status": "ok",
-  "data": {
-    "key": "en_kjv",
-    "version": "en_kjv",
-    "title": "King James Version",
-    "language": {
-      "id": "en",
-      "iso": "en",
-      "name": "English",
-      "alt_name": "English"
+  "data": [
+    {
+      "key": "en_kjv",
+      "version": "en_kjv",
+      "title": "King James Version",
+      "language": {
+        "id": "en",
+        "iso": "en",
+        "name": "English",
+        "alt_name": "English"
+      }
+    },
+    {
+      "key": "pt_acf",
+      "version": "pt_acf",
+      "title": "Almeida Corrigida Fiel",
+      "language": {
+        "id": "pt",
+        "iso": "pt",
+        "name": "Portuguese",
+        "alt_name": "Português"
+      }
     }
-  }
+  ]
 }
 ```
 
@@ -5225,7 +5243,11 @@ Resposta
     "data": {
       "version": "2.22.0",
       "platform": "win",
-      "platformDescription": "Windows 10"
+      "platformDescription": "Windows 10",
+      "baseDir": "C:\\Holyrics",
+      "language": "pt",
+      "theme": "DARK_STRONG",
+      "jscVersion": "24.10.12"
     }
   }
 }
