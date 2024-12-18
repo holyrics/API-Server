@@ -297,6 +297,8 @@ Response
   - [ShowText](#showtext)
   - [ShowVerse](#showverse)
   - [GetAudios](#getaudios)
+  - [GetAudio](#getaudio)
+  - [SetAudioItemProperty](#setaudioitemproperty)
   - [PlayAudio](#playaudio)
   - [PlayVideo](#playvideo)
   - [ShowImage](#showimage)
@@ -310,6 +312,7 @@ Response
   - [ShowQuiz](#showquiz)
   - [QuizAction](#quizaction)
   - [GetAutomaticPresentations](#getautomaticpresentations)
+  - [GetAutomaticPresentation](#getautomaticpresentation)
   - [PlayAutomaticPresentation](#playautomaticpresentation)
   - [GetAutomaticPresentationPlayerInfo](#getautomaticpresentationplayerinfo)
   - [AutomaticPresentationPlayerAction](#automaticpresentationplayeraction)
@@ -364,6 +367,7 @@ Response
   - [LoadSavedPlaylist](#loadsavedplaylist)
   - [GetHistory](#gethistory)
   - [GetHistories](#gethistories)
+  - [GetNearestHistory](#getnearesthistory)
   - [GetTeams](#getteams)
   - [GetMembers](#getmembers)
   - [GetRoles](#getroles)
@@ -387,8 +391,11 @@ Response
   - [GetTransitionEffectSettings](#gettransitioneffectsettings)
   - [SetTransitionEffectSettings](#settransitioneffectsettings)
   - [GetBibleVersions](#getbibleversions)
+  - [GetBibleVersionsV2](#getbibleversionsv2)
   - [GetBibleSettings](#getbiblesettings)
   - [SetBibleSettings](#setbiblesettings)
+  - [GetPresentationFooterSettings](#getpresentationfootersettings)
+  - [SetPresentationFooterSettings](#setpresentationfootersettings)
   - [GetBpm](#getbpm)
   - [SetBpm](#setbpm)
   - [GetHue](#gethue)
@@ -399,9 +406,17 @@ Response
   - [GetSyncStatus](#getsyncstatus)
   - [GetInterfaceInput](#getinterfaceinput)
   - [SetInterfaceInput](#setinterfaceinput)
+  - [SelectVerse](#selectverse)
   - [OpenDrawLots](#opendrawlots)
   - [GetMediaDuration](#getmediaduration)
   - [GetVersion](#getversion)
+  - [GetRealTimeSongKey](#getrealtimesongkey)
+  - [SetRealTimeSongKey](#setrealtimesongkey)
+  - [ActionNextQuickPresentation](#actionnextquickpresentation)
+  - [ActionPreviousQuickPresentation](#actionpreviousquickpresentation)
+  - [CloseCurrentQuickPresentation](#closecurrentquickpresentation)
+  - [GetCurrentQuickPresentation](#getcurrentquickpresentation)
+  - [GetTriggers](#gettriggers)
 
 
 ---
@@ -417,6 +432,7 @@ Returns a song.
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Song ID |
+| `fields` | _String (optional)_ | Comma-separated field names. If this field is declared, only the specified fields will be returned `v2.24.0+` |
 
 
 **Response:**
@@ -466,17 +482,27 @@ Response
 
 Returns the list of songs
 
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `fields` | _String (optional)_ | Comma-separated field names. If this field is declared, only the specified fields will be returned `v2.24.0+` |
 
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_| 
 
 
 **Example:**
 ```
+Request
+{
+  "fields": "id,title,artist,author"
+}
+
 Response
 {
   "status": "ok",
@@ -527,13 +553,14 @@ Performs a search in the user's lyrics list
 | `note` | _Boolean (optional)_ |  `Default: true` |
 | `lyrics` | _Boolean (optional)_ |  `Default: false` |
 | `group` | _String (optional)_ |  |
+| `fields` | _String (optional)_ | Comma-separated field names. If this field is declared, only the specified fields will be returned `v2.24.0+` |
 
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_| 
 
 
 **Example:**
@@ -589,6 +616,7 @@ Starts a lyric show.
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
+| `initial_index` | _Number (optional)_ | Initial index of the presentation `Default: 0` `v2.23.0+` |
 
 
 _Method does not return value_
@@ -614,6 +642,7 @@ Returns a text.
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Text ID |
+| `fields` | _String (optional)_ | Comma-separated field names. If this field is declared, only the specified fields will be returned `v2.24.0+` |
 
 
 **Response:**
@@ -664,17 +693,27 @@ Response
 
 Returns the list of texts
 
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `fields` | _String (optional)_ | Comma-separated field names. If this field is declared, only the specified fields will be returned `v2.24.0+` |
 
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Text](#text)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Text](#text)&gt;_| 
 
 
 **Example:**
 ```
+Request
+{
+  "fields": "id,title,folder"
+}
+
 Response
 {
   "status": "ok",
@@ -709,13 +748,14 @@ Performs a search in the user's text list
 | ---- | :---: | ------------|
 | `input` | _String_ | Filter |
 | `text` | _String_ | Text to be searched |
+| `fields` | _String (optional)_ | Comma-separated field names. If this field is declared, only the specified fields will be returned `v2.24.0+` |
 
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_| 
 
 
 **Example:**
@@ -758,6 +798,7 @@ Starts a presentation of a text tab item.
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
+| `initial_index` | _Number (optional)_ | Initial index of the presentation `Default: 0` `v2.23.0+` |
 
 
 _Method does not return value_
@@ -776,7 +817,7 @@ Request
 ### ShowVerse
 - v2.19.0
 
-Starts a Bible verse presentation.
+Starts a Bible verse presentation.<br>Note: It is possible to display a maximum of 100 different verses in a single request.
 
 **Parameters:**
 
@@ -787,6 +828,7 @@ Starts a Bible verse presentation.
 | `ids` | _Array&lt;String&gt; (optional)_ | To display a list of verses. List with the ID of each verse.<br/>Example: ['19023001', '43003016', '45012002'] |
 | `references` | _String (optional)_ | References. Example: **John 3:16** or **Rm 12:2** or **Gn 1:1-3 Sl 23.1** |
 | `version` | _String (optional)_ | Name or abbreviation of the translation used `v2.21.0+` |
+| `quick_presentation` | _Boolean (optional)_ | `true` to display the verse through a quick presentation popup window.<br>Allows, for example, to start the presentation of a verse without ending the current presentation, returning to the current presentation when the verse presentation ends. `Default: false` `v2.24.0+` |
 
 
 _Method does not return value_
@@ -836,14 +878,18 @@ Returns the list of files from the respective tab: audio, video, image, file
 | <br>Available if **include_metadata=true** |  |  |
 | `data.*.length` | _Number_ | File size (bytes). Available if **isDir=false** `v2.22.0+` |
 | `data.*.modified_time` | _String_ | File modification date. Date and time format: YYYY-MM-DD HH:MM `v2.22.0+` |
+| `data.*.modified_time_millis` | _String_ | File modification date. (timestamp) `v2.24.0+` |
 | `data.*.duration_ms` | _Number_ | File duration. Available if the file is: audio or vídeo `v2.22.0+` |
 | `data.*.width` | _Number_ | Width. Available if the file is: imagem or vídeo `v2.22.0+` |
 | `data.*.height` | _Number_ | Height. Available if the file is: imagem or vídeo `v2.22.0+` |
 | `data.*.position` | _String_ | Image adjustment. Available for images. Can be: `adjust` `extend` `fill` `v2.22.0+` |
 | `data.*.blur` | _Boolean_ | Apply blur effect `v2.22.0+` |
 | `data.*.transparent` | _Boolean_ | Display images with transparency `v2.22.0+` |
+| `data.*.last_executed_time` | _Boolean_ | Date of the last execution of the file. Date and time format: YYYY-MM-DD HH:MM `v2.24.0+` |
+| `data.*.last_executed_time_millis` | _Boolean_ |  `v2.24.0+` |
 | <br>Available if **include_thumbnail=true** |  |  |
 | `data.*.thumbnail` | _String_ | Image in base64 format `v2.22.0+` |
+| `data.*.properties` | _Object_ | Map with the custom properties defined for the file `v2.24.0+` |
 
 
 **Example:**
@@ -867,6 +913,114 @@ Response
       "isDir": false
     }
   ]
+}
+```
+
+
+---
+
+### GetAudio
+### GetVideo
+### GetImage
+### GetFile
+- v2.24.0
+
+Returns the data of a file from the list of files in the respective tab: audio, video, image, file
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `name` | _String_ | File name (including subfolder) |
+| `include_metadata` | _Boolean (optional)_ | Add metadata to the response `Default: false` |
+| `include_thumbnail` | _Boolean (optional)_ | Add thumbnail to response (80x45) `Default: false` |
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Object_ |  |
+| `data.name` | _String_ | Item name |
+| `data.isDir` | _Boolean_ | Return **true** if it's a folder or **false** if it's a file. |
+| <br>Available if **include_metadata=true** |  |  |
+| `data.length` | _Number_ | File size (bytes). Available if **isDir=false** |
+| `data.modified_time` | _String_ | File modification date. Date and time format: YYYY-MM-DD HH:MM |
+| `data.modified_time_millis` | _Number_ | File modification date. (timestamp) |
+| `data.duration_ms` | _Number_ | File duration. Available if the file is: audio or vídeo |
+| `data.width` | _Number_ | Width. Available if the file is: imagem or vídeo |
+| `data.height` | _Number_ | Height. Available if the file is: imagem or vídeo |
+| `data.position` | _String_ | Image adjustment. Available for images. Can be: `adjust` `extend` `fill` |
+| `data.blur` | _Boolean_ | Apply blur effect |
+| `data.transparent` | _Boolean_ | Display images with transparency |
+| `data.last_executed_time` | _String_ | Date of the last execution of the file. Date and time format: YYYY-MM-DD HH:MM |
+| `data.last_executed_time_millis` | _Number_ |  |
+| <br>Available if **include_thumbnail=true** |  |  |
+| `data.thumbnail` | _String_ | Image in base64 format |
+| `data.properties` | _Object_ | Map with the custom information saved in the file |
+
+
+**Example:**
+```
+Request
+{
+  "name": "filename.mp3",
+  "include_metadata": true
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "name": "",
+    "isDir": false,
+    "length": 0,
+    "modified_time": "",
+    "modified_time_millis": 0,
+    "duration_ms": 0,
+    "width": 0,
+    "height": 0,
+    "position": "",
+    "blur": false,
+    "transparent": false,
+    "last_executed_time": "",
+    "last_executed_time_millis": 0,
+    "properties": {}
+  }
+}
+```
+
+
+---
+
+### SetAudioItemProperty
+### SetVideoItemProperty
+### SetImageItemProperty
+### SetFileItemProperty
+- v2.24.0
+
+Changes the custom information of a file
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `name` | _String_ | File name (including subfolder) |
+| `properties` | _Object_ | Key/value map with the information that will be changed. The passed values will be MERGED with the existing values. That is, it is not necessary to send parameters that will not be changed (or removed). |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "name": "filename.mp3",
+  "properties": {
+    "key": "value 1",
+    "abc": "value 2",
+    "example": "value 3"
+  }
 }
 ```
 
@@ -935,7 +1089,7 @@ Displays an image or a list of images (folder)
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `file` | _String_ | File or folder name. Example: **file.jpg** or **folder** or **folder/file.jpg** |
-| `automatic` | _[Automatic](#automatic-presentation) (optional)_ | If informed, the presentation of the items will be automatic |
+| `automatic` | _[Automatic](#automatic) (optional)_ | If informed, the presentation of the items will be automatic |
 
 
 _Method does not return value_
@@ -954,7 +1108,7 @@ Request
 ### ExecuteFile
 - v2.21.0
 
-Execute a file. Available only for safe extensions, such as audio, video, image, documents, etc.
+Executes a file. Only safe extensions or those added to the exception list.
 
 **Parameters:**
 
@@ -993,9 +1147,9 @@ Checks if there is a file with the informed name
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Boolean_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Boolean_| 
 
 
 **Example:**
@@ -1028,7 +1182,7 @@ Displays an announcement or a list of announcements
 | `ids` | _Array&lt;String&gt; (optional)_ | List with the ID of each announcement |
 | `name` | _String (optional)_ | Announcement name |
 | `names` | _Array&lt;String&gt; (optional)_ | List with the name of each announcement |
-| `automatic` | _[Automatic](#automatic-presentation) (optional)_ | If informed, the presentation of the items will be automatic |
+| `automatic` | _[Automatic](#automatic) (optional)_ | If informed, the presentation of the items will be automatic |
 
 
 _Method does not return value_
@@ -1060,9 +1214,9 @@ List of custom messages
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[CustomMessage](#custom-message)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[CustomMessage](#custom-message)&gt;_| 
 
 
 **Example:**
@@ -1162,13 +1316,12 @@ Quick display of text
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `text` | _String_ | Text to be displayed. [Styled Text](#styled-text) from v2.19.0 |
-| `theme` | _Object (optional)_ | Filter selected theme for display |
-| `theme.id` | _String (optional)_ | Theme ID |
-| `theme.name` | _String (optional)_ | Theme name |
-| `theme.edit` | _[Theme](#theme) (optional)_ | Settings to modify the selected Theme for display `v2.21.0+` |
+| `text` | _String_ | Text to be displayed. [Styled Text](#styled-text) from v2.19.0<br>Optional if `slides` is declared |
+| `slides` | _Array&lt;[QuickPresentationSlide](#quick-presentation-slide)&gt;_ | Alternative parameter for more complex presentations<br>Optional if `text` is declared `v2.23.0+` |
+| `theme` | _[ThemeFilter](#theme-filter) (optional)_ | Filter selected theme for display |
 | `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme used to display the text `v2.21.0+` |
-| `automatic` | _[Automatic](#automatic-presentation) (optional)_ | If informed, the presentation of the items will be automatic |
+| `automatic` | _[Automatic](#automatic) (optional)_ | If informed, the presentation of the items will be automatic |
+| `initial_index` | _Number (optional)_ | Initial index of the presentation `Default: 0` `v2.23.0+` |
 
 
 _Method does not return value_
@@ -1338,6 +1491,49 @@ Response
 
 ---
 
+### GetAutomaticPresentation
+### GetAP
+- v2.21.0
+
+Returns an automatic presentation
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `file` | _String_ | File name. Example: **file.ap** |
+
+
+**Response:**
+
+| Name | Type  |
+| ---- | :---: |
+| `data` | _[AutomaticPresentation](#automatic-presentation)_| 
+
+
+**Example:**
+```
+Request
+{
+  "file": "filename.ap"
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "name": "filename.ap",
+    "duration": 300000,
+    "starts_with": "title",
+    "song": {},
+    "timeline": []
+  }
+}
+```
+
+
+---
+
 ### PlayAutomaticPresentation
 ### PlayAP
 - v2.19.0
@@ -1452,6 +1648,7 @@ Returns player information
 | ---- | :---: | ------------|
 | `data.name` | _String_ | Name of current media in player |
 | `data.path` | _String_ | Full path of media in player |
+| `data.relative_path` | _String_ | Relative path of the media in the player. Can be null. `v2.24.0+` |
 | `data.playing` | _Boolean_ | Checks if the player is running |
 | `data.duration_ms` | _Number_ | Total time in milliseconds |
 | `data.time_ms` | _Number_ | Current media time in milliseconds |
@@ -1539,9 +1736,9 @@ Lyrics playlist
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Lyrics](#lyrics)&gt;_| 
 
 
 **Example:**
@@ -1694,9 +1891,9 @@ Media playlist
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Item](#item)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Item](#item)&gt;_| 
 
 
 **Example:**
@@ -1732,7 +1929,7 @@ Change a media playlist item
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `index` | _Number_ | Index of the item in the list |
-| `item` | _[AddItem](#additem)_ | New item |
+| `item` | _[AddItem](#add-item)_ | New item |
 
 
 _Method does not return value_
@@ -1786,9 +1983,9 @@ Returns the next song in the playlist. Can be null
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _[Lyrics](#lyrics)_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _[Lyrics](#lyrics)_| 
 
 
 **Example:**
@@ -1823,9 +2020,9 @@ Returns the next executable item from the media playlist. Can be null
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _[Item](#item)_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _[Item](#item)_| 
 
 
 **Example:**
@@ -1879,9 +2076,9 @@ Returns the previous song in the playlist. Can be null
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _[Lyrics](#lyrics)_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _[Lyrics](#lyrics)_| 
 
 
 **Example:**
@@ -1916,9 +2113,9 @@ Returns the previous executable item from the media playlist. Can be null
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _[Item](#item)_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _[Item](#item)_| 
 
 
 **Example:**
@@ -1972,7 +2169,7 @@ Add items to the media playlist
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `items` | _Array&lt;[AddItem](#additem)&gt;_ | List with the items that will be added |
+| `items` | _Array&lt;[AddItem](#add-item)&gt;_ | List with the items that will be added |
 | `index` | _Number (optional)_ | Position in the list where the item will be added (starts at zero). Items are added to the end of the list by default. `Default: -1` |
 | `ignore_duplicates` | _Boolean (optional)_ | Do not duplicate items when adding new items, that is, do not add an item if it is already on the list. `Default: false` |
 
@@ -2168,9 +2365,9 @@ List of available slide descriptions
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[SlideDescription](#slide-description)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[SlideDescription](#slide-description)&gt;_| 
 
 
 **Example:**
@@ -2209,9 +2406,9 @@ Favorites bar items
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[FavoriteItem](#favorite-item)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[FavoriteItem](#favorite-item)&gt;_| 
 
 
 **Example:**
@@ -2391,7 +2588,9 @@ Request
 ### ApiRequest
 - v2.19.0
 
-Executes a request to the associated receiver and returns the receiver's response.
+Executes a request to the associated receiver and returns the receiver's response.<br>
+From `v2.23.0` it is possible to pass the host or IP directly, but it is necessary to add the host/IP to the list of allowed requests.<br>
+file menu > settings > advanced > javascript > settings > allowed requests
 
 **Parameters:**
 
@@ -2443,7 +2642,7 @@ Item currently being presented or **null** if no presentation is being displayed
 | `include_slides` | _Boolean (optional)_ | Return the list of slides from the current presentation. Unavailable for verse presentation. `Default: false` `v2.21.0+` |
 | `include_slide_comment` | _Boolean (optional)_ | Include comments (if any) in the slide text. Available if **include_slides=true**. `Default: false` `v2.21.0+` |
 | `include_slide_preview` | _Boolean (optional)_ | Include slide preview image. Available if **include_slides=true**. `Default: false` `v2.21.0+` |
-| `lide_preview_size` | _String (optional)_ | Preview size in WxH format (ex. 320x180). (max 640x360)<br>Available if **include_slide_preview=true** `Default: false` `v2.21.0+` |
+| `slide_preview_size` | _String (optional)_ | Preview size in WxH format (ex. 320x180). (max 640x360)<br>Available if **include_slide_preview=true** `Default: false` `v2.21.0+` |
 
 
 **Response:**
@@ -2730,9 +2929,9 @@ List of themes and backgrounds
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Background](#background)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Background](#background)&gt;_| 
 
 
 **Example:**
@@ -2872,7 +3071,7 @@ Response
 ### GetColorMap
 - v2.20.0
 
-Returns the information of the predominant color of a respective type of item<br/>The returned array contains 8 indices, and each index corresponds to the section according to the following example image.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>
+Returns the information of the predominant color of a respective type of item.<br/>The returned array contains 8 indices, and each index corresponds to the section according to the following example image.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>
 
 **Parameters:**
 
@@ -2888,9 +3087,9 @@ Returns the information of the predominant color of a respective type of item<br
 | ---- | :---: | ------------|
 | `data` | _Array&lt;Object&gt;_ |  |
 | `data.*.hex` | _String_ | Color in hexadecimal format |
-| `data.*.red` | _Number_ | Red  0-255 |
-| `data.*.green` | _Number_ | Green  0-255 |
-| `data.*.blue` | _Number_ | Blue  0-255 |
+| `data.*.red` | _Number_ | Red  `0 ~ 255` |
+| `data.*.green` | _Number_ | Green  `0 ~ 255` |
+| `data.*.blue` | _Number_ | Blue  `0 ~ 255` |
 
 
 **Example:**
@@ -2989,17 +3188,26 @@ Request
 
 Current schedule (selected in the main program window)
 
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `include_lyrics_slides` | _Boolean (optional)_ |  `v2.24.0+` |
+| `include_lyrics_history` | _Boolean (optional)_ |  `v2.24.0+` |
 
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Schedule](#schedule)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Schedule](#schedule)&gt;_| 
 
 
 **Example:**
 ```
+Request
+{}
+
 Response
 {
   "status": "ok",
@@ -3066,9 +3274,9 @@ Returns the schedule list for a specific month
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Schedule](#schedule)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Schedule](#schedule)&gt;_| 
 
 
 **Example:**
@@ -3243,6 +3451,7 @@ Request
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Song lyric ID |
+| `in_millis` | _Boolean (optional)_ | `true` to return the value in Timestamp `v2.24.0+` |
 
 
 **Response:**
@@ -3278,6 +3487,11 @@ Response
 
 History of all tags for "Music played"
 
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `in_millis` | _Boolean (optional)_ | `true` to return the value in Timestamp `v2.24.0+` |
 
 
 **Response:**
@@ -3291,6 +3505,9 @@ History of all tags for "Music played"
 
 **Example:**
 ```
+Request
+{}
+
 Response
 {
   "status": "ok",
@@ -3318,6 +3535,51 @@ Response
 
 ---
 
+### GetNearestHistory
+- v2.24.0
+
+Gets the date of the "Song played" history closest to a date and time passed as a parameter (or the current system date and time)
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Song lyric ID |
+| `datetime` | _String (optional)_ | Accepted formats: `timestamp` `YYYY-MM-DD` `YYYY/MM/DD` `YYYY-MM-DD HH:MM:SS` `YYYY/MM/DD HH:MM:SS` `DD-MM-YYYY` `DD/MM/YYYY` `DD-MM-YYYY HH:MM:SS` `DD/MM/YYYY HH:MM:SS` `Default: Date.now()` |
+| `type` | _String (optional)_ | Search filter. Can be:<br>`any` any value closest to the specified date<br>`before_datetime` The closest value that is earlier than or equal to the specified date (value <= datetime)<br>`after_datetime` The closest value that is equal to or later than the specified date (value >= datetime) `Default: any` |
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Object_ | Can be null |
+| `data.datetime` | _String_ | Date and time in format: YYYY-MM-DD HH:MM |
+| `data.datetime_millis` | _Number_ | Timestamp |
+
+
+**Example:**
+```
+Request
+{
+  "id": "123",
+  "datetime": "2024-12-16",
+  "type": "after_datetime"
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "datetime": "2024-12-16 19:30:00",
+    "datetime_millis": 1734388200000
+  }
+}
+```
+
+
+---
+
 ### GetTeams
 - v2.22.0
 
@@ -3327,9 +3589,9 @@ Team list
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Team](#team)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Team](#team)&gt;_| 
 
 
 **Example:**
@@ -3364,9 +3626,9 @@ List of members
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Member](#member)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Member](#member)&gt;_| 
 
 
 **Example:**
@@ -3399,9 +3661,9 @@ List of functions
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Role](#role)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Role](#role)&gt;_| 
 
 
 **Example:**
@@ -3434,9 +3696,9 @@ Service list
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Service](#service)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Service](#service)&gt;_| 
 
 
 **Example:**
@@ -3486,9 +3748,9 @@ Event list
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Event](#event)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Event](#event)&gt;_| 
 
 
 **Example:**
@@ -3535,9 +3797,9 @@ Announcement
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _[Announcement](#announcement)_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _[Announcement](#announcement)_| 
 
 
 **Example:**
@@ -3571,9 +3833,9 @@ Announcement list
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[Announcement](#announcement)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Announcement](#announcement)&gt;_| 
 
 
 **Example:**
@@ -3623,7 +3885,7 @@ Current communication panel configuration
 | `data.countdown_time` | _Number_ | The current countdown time displayed (in seconds) |
 | `data.stopwatch_show` | _Boolean_ | If a timer is on display `v2.20.0+` |
 | `data.stopwatch_time` | _Number_ | The current time of the timer on display (in seconds) `v2.20.0+` |
-| `data.theme` | _Number_ | Theme ID `v2.20.0+` |
+| `data.theme` | _String_ | Theme ID `v2.20.0+` |
 | `data.countdown_font_relative_size` | _Number_ | Relative size of the countdown `v2.20.0+` |
 | `data.countdown_font_color` | _String_ | Color of the countdown font `v2.20.0+` |
 | `data.stopwatch_font_color` | _String_ | Color of the stopwatch font `v2.20.0+` |
@@ -3633,6 +3895,8 @@ Current communication panel configuration
 | `data.countdown_display_location` | _String_ | Location of the countdown or stopwatch display. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` `v2.20.0+` |
 | `data.display_clock_with_countdown_fullscreen` | _Boolean_ | Display clock along with the countdown or stopwatch when displayed in full screen `v2.20.0+` |
 | `data.display_vlc_player_remaining_time` | _Boolean_ | Display remaining time of the media playing in VLC Player `v2.20.0+` |
+| `data.attention_icon_color` | _String_ | Icon color of the **Attention** button `v2.23.0+` |
+| `data.attention_background_color` | _String_ | Background color of the **Attention** button icon `v2.23.0+` |
 
 
 **Example:**
@@ -3683,6 +3947,8 @@ Change the current setting of the communication panel
 | `countdown_display_location` | _String (optional)_ | Location of the countdown or stopwatch display. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` |
 | `display_clock_with_countdown_fullscreen` | _Boolean (optional)_ | Display clock along with the countdown or stopwatch when displayed in full screen |
 | `display_vlc_player_remaining_time` | _Boolean (optional)_ | Display remaining time of the media playing in VLC Player |
+| `attention_icon_color` | _String (optional)_ | Icon color of the **Attention** button `v2.23.0+` |
+| `attention_background_color` | _String (optional)_ | Background color of the **Attention** button icon `v2.23.0+` |
 
 
 _Method does not return value_
@@ -3713,6 +3979,8 @@ Starts a countdown on the communication panel
 | `seconds` | _Number_ | Number of seconds |
 | `yellow_starts_at` | _Number (optional)_ | Value in seconds to define how long the countdown will be yellow from |
 | `stop_at_zero` | _Boolean (optional)_ | Stop the countdown when it reaches zero `Default: false` |
+| `text` | _String (optional)_ | Text for display. By default, the text is displayed before the numeric part. For special formatting, use the variable `@cp_countdown` in the middle of the text to indicate the location of the numeric part. `v2.24.0+` |
+| `alert_text` | _String (optional)_ | Alternative text to be displayed when the display is in the alert. By default, the text is displayed before the numeric part. For special formatting, use the variable `@cp_countdown` in the middle of the text to indicate the location of the numeric part. `v2.24.0+` |
 
 
 _Method does not return value_
@@ -3751,10 +4019,21 @@ _Method does not return value_
 
 Start a stopwatch on the communication panel
 
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `text` | _String (optional)_ | Text for display. By default, the text is displayed before the numeric part. For special formatting, use the variable `@cp_countdown` in the middle of the text to indicate the location of the numeric part. `v2.24.0+` |
+| `alert_text` | _String (optional)_ | Alternative text to be displayed when the display is in the alert. By default, the text is displayed before the numeric part. For special formatting, use the variable `@cp_countdown` in the middle of the text to indicate the location of the numeric part. `v2.24.0+` |
 
 
 _Method does not return value_
 
+**Example:**
+```
+Request
+{}
+```
 
 
 ---
@@ -3864,6 +4143,10 @@ Wallpaper settings
 | `data.extend` | _Boolean_ | `deprecated` Replaced for `adjust_type`<br>Extend wallpaper |
 | `data.adjust_type` | _String_ | Image adjustment: Can be: `ADJUST` `EXTEND` `FILL` `ADJUST_BLUR` `v2.22.0+` |
 | `data.show_clock` | _Boolean_ | Show clock |
+| `data.by_screen` | _Object_ | Independent configuration per screen `v2.23.0+` |
+| `data.by_screen.default` | _[WallpaperSettings](#wallpaper-settings)_ | Default configuration `v2.23.0+` |
+| `data.by_screen.public` | _[WallpaperSettings](#wallpaper-settings)_ | Custom configuration for the screen or **null** if using the default configuration `v2.23.0+` |
+| `data.by_screen.screen_n` | _[WallpaperSettings](#wallpaper-settings)_ | n >= 2  `v2.23.0+` |
 
 
 **Example:**
@@ -3897,8 +4180,12 @@ Change wallpaper settings
 | `enabled` | _Boolean (optional)_ | Show wallpaper |
 | `fill_color` | _String (optional)_ | Color in hexadecimal defined in the **fill** option. **NULL** to disable |
 | `extend` | _Boolean (optional)_ | `deprecated` Replaced for `adjust_type`<br>Extend wallpaper |
-| `data.adjust_type` | _String_ | Image adjustment: Can be: `ADJUST` `EXTEND` `FILL` `ADJUST_BLUR` `v2.22.0+` |
+| `adjust_type` | _String_ | Image adjustment: Can be: `ADJUST` `EXTEND` `FILL` `ADJUST_BLUR` `v2.22.0+` |
 | `show_clock` | _Boolean (optional)_ | Show clock |
+| `by_screen` | _Object (optional)_ | Independent configuration per screen `v2.23.0+` |
+| `by_screen.default` | _[WallpaperSettings](#wallpaper-settings) (optional)_ | Default configuration `v2.23.0+` |
+| `by_screen.public` | _[WallpaperSettings](#wallpaper-settings) (optional)_ | Custom configuration for the screen or **null** if using the default configuration `v2.23.0+` |
+| `by_screen.screen_n` | _[WallpaperSettings](#wallpaper-settings) (optional)_ | n >= 2 `v2.23.0+` |
 
 
 **Response:**
@@ -3938,9 +4225,9 @@ List of display settings for each screen
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _Array&lt;[DisplaySettings](#display-settings)&gt;_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[DisplaySettings](#display-settings)&gt;_| 
 
 
 **Example:**
@@ -4193,10 +4480,10 @@ List of transition effect configuration
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `music` | _[TransitionEffectSettings](#transition-effect-settings)_ |  |
-| `bible` | _[TransitionEffectSettings](#transition-effect-settings)_ |  |
-| `image` | _[TransitionEffectSettings](#transition-effect-settings)_ |  |
-| `announcement` | _[TransitionEffectSettings](#transition-effect-settings)_ |  |
+| `music` | _Array&lt;[TransitionEffectSettings](#transition-effect-settings)&gt;_ |  |
+| `bible` | _Array&lt;[TransitionEffectSettings](#transition-effect-settings)&gt;_ |  |
+| `image` | _Array&lt;[TransitionEffectSettings](#transition-effect-settings)&gt;_ |  |
+| `announcement` | _Array&lt;[TransitionEffectSettings](#transition-effect-settings)&gt;_ |  |
 
 
 **Example:**
@@ -4279,7 +4566,7 @@ Response
 ### GetBibleVersions
 - v2.21.0
 
-Returns the list of available versions of the Bible, and also the associated shortcuts
+`deprecated` Replaced for: hly('GetBibleVersionsV2')<br>Returns the list of available versions of the Bible, and also the associated shortcuts
 
 
 
@@ -4287,10 +4574,15 @@ Returns the list of available versions of the Bible, and also the associated sho
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `data` | _Object_ |  |
+| `data` | _Array&lt;Object&gt;_ |  |
 | `data.*.key` | _String_ | Abbreviation of the version or the name of the shortcut, if it starts with '#shortcut ' |
 | `data.*.title` | _String_ | Version name |
 | `data.*.version` | _String (optional)_ | Abbreviation of the version. Available if the item is a shortcut, that is if 'key' starts with '#shortcut ' |
+| `data.*.language` | _Object_ | Language `v2.24.0+` |
+| `data.*.language.id` | _String_ | Item ID `v2.24.0+` |
+| `data.*.language.iso` | _String_ | ISO 639 two-letter language code `v2.24.0+` |
+| `data.*.language.name` | _String_ | Name in English `v2.24.0+` |
+| `data.*.language.alt_name` | _String_ | Name in the language defined in `language`. Can be null. `v2.24.0+` |
 
 
 **Example:**
@@ -4319,6 +4611,50 @@ Response
 
 ---
 
+### GetBibleVersionsV2
+- v2.23.0
+
+Returns the list of available versions of the Bible, and also the associated shortcuts
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;Object&gt;_ |  |
+| `data.*.key` | _String_ | Item ID |
+| `data.*.version` | _String_ | Bible version ID |
+| `data.*.title` | _String_ | Version name or shortcut name |
+| `data.*.language` | _Object_ | Language `v2.24.0+` |
+| `data.*.language.id` | _String_ | Item ID `v2.24.0+` |
+| `data.*.language.iso` | _String_ | ISO 639 two-letter language code `v2.24.0+` |
+| `data.*.language.name` | _String_ | Name in English `v2.24.0+` |
+| `data.*.language.alt_name` | _String_ | Name in the language defined in `language`. Can be null. `v2.24.0+` |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": {
+    "key": "en_kjv",
+    "version": "en_kjv",
+    "title": "King James Version",
+    "language": {
+      "id": "en",
+      "iso": "en",
+      "name": "English",
+      "alt_name": "English"
+    }
+  }
+}
+```
+
+
+---
+
 ### GetBibleSettings
 - v2.21.0
 
@@ -4328,9 +4664,9 @@ Bible module settings
 
 **Response:**
 
-| Name | Type  | Description |
-| ---- | :---: | ------------|
-| `data` | _[BibleSettings](#bible-settings)_ |  |
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[BibleSettings](#bible-settings)&gt;_| 
 
 
 **Example:**
@@ -4402,6 +4738,78 @@ Response
 {
   "status": "ok",
   "data": true
+}
+```
+
+
+---
+
+### GetPresentationFooterSettings
+- v2.23.0
+
+Presentation footer settings
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data.rows` | _Number_ | Number of lines. `1 ~ 4` |
+| `data.preview_mode` | _String_ | Accepted values: `text` `image` |
+| `data.minimized` | _Boolean_ |  |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": {
+    "rows": 2,
+    "preview_mode": "text",
+    "minimized": false
+  }
+}
+```
+
+
+---
+
+### SetPresentationFooterSettings
+- v2.23.0
+
+Change the presentation footer settings
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `rows` | _Number_ | Number of lines. `1 ~ 4` |
+| `preview_mode` | _String_ | Accepted values: `text` `image` |
+| `minimized` | _Boolean_ |  |
+
+
+**Response:**
+
+| Type  | Description |
+| :---: | ------------|
+| _Object_ | Return **true** or a list of errors that occurred |
+
+
+**Example:**
+```
+Request
+{
+  "rows": 2,
+  "preview_mode": "text",
+  "minimized": false
+}
+
+Response
+{
+  "status": "ok",
+  "data": {}
 }
 ```
 
@@ -4687,6 +5095,32 @@ Request
 
 ---
 
+### SelectVerse
+- v2.21.0
+
+Selects a verse in the Bible window
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String (optional)_ | Verse ID |
+| `reference` | _String (optional)_ | Verse reference |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "id": "43003016"
+}
+```
+
+
+---
+
 ### OpenDrawLots
 - v2.21.0
 
@@ -4776,6 +5210,10 @@ Returns information about the version of the running program
 | `data.version` | _String_ | Program version |
 | `data.platform` | _String_ | Operational system. Can be: `win` `uni` `osx` |
 | `data.platformDescription` | _String_ | Detailed operating system name |
+| `data.baseDir` | _String_ |  `v2.24.0+` |
+| `data.language` | _String_ |  `v2.24.0+` |
+| `data.theme` | _String_ | One of the following values: `DEFAULT` `DARK_SOFT` `DARK_MEDIUM` `DARK_STRONG` `v2.24.0+` |
+| `data.jscVersion` | _String_ | JS Community Version y.m.d `v2.24.0+` |
 
 
 **Example:**
@@ -4790,6 +5228,212 @@ Response
       "platformDescription": "Windows 10"
     }
   }
+}
+```
+
+
+---
+
+### GetRealTimeSongKey
+- v2.24.0
+
+
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Song ID |
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data.key` | _String_ | `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
+
+
+**Example:**
+```
+Request
+{
+  "id": "123"
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "key": "Em"
+  }
+}
+```
+
+
+---
+
+### SetRealTimeSongKey
+- v2.24.0
+
+
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Song ID |
+| `key` | _String_ | `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "id": "123",
+  "key": "Am"
+}
+```
+
+
+---
+
+### ActionNextQuickPresentation
+- v2.24.0
+
+
+
+
+
+_Method does not return value_
+
+
+
+---
+
+### ActionPreviousQuickPresentation
+- v2.24.0
+
+
+
+
+
+_Method does not return value_
+
+
+
+---
+
+### CloseCurrentQuickPresentation
+- v2.24.0
+
+
+
+
+
+_Method does not return value_
+
+
+
+---
+
+### GetCurrentQuickPresentation
+- v2.24.0
+
+
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data.id` | _String_ | Current verse ID |
+| `data.slide_number` | _Number_ | Starts at 1 |
+| `data.total_slides` | _Number_ | Total verses |
+| `data.slide_type` | _String_ | One of the following values: `default`  `wallpaper`  `blank`  `black`  `final_slide` |
+| `data.slides` | _Array&lt;Object&gt;_ | List of verses from the current presentation |
+| `data.slides.*.number` | _Number_ | Slide number. Starts at 1. |
+| `data.slides.*.reference` | _String_ | Verse reference. Example: **John 3:16** |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": {
+    "id": "43003016",
+    "slide_number": 1,
+    "total_slides": 3,
+    "slide_type": "default",
+    "slides": [
+      {
+        "number": 1,
+        "reference": "43003016"
+      },
+      {
+        "number": 2,
+        "reference": "43003017"
+      },
+      {
+        "number": 3,
+        "reference": "43003018"
+      }
+    ]
+  }
+}
+```
+
+
+---
+
+### GetTriggers
+- v2.24.0
+
+Returns the list of saved triggers
+
+
+
+**Response:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;Object&gt;_ |  |
+| `data.*.id` | _String_ | Item ID |
+| `data.*.enabled` | _Boolean_ |  |
+| `data.*.when` | _String_ | Can be: `displaying` `closing` `change` `event` |
+| `data.*.type` | _String_ | Type of item. Can be:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` |
+| `data.*.item.title` | _String_ |  |
+| `data.*.item.reference` | _Object_ |  |
+| `data.*.receiver.type` | _String_ | Can be: `get` `post` `ws` `tcp` `udp` `midi` `javascript` `community` `multiple_actions` `obs_v4` `obs_v5` `lumikit` `vmix` `osc` `soundcraft` `ha` `ptz` `tbot` `openai` |
+| `data.*.description` | _String_ |  |
+| `data.*.tags` | _Array&lt;String&gt;_ |  |
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "xyz",
+      "enabled": true,
+      "when": "displaying",
+      "type": "any_song",
+      "item": {
+        "title": "",
+        "reference": {}
+      },
+      "receiver": {
+        "type": "obs_v5"
+      },
+      "description": "",
+      "tags": []
+    }
+  ]
 }
 ```
 
@@ -4851,8 +5495,8 @@ function request(action, headers, content, info) {
 | `copyright` | _String_ | Music copyright |
 | `slides` | _Array&lt;Object&gt;_ |  `v2.21.0+` |
 | `slides.*.text` | _String_ | Slide text `v2.21.0+` |
-| `slides.*.slide_description` | _Number_ | Slide description `v2.21.1+` |
-| `slides.*.background_id` | _Number_ | ID of the theme or background saved for the slide `v2.21.0+` |
+| `slides.*.slide_description` | _String_ | Slide description `v2.21.1+` |
+| `slides.*.background_id` | _String_ | ID of the theme or background saved for the slide `v2.21.0+` |
 | `order` | _String_ | Order of slides (index from 1), separated by comma `v2.21.0+` |
 | `key` | _String_ | Tone of music.<br>Can be: `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
 | `bpm` | _Number_ | BPM of the song |
@@ -4886,18 +5530,24 @@ function request(action, headers, content, info) {
   "slides": [
     {
       "text": "Slide 1 line 1\nSlide 1 line 2",
+      "styled_text": "Slide 1 line 1\nSlide 1 line 2",
       "slide_description": "Verse 1",
-      "background_id": null
+      "background_id": null,
+      "translations": null
     },
     {
       "text": "Slide 2 line 1\nSlide 2 line 2",
+      "styled_text": "Slide 2 line 1\nSlide 2 line 2",
       "slide_description": "Chorus",
-      "background_id": null
+      "background_id": null,
+      "translations": null
     },
     {
       "text": "Slide 3 line 1\nSlide 3 line 2",
+      "styled_text": "Slide 3 line 1\nSlide 3 line 2",
       "slide_description": "Verse 3",
-      "background_id": null
+      "background_id": null,
+      "translations": null
     }
   ],
   "order": "1,2,3,2,2",
@@ -4936,7 +5586,8 @@ function request(action, headers, content, info) {
 | `theme` | _String_ | ID of the theme saved for the text |
 | `slides` | _Array&lt;Object&gt;_ |  |
 | `slides.*.text` | _String_ | Slide text |
-| `slides.*.background_id` | _Number_ | ID of the theme or background saved for the slide |
+| `slides.*.background_id` | _String_ | ID of the theme or background saved for the slide |
+| `extras` | _Object_ | Map of extra objects (added by the user) `v2.24.0+` |
 <details>
   <summary>See example</summary>
 
@@ -4949,17 +5600,24 @@ function request(action, headers, content, info) {
   "slides": [
     {
       "text": "Slide 1 line 1\nSlide 1 line 2",
-      "background_id": null
+      "styled_text": "Slide 1 line 1\nSlide 1 line 2",
+      "background_id": null,
+      "translations": null
     },
     {
       "text": "Slide 2 line 1\nSlide 2 line 2",
-      "background_id": null
+      "styled_text": "Slide 2 line 1\nSlide 2 line 2",
+      "background_id": null,
+      "translations": null
     },
     {
       "text": "Slide 3 line 1\nSlide 3 line 2",
-      "background_id": null
+      "styled_text": "Slide 3 line 1\nSlide 3 line 2",
+      "background_id": null,
+      "translations": null
     }
-  ]
+  ],
+  "extras": {}
 }
 ```
 </details>
@@ -5306,6 +5964,19 @@ function request(action, headers, content, info) {
 ## Automatic Presentation
 | Name | Type  | Description |
 | ---- | :---: | ------------|
+| `name` | _String_ | Item name |
+| `duration` | _Number_ | Duration in milliseconds |
+| `starts_with` | _String_ | Accepted values: `title` `blank` |
+| `song` | _[Lyrics](#lyrics)_ |  |
+| `timeline` | _Array&lt;Object&gt;_ | Information about the start and duration of each slide in the presentation |
+| `timeline.*.number` | _Number_ | number >= 0 |
+| `timeline.*.start` | _Number_ | Start time of the presentation in milliseconds |
+| `timeline.*.end` | _Number_ | End time of the presentation in milliseconds |
+| `timeline.*.duration` | _Number_ | Duration in milliseconds |
+
+## Automatic
+| Name | Type  | Description |
+| ---- | :---: | ------------|
 | `seconds` | _Number_ | Time each item will be displayed |
 | `repeat` | _Boolean_ | **true** to keep repeating the presentation (go back to the first item after the last one) |
 
@@ -5318,17 +5989,15 @@ function request(action, headers, content, info) {
 | `slide_description` | _String (optional)_ | Slide description name. Available if it is a music presentation. |
 | `preview` | _String (optional)_ | Image in base64 format |
 
-## Input Param
-Uses the same structure/syntax as the FunctionInput feature [documentation](https://github.com/holyrics/Scripts/blob/main/FunctionInput.md#syntax)
-
-
 ## Trigger Item
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String (optional)_ | Item ID |
-| `when` | _String_ | `displaying` `closing` `change` |
-| `item` | _String_ | Type of item. Can be:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` |
+| `when` | _String_ | `displaying` `closing` `change` `event` |
+| `item` | _String_ | Type of item. Can be:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` |
 | `action` | _Function_ | Action to be executed |
+| `name` | _String (optional)_ | Item name. Compatible value for display in **JavaScript Monitor** `v2.23.0+` |
+| `filter` | _Object (optional)_ | Execute action only if the object that triggered the event matches the filter object `v2.24.0+` |
 <details>
   <summary>See example</summary>
 
@@ -5337,7 +6006,9 @@ Uses the same structure/syntax as the FunctionInput feature [documentation](http
   "id": "",
   "when": "displaying",
   "item": "any_song",
-  "action": function(obj) { /* TODO */ }
+  "action": function(obj) { /* TODO */ },
+  "name": "name",
+  "filter": {}
 }
 ```
 </details>
@@ -5376,6 +6047,7 @@ Display settings
 | `stage_view` | _[StageView](#stage-view)_ | Stage view settings. (Unavailable for public screen) |
 | `slide_info` | _[SlideAdditionalInfo](#slide-additional-info)_ | Additional slide info |
 | `slide_translation` | _String_ | translation name |
+| `slide_translation_custom_settings` | _[TranslationCustomSettings](#translation-custom-settings)_ | Custom translation settings |
 | `bible_version_tab` | _Number_ | Tab number (1, 2 or 3) of the Bible translation displayed on the screen, as translations are loaded in the Bible window |
 | `margin` | _Object_ | Margins set in **Edit screen position** option. margin.top, margin.right, margin.bottom, margin.left |
 | `area` | _[Rectangle](#rectangle)_ | Screen area with margins applied (if available) |
@@ -5397,6 +6069,7 @@ Display settings
 {
   "id": "public",
   "name": "Público",
+  "screen": "1920,0",
   "slide_info": {
     "info_1": {
       "show_page_count": false,
@@ -5407,6 +6080,7 @@ Display settings
     "info_2": {
       "show": false,
       "layout_row_1": "<title>< (%author_or_artist%)>",
+      "layout_text_row_1": "",
       "horizontal_align": "right",
       "vertical_align": "bottom"
     },
@@ -5420,6 +6094,20 @@ Display settings
     "paint_theme_effect": true
   },
   "slide_translation": null,
+  "slide_translation_custom_settings": {
+    "translation_1": {
+      "name": "default",
+      "style": "",
+      "prefix": "",
+      "suffix": ""
+    },
+    "translation_2": null,
+    "translation_3": null,
+    "translation_4": null,
+    "merge": true,
+    "uppercase": false,
+    "blank_line_height": 40
+  },
   "margin": {
     "top": 0.0,
     "right": 0.0,
@@ -5427,16 +6115,16 @@ Display settings
     "left": 0.0
   },
   "area": {
-    "x": 0,
+    "x": 1920,
     "y": 0,
-    "width": 0,
-    "height": 0
+    "width": 1920,
+    "height": 1080
   },
   "total_area": {
-    "x": 0,
+    "x": 1920,
     "y": 0,
-    "width": 0,
-    "height": 0
+    "width": 1920,
+    "height": 1080
   },
   "hide": false,
   "media_player": {
@@ -5447,10 +6135,10 @@ Display settings
       "left": 0.0
     },
     "area": {
-      "x": 0,
+      "x": 1920,
       "y": 0,
-      "width": 0,
-      "height": 0
+      "width": 1920,
+      "height": 1080
     }
   }
 }
@@ -5565,14 +6253,14 @@ Display settings
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `enabled` | _Boolean_ | Stage view enabled |
-| `preview_mode` | _String_ | Lyrics display mode. Available options:<br/>CURRENT_SLIDE<br/>FIRST_LINE_OF_THE_NEXT_SLIDE_WITH_SEPARATOR<br/>FIRST_LINE_OF_THE_NEXT_SLIDE_WITHOUT_SEPARATOR<br/>NEXT_SLIDE<br/>CURRENT_AND_NEXT_SLIDE<br/>ALL_SLIDES |
+| `preview_mode` | _String_ | Lyrics display mode. Available options:<br/>`CURRENT_SLIDE`<br>`FIRST_LINE_OF_THE_NEXT_SLIDE_WITH_SEPARATOR`<br>`FIRST_LINE_OF_THE_NEXT_SLIDE_WITHOUT_SEPARATOR`<br>`NEXT_SLIDE`<br>`CURRENT_AND_NEXT_SLIDE`<br>`ALL_SLIDES` |
 | `uppercase` | _Boolean_ | Show in capital letters |
 | `remove_line_break` | _Boolean_ | remove line break |
 | `show_comment` | _Boolean_ | Show comments |
 | `show_advanced_editor` | _Boolean_ | Show advanced editor |
 | `show_communication_panel` | _Boolean_ | Show communication panel content |
 | `show_next_image` | _Boolean_ | Display next image `v2.21.0+` |
-| `custom_theme` | _Number_ | Custom Theme ID used in presentations |
+| `custom_theme` | _String_ | Custom Theme ID used in presentations |
 | `apply_custom_theme_to_bible` | _Boolean_ | Use custom theme in verses |
 | `apply_custom_theme_to_text` | _Boolean_ | Use custom theme in texts |
 | `apply_custom_theme_to_quick_presentation` | _Boolean_ | Use the custom theme in the **Quick Presentation** option `v2.21.0+` |
@@ -5584,6 +6272,7 @@ Display settings
   "enabled": false,
   "preview_mode": "FIRST_LINE_OF_THE_NEXT_SLIDE_WITH_SEPARATOR",
   "uppercase": false,
+  "uppercase_mode": "text_and_comment",
   "remove_line_break": false,
   "show_comment": true,
   "show_advanced_editor": false,
@@ -5607,8 +6296,10 @@ Display settings
 | `info_1.vertical_align` | _String_ | Vertical alignment of information on the slide. top, bottom |
 | `info_2` | _Object_ |  |
 | `info_2.show` | _Boolean_ |  |
-| `info_2.layout_row_1` | _String_ | First row information layout [Slide Additional Info Layout](#slide-additional-info-layout) |
-| `info_2.layout_row_2` | _String (optional)_ | Second line information layout [Slide Additional Info Layout](#slide-additional-info-layout) |
+| `info_2.layout_row_1` | _String_ | Layout of the first line information **type=song** [Slide Additional Info Layout](#slide-additional-info-layout) |
+| `info_2.layout_row_2` | _String (optional)_ | Layout of the second line information **type=song** [Slide Additional Info Layout](#slide-additional-info-layout) |
+| `info_2.layout_text_row_1` | _String_ | Layout of the first line information **type=text** [Slide Additional Info Layout](#slide-additional-info-layout) `v2.24.0+` |
+| `info_2.layout_text_row_2` | _String (optional)_ | Layout of the first line information **type=text** [Slide Additional Info Layout](#slide-additional-info-layout) `v2.24.0+` |
 | `info_2.horizontal_align` | _String_ | Horizontal alignment of information on the slide. left, center, right |
 | `info_2.vertical_align` | _String_ | Vertical alignment of information on the slide. top, bottom |
 | `font` | _Object_ |  |
@@ -5630,7 +6321,7 @@ Display settings
   },
   "info_2": {
     "show": false,
-    "layout_row_1": "<title>< (%author_or_artist%)>", "horizontal_align": "right", "vertical_align": "bottom"
+    "layout_row_1": "<title>< (%author_or_artist%)>", "layout_text_row_1": "", "horizontal_align": "right", "vertical_align": "bottom"
   },
   "font": {
     "name": null,
@@ -5732,6 +6423,7 @@ Display settings
 ## Quiz Question
 | Name | Type  | Description |
 | ---- | :---: | ------------|
+| `name` | _String_ | Item name `v2.24.0+` |
 | `title` | _String_ | Question |
 | `alternatives` | _Array&lt;String&gt;_ | Alternatives |
 | `correct_alternative_number` | _Number (optional)_ | Number of the correct alternative. Starts at 1 `Default: 1` |
@@ -5741,6 +6433,7 @@ Display settings
 
 ```json
 {
+  "name": "",
   "title": "...",
   "alternatives": [
     "Item 1", "Item 2", "Item 3"
@@ -5778,6 +6471,262 @@ Display settings
 }
 ```
 </details>
+
+## Quick Presentation Slide
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `text` | _String_ | Slide text |
+| `theme` | _[ThemeFilter](#theme-filter) (optional)_ | Filter selected theme for display |
+| `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme used to display the text |
+| `translations` | _[Translations](#translations) (optional)_ |  |
+| `duration` | _Number (optional)_ | Slide duration for use in automatic presentations |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "text": "text",
+  "duration": 3,
+  "translations": {
+    "key1": "value1", "key2": "value2"
+  },
+  "theme": {
+    "name": "...", "edit": {
+      "font": {
+        "name": "Arial",
+        "size": 10,
+        "bold": true,
+        "color": "FFFFFF"
+      },
+      "background": {
+        "type": "color",
+        "id": "000000"
+      }
+    }
+  }
+}
+```
+</details>
+
+## Theme Filter
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String (optional)_ | Theme or background ID |
+| `name` | _String (optional)_ | Theme name or background |
+| `edit` | _[Theme](#theme) (optional)_ | Settings to modify the selected Theme for display |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "name": "...",
+  "edit": {
+    "font": {
+      "name": "Arial",
+      "size": 10,
+      "bold": true,
+      "color": "FFFFFF"
+    },
+    "background": {
+      "type": "color",
+      "id": "000000"
+    }
+  }
+}
+```
+</details>
+
+## Translations
+Key/value pair
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `???` | _String_ | Translated value of the item, where the parameter name `???` is the name of the translation |
+| `???` | _String_ |  |
+| `...` | _String_ |  |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "key1": "value1",
+  "key2": "value2"
+}
+```
+</details>
+
+## Wallpaper Settings
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `enabled` | _Boolean_ | Show wallpaper |
+| `fill_color` | _String_ | Color in hexadecimal defined in the **fill** option. |
+| `clock` | _[ClockSettings](#clock-settings)_ | Clock settings |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "enabled": null,
+  "fill_color": null,
+  "clock": {
+    "enabled": false,
+    "font_name": "", "bold": false,
+    "italic": false,
+    "color": "FF0000", "background": "000000", "height": 12,
+    "position": "top_right", "corner": 0
+  }
+}
+```
+</details>
+
+## Clock Settings
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `enabled` | _Boolean_ |  |
+| `font_name` | _String_ | Font name |
+| `bold` | _Boolean_ | Bold |
+| `italic` | _Boolean_ | Italic |
+| `color` | _String_ | Color in hexadecimal format (RGBA) |
+| `background` | _String_ | Color in hexadecimal format (RGBA) |
+| `height` | _Number_ | Value in percentage based on the line height.<br>Accepted values: `6` `7` `8` `9` `10` `12` `14` `15` `16` `18` `20` `25` `30` `35` `40` |
+| `position` | _Boolean_ | Accepted values: `top_left` `top_center` `top_right` `middle_left` `middle_center` `middle_right` `bottom_left` `bottom_center` `bottom_right` |
+| `corner` | _Number_ | `0 ~ 100` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "enabled": false,
+  "font_name": "",
+  "bold": false,
+  "italic": false,
+  "color": "FF0000",
+  "background": "000000",
+  "height": 12,
+  "position": "top_right",
+  "corner": 0
+}
+```
+</details>
+
+## Bible Book List
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Item ID |
+| `name` | _String_ | Name in English |
+| `language` | _String_ | ISO 639 two-letter language code `v2.24.0+` |
+| `alt_name` | _String_ | Name in the language defined in `language`. Can be null. `v2.24.0+` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "en",
+  "name": "English",
+  "language": "en",
+  "alt_name": "English"
+}
+```
+</details>
+
+## Bible Book Info
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Book ID `01 ~ 66` |
+| `name` | _String_ | Book name |
+| `abbrev` | _String_ | Book abbreviation |
+| `usfx_code` | _String_ |  `v2.24.0+` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "01",
+  "name": "Genesis",
+  "abbrev": "Gn"
+}
+```
+</details>
+
+## Verse Reference Group
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `reference` | _String_ | References. Example: **John 3:16** or **Rm 12:2** or **Gn 1:1-3 Sl 23.1** |
+| `ids` | _Array&lt;String&gt;_ | Example:  ['19023001', '43003016', '45012002'] |
+| `verses` | _Array&lt;[VerseReference](#verse-reference)&gt;_ | Detailed list of references |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "reference": "Ps 23.1-2",
+  "ids": [
+    "19023001", "19023002"
+  ],
+  "verses": [
+    {
+      "id": "19023001",
+      "book": 19,
+      "chapter": 23,
+      "verse": 1,
+      "reference": "Psalms 23.1"
+    },
+    {
+      "id": "19023002",
+      "book": 19,
+      "chapter": 23,
+      "verse": 2,
+      "reference": "Psalms 23.2"
+    }
+  ]
+}
+```
+</details>
+
+## Verse Reference
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Item ID |
+| `book` | _Number_ | Book ID `1 ~ 66` |
+| `chapter` | _Number_ | Chapter |
+| `verse` | _Number_ | Verse |
+| `reference` | _String_ |  |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "19023001",
+  "book": 19,
+  "chapter": 23,
+  "verse": 1,
+  "reference": "Psalms 23.1"
+}
+```
+</details>
+
+## Translation Custom Settings
+Custom translation settings
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `translation_1` | _[TranslationCustomSettingsItem](#translation-custom-settings-item)_ |  |
+| `translation_2` | _[TranslationCustomSettingsItem](#translation-custom-settings-item)_ |  |
+| `translation_3` | _[TranslationCustomSettingsItem](#translation-custom-settings-item)_ |  |
+| `translation_4` | _[TranslationCustomSettingsItem](#translation-custom-settings-item)_ |  |
+| `merge` | _Boolean_ |  |
+| `uppercase` | _Boolean_ |  |
+| `blank_line_height` | _Number_ | `0 ~ 100` |
+
+## Translation Custom Settings Item
+Custom translation settings (item)
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `name` | _String_ | translation name. Use 'default' to use the original text. |
+| `style` | _String_ | Custom text formatting. [Styled Text](#styled-text) |
+| `prefix` | _String_ | Text added at the beginning of each line |
+| `suffix` | _String_ | Text added at the end of each line |
 
 ## AddItem
 | Name | Type  | Description |
@@ -5872,7 +6821,8 @@ Display settings
   "id": "",
   "type": "audio",
   "name": "file.mp3",
-  "isDir": false
+  "isDir": false,
+  "properties": {}
 }
 ```
 </details>
@@ -5891,7 +6841,8 @@ Display settings
   "id": "",
   "type": "video",
   "name": "file.mp4",
-  "isDir": false
+  "isDir": false,
+  "properties": {}
 }
 ```
 </details>
@@ -5938,7 +6889,7 @@ Display settings
 | `ids` | _Array&lt;String&gt; (optional)_ | List with the ID of each announcement |
 | `name` | _String (optional)_ | Announcement name |
 | `names` | _Array&lt;String&gt; (optional)_ | List with the name of each announcement |
-| `automatic` | _[Automatic](#automatic-presentation) (optional)_ | If informed, the presentation of the items will be automatic |
+| `automatic` | _[Automatic](#automatic) (optional)_ | If informed, the presentation of the items will be automatic |
 <details>
   <summary>See example</summary>
 
@@ -6033,7 +6984,7 @@ Display settings
 ```
 </details>
 
-## AddItemScript
+## AddItemAddItemScript
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | script |
@@ -6055,7 +7006,7 @@ Display settings
 ```
 </details>
 
-## AddItemAPI
+## AddItemAddItemAPI
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | api |
@@ -6102,3 +7053,183 @@ Display settings
 | ---- | :---: | ------------|
 | `type` | _String_ | global_action |
 | `action` | _String_ | Can be: `slide_exit` `vlc_stop` `vlc_stop_fade_out` |
+
+## SongInfo
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Song ID |
+| `title` | _String_ | Song title |
+| `artist` | _String_ | Music artist |
+| `author` | _String_ | Music author |
+| `note` | _String_ | Music annotation |
+| `copyright` | _String_ | Music copyright |
+| `key` | _String_ | Tone of music.<br>Can be: `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
+| `bpm` | _Number_ | BPM of the song |
+| `time_sig` | _String_ | Music time.<br>Can be: `2/2` `2/4` `3/4` `4/4` `5/4` `6/4` `3/8` `6/8` `7/8` `9/8` `12/8` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "0",
+  "title": "",
+  "artist": "",
+  "author": "",
+  "note": "",
+  "copyright": "",
+  "key": "",
+  "bpm": 0.0,
+  "time_sig": ""
+}
+```
+</details>
+
+## TextInfo
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Text ID |
+| `title` | _String_ | Text title |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "",
+  "title": ""
+}
+```
+</details>
+
+## AudioInfo
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `file_name` | _String_ |  |
+| `file_fullname` | _String_ |  |
+| `file_relative_path` | _String_ |  |
+| `file_path` | _String_ |  |
+| `is_dir` | _Boolean_ |  |
+| `extension` | _String_ |  |
+| `properties` | _Object_ |  |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "file_name": "file.mp3",
+  "file_fullname": "folder\\file.mp3",
+  "file_relative_path": "audio\\folder\\file.mp3",
+  "file_path": "C:\\Holyrics\\Holyrics\\files\\media\\audio\\folder\\file.mp3",
+  "is_dir": false,
+  "extension": "mp3",
+  "properties": {}
+}
+```
+</details>
+
+## VideoInfo
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `file_name` | _String_ |  |
+| `file_fullname` | _String_ |  |
+| `file_relative_path` | _String_ |  |
+| `file_path` | _String_ |  |
+| `is_dir` | _Boolean_ |  |
+| `extension` | _String_ |  |
+| `properties` | _Object_ |  |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "file_name": "file.mp4",
+  "file_fullname": "folder\\file.mp4",
+  "file_relative_path": "video\\folder\\file.mp4",
+  "file_path": "C:\\Holyrics\\Holyrics\\files\\media\\video\\folder\\file.mp4",
+  "is_dir": false,
+  "extension": "mp4",
+  "properties": {}
+}
+```
+</details>
+
+## ImageInfo
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `file_name` | _String_ |  |
+| `file_fullname` | _String_ |  |
+| `file_relative_path` | _String_ |  |
+| `file_path` | _String_ |  |
+| `is_dir` | _Boolean_ |  |
+| `extension` | _String_ |  |
+| `properties` | _Object_ |  |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "file_name": "file.jpg",
+  "file_fullname": "folder\\file.jpg",
+  "file_relative_path": "image\\folder\\file.jpg",
+  "file_path": "C:\\Holyrics\\Holyrics\\files\\media\\image\\folder\\file.jpg",
+  "is_dir": false,
+  "extension": "jpg",
+  "properties": {}
+}
+```
+</details>
+
+## FileInfo
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `file_name` | _String_ |  |
+| `file_fullname` | _String_ |  |
+| `file_relative_path` | _String_ |  |
+| `file_path` | _String_ |  |
+| `is_dir` | _Boolean_ |  |
+| `extension` | _String_ |  |
+| `properties` | _Object_ |  |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "file_name": "file.txt",
+  "file_fullname": "folder\\file.txt",
+  "file_relative_path": "file\\folder\\file.txt",
+  "file_path": "C:\\Holyrics\\Holyrics\\files\\media\\file\\folder\\file.txt",
+  "is_dir": false,
+  "extension": "txt",
+  "properties": {}
+}
+```
+</details>
+
+## AutomaticPresentationInfo
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `name` | _String_ |  |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "name": "name"
+}
+```
+</details>
+
+## AnnouncementInfo
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _Number_ |  |
+| `name` | _String_ |  |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": 0,
+  "name": "name"
+}
+```
+</details>

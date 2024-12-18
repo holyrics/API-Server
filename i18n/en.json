@@ -24,8 +24,16 @@
     "v": "**true** if the request origin is from the local network"
   },
   {
-    "k": "`displaying` `closing` `change`",
-    "v": "`displaying` `closing` `change`"
+    "k": "`true` para exibir o versículo através de uma janela popup de apresentação rápida",
+    "v": "`true` to display the verse through a quick presentation popup window"
+  },
+  {
+    "k": "`true` para retornar o valor em Timestamp",
+    "v": "`true` to return the value in Timestamp"
+  },
+  {
+    "k": "A partir da `v2.23.0` é possível passar o host ou ip diretamente, porém é necessário adicionar o host/ip na lista de requisições permitidas",
+    "v": "From `v2.23.0` it is possible to pass the host or IP directly, but it is necessary to add the host/IP to the list of allowed requests"
   },
   {
     "k": "a requisição foi enviada ao computador",
@@ -48,6 +56,10 @@
     "v": "Abbreviation of the version. Available if the item is a shortcut, that is if 'key' starts with '#shortcut '"
   },
   {
+    "k": "Abreviação do livro",
+    "v": "Book abbreviation"
+  },
+  {
     "k": "Ação que será executada",
     "v": "Action to be executed"
   },
@@ -66,6 +78,18 @@
   {
     "k": "Adicionar letra de música na lista de reprodução",
     "v": "Add song lyrics to playlist"
+  },
+  {
+    "k": "Adicionar metadados na resposta",
+    "v": "Add metadata to the response"
+  },
+  {
+    "k": "Adicionar thumbnail na resposta (80x45)",
+    "v": "Add thumbnail to response (80x45)"
+  },
+  {
+    "k": "Ajuste da imagem",
+    "v": "Image adjustment"
   },
   {
     "k": "Alerta",
@@ -106,6 +130,10 @@
   {
     "k": "Altera as configurações da mensagem de alerta",
     "v": "Change alert message settings"
+  },
+  {
+    "k": "Altera as informações customizadas de um arquivo",
+    "v": "Changes the custom information of a file"
   },
   {
     "k": "Altera o ambiente de execução atual.",
@@ -172,6 +200,10 @@
     "v": "Change wallpaper settings"
   },
   {
+    "k": "Alterar as configurações do rodapé de apresentação",
+    "v": "Change the presentation footer settings"
+  },
+  {
     "k": "Alterar configuração atual do painel de comunicação",
     "v": "Change the current setting of the communication panel"
   },
@@ -196,16 +228,24 @@
     "v": "Change the text of the communication panel. [Styled Text](#styled-text) from v2.19.0"
   },
   {
+    "k": "Alterar um item da lista de reprodução de letra de música",
+    "v": "Change a Lyrics Playlist Item"
+  },
+  {
+    "k": "Alterar um item da lista de reprodução de mídia",
+    "v": "Change a media playlist item"
+  },
+  {
     "k": "Alternativas",
     "v": "Alternatives"
   },
   {
-    "k": "Altura em porcentagem em relação à altura do slide",
-    "v": "Height in percent of slide height"
+    "k": "Altura",
+    "v": "Height"
   },
   {
-    "k": "announcement",
-    "v": "announcement"
+    "k": "Altura em porcentagem em relação à altura do slide",
+    "v": "Height in percent of slide height"
   },
   {
     "k": "Ano",
@@ -214,6 +254,10 @@
   {
     "k": "Anotação da música",
     "v": "Music annotation"
+  },
+  {
+    "k": "Anotações",
+    "v": "Notes"
   },
   {
     "k": "Anúncio",
@@ -228,12 +272,12 @@
     "v": "Just sends the request without waiting for a return"
   },
   {
-    "k": "api",
-    "v": "api"
-  },
-  {
     "k": "Aplicar efeito 'blur' no brilho e sombra",
     "v": "Apply 'blur' effect on brightness and shadow"
+  },
+  {
+    "k": "Aplicar efeito blur",
+    "v": "Apply blur effect"
   },
   {
     "k": "Aplicar mapeamento de versículos",
@@ -280,16 +324,20 @@
     "v": "Enable/disable functionality"
   },
   {
-    "k": "audio",
-    "v": "audio"
+    "k": "Áudio",
+    "v": "Audio"
   },
   {
-    "k": "automatic_presentation",
-    "v": "automatic_presentation"
+    "k": "audio ou vídeo",
+    "v": "audio or vídeo"
   },
   {
     "k": "Autor da música",
     "v": "Music author"
+  },
+  {
+    "k": "avançado",
+    "v": "advanced"
   },
   {
     "k": "Azul",
@@ -308,8 +356,28 @@
     "v": "Path of the location folder"
   },
   {
-    "k": "Caractere separador. Valores permitidos:  ` `  `.`  `)`  `-`  `:`",
-    "v": "Separator character. Allowed values:  ` `  `.`  `)`  `-`  `:`"
+    "k": "Caminho do arquivo de áudio (playback) linkado com a música",
+    "v": "Path of the audio file (backing track) linked to the song"
+  },
+  {
+    "k": "Caminho do arquivo de áudio linkado com a música",
+    "v": "Path of the audio file linked to the song"
+  },
+  {
+    "k": "Caminho relativo da mídia no player",
+    "v": "Relative path of the media in the player"
+  },
+  {
+    "k": "Caminho relativo do arquivo utilizado como papel de parede do evento",
+    "v": "Relative path of the file used as the event wallpaper"
+  },
+  {
+    "k": "Capítulo",
+    "v": "Chapter"
+  },
+  {
+    "k": "Caractere separador. Valores permitidos:",
+    "v": "Separator character. Allowed values:"
   },
   {
     "k": "Código midi",
@@ -332,8 +400,32 @@
     "v": "Current communication panel configuration"
   },
   {
+    "k": "Configuração independente por tela",
+    "v": "Independent configuration per screen"
+  },
+  {
+    "k": "Configuração padrão",
+    "v": "Default configuration"
+  },
+  {
+    "k": "Configuração personalizada para a tela ou **null** se estiver utilizando a configuração padrão",
+    "v": "Custom configuration for the screen or **null** if using the default configuration"
+  },
+  {
+    "k": "configurações",
+    "v": "settings"
+  },
+  {
     "k": "Configurações",
     "v": "Settings"
+  },
+  {
+    "k": "Configurações customizadas da tradução",
+    "v": "Custom translation settings"
+  },
+  {
+    "k": "Configurações customizadas da tradução (item)",
+    "v": "Custom translation settings (item)"
   },
   {
     "k": "Configurações da visão do palco. (Indisponível para tela público)",
@@ -352,12 +444,24 @@
     "v": "Wallpaper settings"
   },
   {
+    "k": "Configurações do relógio",
+    "v": "Clock settings"
+  },
+  {
+    "k": "Configurações do rodapé de apresentação",
+    "v": "Presentation footer settings"
+  },
+  {
     "k": "Configurações para execução da mídia",
     "v": "Settings for media execution"
   },
   {
     "k": "Configurações para modificar o Tema selecionado para exibição",
     "v": "Settings to modify the selected Theme for display"
+  },
+  {
+    "k": "Conjunto chave/valor",
+    "v": "Key/value pair"
   },
   {
     "k": "Contém os cabeçalhos da requisição.",
@@ -432,6 +536,14 @@
     "v": "Background color for the incorrect answer"
   },
   {
+    "k": "Cor do fundo do ícone do botão **Atenção**",
+    "v": "Background color of the **Attention** button icon"
+  },
+  {
+    "k": "Cor do ícone do botão **Atenção**",
+    "v": "Icon color of the **Attention** button"
+  },
+  {
     "k": "Cor em hexadecimal",
     "v": "Color in hexadecimal"
   },
@@ -448,20 +560,20 @@
     "v": "Color in hexadecimal format"
   },
   {
-    "k": "countdown",
-    "v": "countdown"
-  },
-  {
-    "k": "countdown_cp",
-    "v": "countdown_cp"
-  },
-  {
-    "k": "cp_text",
-    "v": "cp_text"
-  },
-  {
     "k": "dados da requisição",
     "v": "requisition data"
+  },
+  {
+    "k": "Data da última execução do arquivo",
+    "v": "Date of the last execution of the file"
+  },
+  {
+    "k": "Data de modificação do arquivo",
+    "v": "File modification date"
+  },
+  {
+    "k": "Data e hora no formato",
+    "v": "Date and time format"
   },
   {
     "k": "Data e hora no formato: YYYY-MM-DD HH:MM",
@@ -480,6 +592,10 @@
     "v": "Item description"
   },
   {
+    "k": "Descrição do slide",
+    "v": "Slide description"
+  },
+  {
     "k": "deve ser 'auth' para autenticação",
     "v": "should be 'auth' for authentication"
   },
@@ -488,36 +604,48 @@
     "v": "should be zero for authentication"
   },
   {
+    "k": "Dia da semana",
+    "v": "Day of the week"
+  },
+  {
     "k": "Disponível para",
     "v": "Available for"
   },
   {
-    "k": "Disponível se **include_slide_preview=true**",
-    "v": "Available if **include_slide_preview=true**"
+    "k": "Disponível para imagens",
+    "v": "Available for images"
   },
   {
-    "k": "Disponível se **include_slides=true**",
-    "v": "Available if **include_slides=true**"
+    "k": "Disponível se",
+    "v": "Available if"
   },
   {
     "k": "Disponível se for uma apresentação de música",
     "v": "Available if it is a music presentation"
   },
   {
-    "k": "Disponível somente para transição de texto",
-    "v": "Available only for text transition"
+    "k": "Disponível se o arquivo for",
+    "v": "Available if the file is"
   },
   {
-    "k": "documentação",
-    "v": "documentation"
+    "k": "Disponível somente para transição de texto",
+    "v": "Available only for text transition"
   },
   {
     "k": "dtoken é o resumo sha256 da concatenação das informações da requisição conforme exemplo",
     "v": "dtoken is the sha256 summary of the concatenation of the request information as example"
   },
   {
+    "k": "Duração do arquivo",
+    "v": "File duration"
+  },
+  {
     "k": "Duração do item (em segundos)",
     "v": "Item duration (in seconds)"
+  },
+  {
+    "k": "Duração do slide para uso em apresentações automáticas",
+    "v": "Slide duration for use in automatic presentations"
   },
   {
     "k": "Duração em milissegundos",
@@ -588,16 +716,32 @@
     "v": "Executes the action of an existing API item in the program"
   },
   {
+    "k": "Executa a música anterior da lista de reprodução",
+    "v": "Play the previous song in the playlist"
+  },
+  {
     "k": "Executa a opção 'chamar atenção' disponível no painel de comunicação",
     "v": "Execute the 'call attention' option available in the communication panel"
+  },
+  {
+    "k": "Executa a próxima música da lista de reprodução",
+    "v": "Play the next song in the playlist"
   },
   {
     "k": "Executa ações no player",
     "v": "Perform actions in the player"
   },
   {
-    "k": "Executa um arquivo. Disponível apenas para extensões seguras, como áudio, vídeo, imagem, documentos, etc.",
-    "v": "Execute a file. Available only for safe extensions, such as audio, video, image, documents, etc."
+    "k": "Executa o item anterior da lista de reprodução de mídia",
+    "v": "Plays the previous item in the media playlist"
+  },
+  {
+    "k": "Executa o próximo item da lista de reprodução de mídia",
+    "v": "Plays the next item in the media playlist"
+  },
+  {
+    "k": "Executa um arquivo",
+    "v": "Executes a file"
   },
   {
     "k": "Executa um áudio ou uma lista de áudios (pasta)",
@@ -630,6 +774,10 @@
   {
     "k": "Executa uma requisição para o receptor associado e retorna a resposta do receptor.",
     "v": "Executes a request to the associated receiver and returns the receiver's response."
+  },
+  {
+    "k": "Executar ação somente se o objeto que gerou o gatilho corresponder ao objeto filter",
+    "v": "Execute action only if the object that triggered the event matches the filter object"
   },
   {
     "k": "executar sua própria ação e resposta",
@@ -704,6 +852,10 @@
     "v": "Display next image"
   },
   {
+    "k": "Exibir imagens com transparência",
+    "v": "Display images with transparency"
+  },
+  {
     "k": "Exibir o texto atual",
     "v": "Display the current text"
   },
@@ -736,12 +888,20 @@
     "v": "Display clock in the alert"
   },
   {
+    "k": "Exibir segunda versão",
+    "v": "Show second version"
+  },
+  {
     "k": "Exibir somente a referência do versículo",
     "v": "Display only the verse reference"
   },
   {
     "k": "Exibir tempo restante da mídia em execução no VLC Player",
     "v": "Display remaining time of the media playing in VLC Player"
+  },
+  {
+    "k": "Exibir terceira versão",
+    "v": "Show third version"
   },
   {
     "k": "Exibir uma contagem regressiva na tela público",
@@ -784,6 +944,10 @@
     "v": "Filter"
   },
   {
+    "k": "Filtro de busca",
+    "v": "Search filter"
+  },
+  {
     "k": "Fonte",
     "v": "Source"
   },
@@ -796,12 +960,24 @@
     "v": "Custom font for countdown"
   },
   {
-    "k": "global_action",
-    "v": "global_action"
+    "k": "Formatação customizada do texto",
+    "v": "Custom text formatting"
+  },
+  {
+    "k": "Formatos aceitos",
+    "v": "Accepted formats"
+  },
+  {
+    "k": "Funções",
+    "v": "Roles"
   },
   {
     "k": "Grupos onde a música está adicionada",
     "v": "Groups where music is added"
+  },
+  {
+    "k": "Habilidades",
+    "v": "Skills"
   },
   {
     "k": "hash gerado para cada requisição a partir de um 'nonce' (token temporário) obtido pelo servidor",
@@ -818,6 +994,10 @@
   {
     "k": "Histórico de todas as marcações de \"Música tocada\"",
     "v": "History of all tags for \"Music played\""
+  },
+  {
+    "k": "Hora",
+    "v": "Hour"
   },
   {
     "k": "ID da função",
@@ -844,8 +1024,16 @@
     "v": "Session ID, obtained along with the nonce"
   },
   {
+    "k": "ID da versão da Bíblia",
+    "v": "Bible version ID"
+  },
+  {
     "k": "ID de um Tema existente para utilizar como cópia inicial ao criar um novo item",
     "v": "ID of an existing Theme to use as initial copy when creating a new item"
+  },
+  {
+    "k": "ID do anúncio",
+    "v": "Announcement ID"
   },
   {
     "k": "ID do anúncio. Pode ser **all** para exibir todos",
@@ -858,6 +1046,10 @@
   {
     "k": "ID do item",
     "v": "Item ID"
+  },
+  {
+    "k": "ID do livro",
+    "v": "Book ID"
   },
   {
     "k": "ID do plano de fundo personalizado",
@@ -904,6 +1096,14 @@
     "v": "Text ID"
   },
   {
+    "k": "ID do versículo",
+    "v": "Verse ID"
+  },
+  {
+    "k": "ID do versículo atual",
+    "v": "Current verse ID"
+  },
+  {
     "k": "ID dos itens",
     "v": "Item IDs"
   },
@@ -916,8 +1116,8 @@
     "v": "ID or name of the Theme used to display the text"
   },
   {
-    "k": "image",
-    "v": "image"
+    "k": "Idioma",
+    "v": "Language"
   },
   {
     "k": "Imagem",
@@ -932,6 +1132,10 @@
     "v": "Image in base64 format"
   },
   {
+    "k": "imagem ou vídeo",
+    "v": "imagem or vídeo"
+  },
+  {
     "k": "Incluir comentários (se houver) no texto dos slides",
     "v": "Include comments (if any) in the slide text"
   },
@@ -940,12 +1144,24 @@
     "v": "Include slide preview image"
   },
   {
+    "k": "Índice do item na lista",
+    "v": "Index of the item in the list"
+  },
+  {
     "k": "Índice do slide na apresentação (começa em zero)",
     "v": "Slide index in presentation (starts at zero)"
   },
   {
+    "k": "Índice inicial da apresentação",
+    "v": "Initial index of the presentation"
+  },
+  {
     "k": "Informação extra exibida na janela popup para o operador",
     "v": "Extra information displayed in popup window for operator"
+  },
+  {
+    "k": "Informação sobre início e duração de cada slide da apresentação",
+    "v": "Information about the start and duration of each slide in the presentation"
   },
   {
     "k": "Informações adicionais do slide",
@@ -1012,12 +1228,20 @@
     "v": "Items saved in the list"
   },
   {
-    "k": "Layout da informação da primeira linha [Slide Additional Info Layout](#slide-additional-info-layout)",
-    "v": "First row information layout [Slide Additional Info Layout](#slide-additional-info-layout)"
+    "k": "JS Community Version y.m.d",
+    "v": "JS Community Version y.m.d"
   },
   {
-    "k": "Layout da informação da segunda linha [Slide Additional Info Layout](#slide-additional-info-layout)",
-    "v": "Second line information layout [Slide Additional Info Layout](#slide-additional-info-layout)"
+    "k": "Largura",
+    "v": "Width"
+  },
+  {
+    "k": "Layout da informação da primeira linha",
+    "v": "Layout of the first line information"
+  },
+  {
+    "k": "Layout da informação da segunda linha",
+    "v": "Layout of the second line information"
   },
   {
     "k": "Letra de música",
@@ -1026,6 +1250,10 @@
   {
     "k": "Lista com a posição de cada item na lista que será removido. (Inicia em zero)",
     "v": "List with the position of each item in the list that will be removed. (Starts at zero)"
+  },
+  {
+    "k": "Lista com as semanas ocultadas",
+    "v": "List of hidden weeks"
   },
   {
     "k": "Lista com id de cada item",
@@ -1060,6 +1288,10 @@
     "v": "List with the slides of the current presentation"
   },
   {
+    "k": "Lista com os versículos da apresentação atual",
+    "v": "List of verses from the current presentation"
+  },
+  {
     "k": "Lista com valores padrões para o parâmetro",
     "v": "List with default values for the parameter"
   },
@@ -1082,6 +1314,18 @@
   {
     "k": "Lista das mensagens personalizadas",
     "v": "List of custom messages"
+  },
+  {
+    "k": "Lista de anúncios",
+    "v": "Announcement list"
+  },
+  {
+    "k": "Lista de cultos",
+    "v": "Service list"
+  },
+  {
+    "k": "Lista de eventos",
+    "v": "Event list"
   },
   {
     "k": "Lista de funções",
@@ -1112,6 +1356,18 @@
     "v": "Item tag list"
   },
   {
+    "k": "Lista de times",
+    "v": "Team list"
+  },
+  {
+    "k": "Lista detalhada das referências",
+    "v": "Detailed list of references"
+  },
+  {
+    "k": "Lista dos IDs das músicas",
+    "v": "List of song IDs"
+  },
+  {
     "k": "Lista dos temas e planos de fundo",
     "v": "List of themes and backgrounds"
   },
@@ -1124,8 +1380,20 @@
     "v": "File location in the **Images** tab"
   },
   {
+    "k": "Mapa chave/valor com as informações que serão alteradas",
+    "v": "Key/value map with the information that will be changed"
+  },
+  {
     "k": "Mapa chave/valor onde a chave é o nome do campo **variables.*.name** da classe CustomMessage",
     "v": "Key/value map where the key is the field name **variables.*.name** of the CustomMessage class"
+  },
+  {
+    "k": "Mapa com as informações customizadas salvas no arquivo",
+    "v": "Map with the custom information saved in the file"
+  },
+  {
+    "k": "Mapa com as propriedades customizadas definidas para o arquivo",
+    "v": "Map with the custom properties defined for the file"
   },
   {
     "k": "Mapa de objetos extras (adicionados pelo usuário)",
@@ -1152,6 +1420,10 @@
     "v": "message without filling"
   },
   {
+    "k": "menu arquivo",
+    "v": "file menu"
+  },
+  {
     "k": "Menu arquivo > Configurações > API Server",
     "v": "File menu > Settings > API Server"
   },
@@ -1172,16 +1444,16 @@
     "v": "Minimum=0, Maximum=100"
   },
   {
-    "k": "Modo de visualização das letras. Opções disponíveis:<br/>CURRENT_SLIDE<br/>FIRST_LINE_OF_THE_NEXT_SLIDE_WITH_SEPARATOR<br/>FIRST_LINE_OF_THE_NEXT_SLIDE_WITHOUT_SEPARATOR<br/>NEXT_SLIDE<br/>CURRENT_AND_NEXT_SLIDE<br/>ALL_SLIDES",
-    "v": "Lyrics display mode. Available options:<br/>CURRENT_SLIDE<br/>FIRST_LINE_OF_THE_NEXT_SLIDE_WITH_SEPARATOR<br/>FIRST_LINE_OF_THE_NEXT_SLIDE_WITHOUT_SEPARATOR<br/>NEXT_SLIDE<br/>CURRENT_AND_NEXT_SLIDE<br/>ALL_SLIDES"
+    "k": "Minuto",
+    "v": "Minute"
+  },
+  {
+    "k": "Modo de visualização das letras",
+    "v": "Lyrics display mode"
   },
   {
     "k": "Música ou NULL se não for encontrado",
     "v": "Music or NULL if not found"
-  },
-  {
-    "k": "n >= 2",
-    "v": "n >= 2"
   },
   {
     "k": "Não duplicar itens ao adicionar novos itens, ou seja, não adiciona um item se ele já estiver na lista.",
@@ -1256,6 +1528,14 @@
     "v": "Version name"
   },
   {
+    "k": "Nome da versão ou nome do atalho",
+    "v": "Version name or shortcut name"
+  },
+  {
+    "k": "Nome detalhado do sistema operacional",
+    "v": "Detailed operating system name"
+  },
+  {
     "k": "Nome do ambiente de execução",
     "v": "Runtime environment name"
   },
@@ -1266,6 +1546,10 @@
   {
     "k": "Nome do arquivo",
     "v": "File name"
+  },
+  {
+    "k": "Nome do arquivo (incluindo subpasta)",
+    "v": "File name (including subfolder)"
   },
   {
     "k": "Nome do arquivo na biblioteca",
@@ -1288,12 +1572,20 @@
     "v": "File name. Example: **file.ap**"
   },
   {
+    "k": "Nome do evento",
+    "v": "Event name"
+  },
+  {
     "k": "Nome do integrante escalado",
     "v": "Name of the member"
   },
   {
     "k": "Nome do item",
     "v": "Item name"
+  },
+  {
+    "k": "Nome do livro",
+    "v": "Book name"
   },
   {
     "k": "Nome do tema",
@@ -1304,12 +1596,28 @@
     "v": "Theme name or background"
   },
   {
+    "k": "Nome dos campos separados por vírgula",
+    "v": "Comma-separated field names"
+  },
+  {
+    "k": "Nome em inglês",
+    "v": "Name in English"
+  },
+  {
+    "k": "Nome no próprio idioma definido em `language`",
+    "v": "Name in the language defined in `language`"
+  },
+  {
     "k": "Nome ou abreviação da tradução utilizada",
     "v": "Name or abbreviation of the translation used"
   },
   {
     "k": "Novas configurações. As configurações são individualmente opcionais. Preencha apenas os campos que deseja alterar.",
     "v": "New settings. Settings are individually optional. Fill in only the fields you want to change."
+  },
+  {
+    "k": "Novo item",
+    "v": "New item"
   },
   {
     "k": "Novo valor",
@@ -1324,8 +1632,16 @@
     "v": "Number of the correct alternative. Starts at 1"
   },
   {
+    "k": "Número do slide",
+    "v": "Slide number"
+  },
+  {
     "k": "Número do slide (começa em 1)",
     "v": "Slide number (starts at 1)"
+  },
+  {
+    "k": "O array retornado contém 8 índices, e cada índice corresponde ao trecho conforme imagem de exemplo a seguir",
+    "v": "The returned array contains 8 indices, and each index corresponds to the section according to the following example image"
   },
   {
     "k": "O item de acordo com o tipo informado:",
@@ -1360,6 +1676,14 @@
     "v": "Object with the content extracted from the request."
   },
   {
+    "k": "Obs: É possível exibir, no máximo, 100 versículos diferentes em uma mesma requisição",
+    "v": "Note: It is possible to display a maximum of 100 different verses in a single request"
+  },
+  {
+    "k": "Obtém a data do histórico de \"Música tocada\" mais próxima de uma data e hora passada por parâmetro (ou da data e hora atual do sistema)",
+    "v": "Gets the date of the \"Song played\" history closest to a date and time passed as a parameter (or the current system date and time)"
+  },
+  {
     "k": "Ocultar a tela",
     "v": "Hide screen"
   },
@@ -1380,8 +1704,28 @@
     "v": "optional"
   },
   {
+    "k": "Opcional se `slides` for declarado",
+    "v": "Optional if `slides` is declared"
+  },
+  {
+    "k": "Opcional se `text` for declarado",
+    "v": "Optional if `text` is declared"
+  },
+  {
+    "k": "Opções disponíveis",
+    "v": "Available options"
+  },
+  {
     "k": "Ordem dos slides (índice a partir do 1), separado por vírgula",
     "v": "Order of slides (index from 1), separated by comma"
+  },
+  {
+    "k": "Os valores passados serão MESCLADOS com os valores existentes",
+    "v": "The passed values will be MERGED with the existing values"
+  },
+  {
+    "k": "Ou seja, não é necessário enviar parâmetros que não serão alterados (ou removidos)",
+    "v": "That is, it is not necessary to send parameters that will not be changed (or removed)"
   },
   {
     "k": "Padrão",
@@ -1396,12 +1740,20 @@
     "v": "To display a verse. Item ID in BBCCCVVV format.<br/>Example: '19023001' (book 19, chapter 023, verse 001)"
   },
   {
-    "k": "Para exibir uma lista de versículos. Lista com o ID de cada versículo.<br/>Exemplo: ['19023001', '43003016', '45012002']",
-    "v": "To display a list of verses. List with the ID of each verse.<br/>Example: ['19023001', '43003016', '45012002']"
+    "k": "Para exibir uma lista de versículos. Lista com o ID de cada versículo",
+    "v": "To display a list of verses. List with the ID of each verse"
+  },
+  {
+    "k": "Para formatação especial, utilize a variável `@cp_countdown` no meio do texto para indicar o local de exibição da parte numérica",
+    "v": "For special formatting, use the variable `@cp_countdown` in the middle of the text to indicate the location of the numeric part"
   },
   {
     "k": "Parâmetro aceita somente números",
     "v": "Parameter accepts only numbers"
+  },
+  {
+    "k": "Parâmetro alternativo para apresentações mais complexas",
+    "v": "Alternative parameter for more complex presentations"
   },
   {
     "k": "Parâmetro exibido sempre em maiúsculo",
@@ -1428,6 +1780,10 @@
     "v": "Question"
   },
   {
+    "k": "Permite, por exemplo, iniciar a apresentação de um versículo sem encerrar a apresentação atual, voltando pra apresentação atual quando encerrar a apresentação do versículo",
+    "v": "Allows, for example, to start the presentation of a verse without ending the current presentation, returning to the current presentation when the verse presentation ends"
+  },
+  {
     "k": "Plano de fundo",
     "v": "Background"
   },
@@ -1436,8 +1792,20 @@
     "v": "Current background or NULL if no presentation is displayed"
   },
   {
+    "k": "Playback",
+    "v": "Backing track"
+  },
+  {
     "k": "Pode ser",
     "v": "Can be"
+  },
+  {
+    "k": "Pode ser null",
+    "v": "Can be null"
+  },
+  {
+    "k": "Por padrão, o texto é exibido antes da parte numérica",
+    "v": "By default, the text is displayed before the numeric part"
   },
   {
     "k": "Porém por se tratar de conexão local sem SSL, se você quiser uma maior segurança, utilize o método \"hash\" para enviar as requisições sem precisar informar o token de acesso na requisição",
@@ -1476,8 +1844,16 @@
     "v": "Sync progress from 0 to 100"
   },
   {
+    "k": "qualquer valor mais próximo da data especificada",
+    "v": "any value closest to the specified date"
+  },
+  {
     "k": "Qualquer valor retornado que seja diferente de 'true', o programa irá considerar que a requisição já foi consumida e vai respondê-la com o valor retornado.",
     "v": "Any returned value that is different from 'true', the program will consider that the request has already been consumed and will respond to it with the returned value."
+  },
+  {
+    "k": "Quantidade de linhas",
+    "v": "Number of lines"
   },
   {
     "k": "Quantidade de minutos",
@@ -1508,6 +1884,10 @@
     "v": "Performs a search in the user's text list"
   },
   {
+    "k": "Referência do versículo",
+    "v": "Verse reference"
+  },
+  {
     "k": "Referências. Exemplo: **João 3:16** ou **Rm 12:2** ou **Gn 1:1-3 Sl 23.1**",
     "v": "References. Example: **John 3:16** or **Rm 12:2** or **Gn 1:1-3 Sl 23.1**"
   },
@@ -1530,6 +1910,10 @@
   {
     "k": "Requisição",
     "v": "Request"
+  },
+  {
+    "k": "requisições permitidas",
+    "v": "allowed requests"
   },
   {
     "k": "Resposta",
@@ -1580,6 +1964,10 @@
     "v": "Returns the list of files from the respective tab: audio, video, image, file"
   },
   {
+    "k": "Retorna a lista de gatilhos salvos",
+    "v": "Returns the list of saved triggers"
+  },
+  {
     "k": "Retorna a lista de músicas",
     "v": "Returns the list of songs"
   },
@@ -1600,12 +1988,24 @@
     "v": "Returns the list of available versions of the Bible, and also the associated shortcuts"
   },
   {
+    "k": "Retorna a música anterior da lista de reprodução",
+    "v": "Returns the previous song in the playlist"
+  },
+  {
+    "k": "Retorna a próxima música da lista de reprodução",
+    "v": "Returns the next song in the playlist"
+  },
+  {
+    "k": "Retorna as configurações da mensagem de alerta",
+    "v": "Returns alert message settings"
+  },
+  {
     "k": "Retorna as informações da apresentação automática em exibição",
     "v": "Returns the information of the automatic presentation on display"
   },
   {
-    "k": "Retorna as informações de cor predominante de um respectivo tipo de item<br/>O array retornado contém 8 índices, e cada índice corresponde ao trecho conforme imagem de exemplo a seguir.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>",
-    "v": "Returns the information of the predominant color of a respective type of item<br/>The returned array contains 8 indices, and each index corresponds to the section according to the following example image.<br/> <br/>![Color Map Example](https://holyrics.com.br/images/color_map_item_example.png)<br/>"
+    "k": "Retorna as informações de cor predominante de um respectivo tipo de item",
+    "v": "Returns the information of the predominant color of a respective type of item"
   },
   {
     "k": "Retorna as informações do player",
@@ -1616,6 +2016,10 @@
     "v": "Returns saved playlists"
   },
   {
+    "k": "Retorna informações da versão do programa em execução",
+    "v": "Returns information about the version of the running program"
+  },
+  {
     "k": "Retorna o estado atual da respectiva opção **F8 (papel de parede), F9 (tela vazia) ou F10 (tela preta)**",
     "v": "Returns the current state of the respective option **F8 (wallpaper), F9 (empty screen) or F10 (black screen)**"
   },
@@ -1624,12 +2028,24 @@
     "v": "Returns the current state of online synchronization via Google Drive™"
   },
   {
+    "k": "Retorna o item anterior executável da lista de reprodução de mídia",
+    "v": "Returns the previous executable item from the media playlist"
+  },
+  {
     "k": "Retorna o nome do ambiente de execução definido atualmente nas configurações do programa.",
     "v": "Returns the name of the currently defined runtime environment in the program settings."
   },
   {
     "k": "Retorna o plano de fundo da apresentação em exibição.",
     "v": "Returns the background of the currently displayed presentation."
+  },
+  {
+    "k": "Retorna o próximo item executável da lista de reprodução de mídia",
+    "v": "Returns the next executable item from the media playlist"
+  },
+  {
+    "k": "Retorna o tema da apresentação em exibição.",
+    "v": "Returns the theme of the presentation currently displayed."
   },
   {
     "k": "Retorna o valor BPM atual definido no programa",
@@ -1644,8 +2060,16 @@
     "v": "Returns the current hue value defined in the program"
   },
   {
+    "k": "Retorna os dados de um arquivo da lista de arquivos da respectiva aba: áudio, vídeo, imagem, arquivo",
+    "v": "Returns the data of a file from the list of files in the respective tab: audio, video, image, file"
+  },
+  {
     "k": "Retorna um texto.",
     "v": "Returns a text."
+  },
+  {
+    "k": "Retorna uma apresentação automática",
+    "v": "Returns an automatic presentation"
   },
   {
     "k": "Retorna uma música.",
@@ -1662,10 +2086,6 @@
   {
     "k": "Retorno da requisição ou NULL para erro/timeout",
     "v": "Request return or NULL for error/timeout"
-  },
-  {
-    "k": "script",
-    "v": "script"
   },
   {
     "k": "Se **true**, `time` deve ser HH:MM (hora e minuto exato). Se **false**, `time` deve ser MM:SS (quantidade de minutos e segundos)",
@@ -1696,6 +2116,10 @@
     "v": "Whether it is enabled or disabled"
   },
   {
+    "k": "Se este campo for declarado, apenas os campos especificados serão retornados",
+    "v": "If this field is declared, only the specified fields will be returned"
+  },
+  {
     "k": "Se informado, a apresentação dos itens será automática",
     "v": "If informed, the presentation of the items will be automatic"
   },
@@ -1710,6 +2134,10 @@
   {
     "k": "Se o integrande está escalado ou definido para uma função",
     "v": "Whether the integrand is scaled or defined for a function"
+  },
+  {
+    "k": "Se o item está arquivado",
+    "v": "If the item is archived"
   },
   {
     "k": "Se o texto atual está em exibição",
@@ -1728,12 +2156,24 @@
     "v": "If you create your own implementation, you need to return 'true' if you want the program to consume the request using the default implementation."
   },
   {
+    "k": "Seleciona um versículo na janela da Bíblia",
+    "v": "Selects a verse in the Bible window"
+  },
+  {
     "k": "Selecionar uma alternativa. Começa em 1",
     "v": "Select an alternative. Starts at 1"
   },
   {
-    "k": "song",
-    "v": "song"
+    "k": "Semana",
+    "v": "Week"
+  },
+  {
+    "k": "Sistema operacional",
+    "v": "Operational system"
+  },
+  {
+    "k": "Somente extensões seguras ou adicionadas na lista de exceção",
+    "v": "Only safe extensions or those added to the exception list"
   },
   {
     "k": "status da resposta da requisição enviada",
@@ -1744,8 +2184,16 @@
     "v": "status of sending the request to Holyrics"
   },
   {
+    "k": "Substituído por",
+    "v": "Replaced for"
+  },
+  {
     "k": "Tamanho",
     "v": "Size"
+  },
+  {
+    "k": "Tamanho do arquivo",
+    "v": "File size"
   },
   {
     "k": "Tamanho do preview no formato WxH",
@@ -1758,6 +2206,10 @@
   {
     "k": "tamanho relativo da fonte",
     "v": "relative font size"
+  },
+  {
+    "k": "Tema atual ou NULL se não houver apresentação em exibição",
+    "v": "Current theme or NULL if there is no presentation displayed"
   },
   {
     "k": "Tema personalizado",
@@ -1788,8 +2240,16 @@
     "v": "Elapsed time in format HH:MM:SS"
   },
   {
+    "k": "Tempo final da apresentação em milissegundos",
+    "v": "End time of the presentation in milliseconds"
+  },
+  {
     "k": "Tempo final para execução no formato SS, MM:SS ou HH:MM:SS",
     "v": "End time for execution in SS, MM:SS or HH:MM:SS format"
+  },
+  {
+    "k": "Tempo inicial da apresentação em milissegundos",
+    "v": "Start time of the presentation in milliseconds"
   },
   {
     "k": "Tempo inicial para execução no formato SS, MM:SS ou HH:MM:SS",
@@ -1808,10 +2268,6 @@
     "v": "Total time in milliseconds"
   },
   {
-    "k": "text",
-    "v": "text"
-  },
-  {
     "k": "Texto",
     "v": "Text"
   },
@@ -1820,12 +2276,28 @@
     "v": "Text to be searched"
   },
   {
+    "k": "Texto adicionado no final de cada linha",
+    "v": "Text added at the end of each line"
+  },
+  {
+    "k": "Texto adicionado no início de cada linha",
+    "v": "Text added at the beginning of each line"
+  },
+  {
+    "k": "Texto alternativo para ser exibido quando a exibição for no alerta",
+    "v": "Alternative text to be displayed when the display is in the alert"
+  },
+  {
     "k": "Texto atual",
     "v": "Current text"
   },
   {
     "k": "Texto atual do alerta",
     "v": "Current alert text"
+  },
+  {
+    "k": "Texto do anúncio",
+    "v": "Announcement text"
   },
   {
     "k": "Texto do slide",
@@ -1844,8 +2316,16 @@
     "v": "Text or NULL if not found"
   },
   {
+    "k": "Texto para exibição",
+    "v": "Text for display"
+  },
+  {
     "k": "Texto que será exibido. [Styled Text](#styled-text) a partir da v2.19.0",
     "v": "Text to be displayed. [Styled Text](#styled-text) from v2.19.0"
+  },
+  {
+    "k": "Time",
+    "v": "Team"
   },
   {
     "k": "Tipo",
@@ -1856,8 +2336,8 @@
     "v": "Playlist type. Can be: temporary, service, event"
   },
   {
-    "k": "Tipo de caractere para listar as alternativas `number (1, 2, 3...)`  `alpha (A, B, C...)`",
-    "v": "Type of character to list the alternatives `number (1, 2, 3...)`  `alpha (A, B, C...)`"
+    "k": "Tipo de caractere para listar as alternativas",
+    "v": "Type of character to list the alternatives"
   },
   {
     "k": "Tipo de efeito",
@@ -1866,6 +2346,10 @@
   {
     "k": "Tipo de ordenação dos livros da Bíblia",
     "v": "Type of sorting of the books of the Bible"
+  },
+  {
+    "k": "Tipo de separação na exibição de múltiplas versões",
+    "v": "Separation type in multiple version view"
   },
   {
     "k": "Tipo de separação na exibição de múltiplos versículos",
@@ -1886,10 +2370,6 @@
   {
     "k": "Tipo do plano de fundo",
     "v": "Type of background"
-  },
-  {
-    "k": "title",
-    "v": "title"
   },
   {
     "k": "Título da música",
@@ -1924,6 +2404,10 @@
     "v": "Total slides"
   },
   {
+    "k": "Total de versículos",
+    "v": "Total verses"
+  },
+  {
     "k": "Troca o estado atual da respectiva opção **F8 (papel de parede), F9 (tela vazia) ou F10 (tela preta)**",
     "v": "Changes the current state of the respective option **F8 (wallpaper), F9 (empty screen) or F10 (black screen)**"
   },
@@ -1932,16 +2416,12 @@
     "v": "One of the following values:"
   },
   {
-    "k": "uri",
-    "v": "uri"
+    "k": "URI ou ID dos streamings",
+    "v": "URI or ID of the streamings"
   },
   {
     "k": "URL padrão",
     "v": "default URL"
-  },
-  {
-    "k": "Utiliza a mesma estrutura/sintaxe da funcionalidade FunctionInput",
-    "v": "Uses the same structure/syntax as the FunctionInput feature"
   },
   {
     "k": "Utilizando hash",
@@ -1962,6 +2442,10 @@
   {
     "k": "Utilizar o tema personalizado nos versículos",
     "v": "Use custom theme in verses"
+  },
+  {
+    "k": "Utilize 'default' para usar o texto original",
+    "v": "Use 'default' to use the original text"
   },
   {
     "k": "Utilize a ação 'Auth' novamente para se autenticar, passando os parâmetros na URL",
@@ -2000,6 +2484,10 @@
     "v": "BPM value of item"
   },
   {
+    "k": "Valor compatível para exibição no **JavaScript Monitor**",
+    "v": "Compatible value for display in **JavaScript Monitor**"
+  },
+  {
     "k": "Valor em porcentagem baseado na altura da linha",
     "v": "Value in percentage based on the line height"
   },
@@ -2012,6 +2500,14 @@
     "v": "Value in seconds to define how long the countdown will be yellow from"
   },
   {
+    "k": "valor mais próximo que seja anterior ou igual à data especificada",
+    "v": "The closest value that is earlier than or equal to the specified date"
+  },
+  {
+    "k": "valor mais próximo que seja igual ou posterior à data especificada",
+    "v": "The closest value that is equal to or later than the specified date"
+  },
+  {
     "k": "Valor matiz atual. Mínimo=0, Máximo=360. Retorna **null** se desativado.",
     "v": "Current hue value. Minimum=0, Maximum=360. Returns **null** if disabled."
   },
@@ -2022,6 +2518,10 @@
   {
     "k": "Valor padrão para",
     "v": "Default value for"
+  },
+  {
+    "k": "Valor traduzido do item, onde o nome do parâmetro `???` é o nome da tradução",
+    "v": "Translated value of the item, where the parameter name `???` is the name of the translation"
   },
   {
     "k": "Valores aceitos",
@@ -2088,16 +2588,12 @@
     "v": "Bible version set in the third tab"
   },
   {
-    "k": "verse",
-    "v": "verse"
+    "k": "Versão do programa",
+    "v": "Program version"
   },
   {
     "k": "Versículo",
     "v": "Verse"
-  },
-  {
-    "k": "video",
-    "v": "video"
   },
   {
     "k": "Visão do palco ativada",
