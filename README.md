@@ -6095,6 +6095,7 @@ Requisição
 | `slides.*.slide_description` | _String_ | Descrição do slide `v2.21.1+` |
 | `slides.*.background_id` | _String_ | ID do tema ou plano de fundo salvo para o slide `v2.21.0+` |
 | `slides.*.translations` | _Object_ | Traduções para o slide.<br>Conjunto chave/valor. `v2.25.0+` |
+| `formatting_type` | _String_ | `basic`  `styled`  `advanced`<br> <br>Ao utilizar este objeto em métodos de criação ou edição, se `formatting_type=basic` for utilizado, o valor da variável `slides.*.text` será utilizado, caso contrário, o valor da variável `slides.*.styled_text` será utilizado `Padrão: basic` `v2.25.0+` |
 | `order` | _String_ | Ordem dos slides (índice a partir do 1), separado por vírgula `v2.21.0+` |
 | `title_translations` | _Object_ | Traduções para o slide título.<br>Conjunto chave/valor. `v2.25.0+` |
 | `key` | _String_ | Tom da música.<br>Pode ser: `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
@@ -6151,6 +6152,7 @@ Requisição
       "translations": null
     }
   ],
+  "formatting_type": "basic",
   "order": "1,2,3,2,2",
   "title_translations": null,
   "key": "",
@@ -6191,8 +6193,8 @@ Requisição
 | `slides.*.styled_text` | _String_ | Texto do slide com formatação **styled** (quanto disponível) `v2.24.0+` |
 | `slides.*.background_id` | _String_ | ID do tema ou plano de fundo salvo para o slide |
 | `slides.*.translations` | _Object_ | Traduções para o slide.<br>Conjunto chave/valor. `v2.25.0+` |
+| `formatting_type` | _String_ | `basic`  `styled`  `advanced`<br> <br>Ao utilizar este objeto em métodos de criação ou edição, se `formatting_type=basic` for utilizado, o valor da variável `slides.*.text` será utilizado, caso contrário, o valor da variável `slides.*.styled_text` será utilizado `Padrão: basic` `v2.25.0+` |
 | `extras` | _Object_ | Mapa de objetos extras (adicionados pelo usuário) `v2.24.0+` |
-| `formatting_type` | _String_ | `basic`  `styled`  `advanced` `v2.25.0+` |
 | `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 <details>
   <summary>Ver exemplo</summary>
@@ -6711,7 +6713,7 @@ Configurações de exibição
 {
   "id": "public",
   "name": "Público",
-  "screen": "0,0",
+  "screen": "1920,0",
   "slide_info": {
     "info_1": {
       "show_page_count": false,
@@ -6757,16 +6759,16 @@ Configurações de exibição
     "left": 0.0
   },
   "area": {
-    "x": 0,
+    "x": 1920,
     "y": 0,
-    "width": 0,
-    "height": 0
+    "width": 1920,
+    "height": 1080
   },
   "total_area": {
-    "x": 0,
+    "x": 1920,
     "y": 0,
-    "width": 0,
-    "height": 0
+    "width": 1920,
+    "height": 1080
   },
   "hide": false,
   "media_player": {
@@ -6777,10 +6779,10 @@ Configurações de exibição
       "left": 0.0
     },
     "area": {
-      "x": 0,
+      "x": 1920,
       "y": 0,
-      "width": 0,
-      "height": 0
+      "width": 1920,
+      "height": 1080
     }
   }
 }
@@ -8537,8 +8539,8 @@ Configurações customizadas da tradução (item)
 
 ```json
 {
-  "id": "1742267662466",
-  "datetime": 1742267662466,
+  "id": "1742142790725",
+  "datetime": 1742142790725,
   "user_id": "-1qfe9t8wtrsb6p5",
   "name": "example",
   "message": "example"
