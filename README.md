@@ -18,6 +18,8 @@ Para acessar as configurações API Server:
 <br/>
 Menu arquivo > Configurações > API Server
 
+`v2.25.0+` Adicionada compatibilidade com [ETag](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Headers/ETag)
+
 # Exemplo de requisição pela rede local
 
 Você pode passar o token na URL para realizar a requisição.
@@ -286,7 +288,49 @@ Resposta
 }
 ```
 
+# Exemplo de implementação JavaScript
+
+Utilize os métodos da classe [JSLIB](https://github.com/holyrics/jslib) para criar sua própria implementação.
+<br/>
+Se você criar sua própria implementação, é necessário retornar 'true' se quiser que o programa consuma a requisição utilizando a implementação padrão.
+<br/>
+Qualquer valor retornado que seja diferente de 'true', o programa irá considerar que a requisição já foi consumida e vai respondê-la com o valor retornado.
+
+```javascript
+function request(action, headers, content, info) {
+    switch (action) {
+        case 'my_custom_action':
+            //executar sua própria ação e resposta
+            return {'status': 'ok'}; //  <-  Resposta da requisição
+    }
+    //Retornando 'true' para o programa consumir esta requisição com a implementação padrão
+    return true;
+}
+
+```
+
+### Parâmetros do método
+
+`action` - Nome da ação
+
+`headers` - Contém os cabeçalhos da requisição. Exemplo: `headers.Authorization`
+
+`content` - Objeto com o conteúdo extraído da requisição. Exemplo: `content.theme.id`
+
+`info` - Informações da requisição.
+<br/>
+`info.client_address` Endereço da origem da requisição
+<br/>
+`info.token` token de acesso utilizado na requisição
+<br/>
+`info.local` **true** se a origem da requisição for da rede local
+<br/>
+`info.web` **true** se a origem da requisição for da internet
+<br/>
+
 # Ações disponíveis 
+  - [GetTokenInfo](#gettokeninfo)
+  - [CheckPermissions](#checkpermissions)
   - [GetLyrics](#getlyrics)
   - [GetSongs](#getsongs)
   - [SearchLyrics](#searchlyrics)
@@ -368,6 +412,8 @@ Resposta
   - [GetHistory](#gethistory)
   - [GetHistories](#gethistories)
   - [GetNearestHistory](#getnearesthistory)
+  - [GetSongGroup](#getsonggroup)
+  - [GetSongGroups](#getsonggroups)
   - [GetTeams](#getteams)
   - [GetMembers](#getmembers)
   - [GetRoles](#getroles)
@@ -417,6 +463,86 @@ Resposta
   - [CloseCurrentQuickPresentation](#closecurrentquickpresentation)
   - [GetCurrentQuickPresentation](#getcurrentquickpresentation)
   - [GetTriggers](#gettriggers)
+  - [GetGlobalSettings](#getglobalsettings)
+  - [SetGlobalSettings](#setglobalsettings)
+  - [GetStyledModels](#getstyledmodels)
+  - [GetStyledModelsAsMap](#getstyledmodelsasmap)
+  - [CreateItem](#createitem)
+  - [EditItem](#edititem)
+  - [DeleteItem](#deleteitem)
+  - [AddSongsToSongGroup](#addsongstosonggroup)
+  - [RemoveSongsFromSongGroup](#removesongsfromsonggroup)
+
+
+---
+
+### GetTokenInfo
+- v2.25.0
+
+Obtém a informação do token
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data.version` | _String_ | Versão no formato: X.Y.Z |
+| `data.permissions` | _String_ | Ações permitidas para o token, separados por vírgula |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "version": "2.25.0",
+    "permissions": "GetSongs,GetFavorites"
+  }
+}
+```
+
+
+---
+
+### CheckPermissions
+- v2.25.0
+
+Verifica se o token tem as permissões requeridas.<br>Retorna `status=ok` se o token tiver todas as permissões requeridas no parâmetro `actions`.<br>Retorna `code 401` se o token não tiver todas as permissões requeridas.
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `actions` | _String_ | Lista de ações requeridas para o token, separados por vírgula |
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| <br>Disponível se **status=error** |  |  |
+| `error.unauthorized_actions` | _String (opcional)_ | Ações não permitidas, separados por vírgula |
+| `error.request_status` | _String (opcional)_ | `pending` foi criada uma notificação solicitando permissão ao usuário na interface do programa<br> <br>`denied` a solicitação de permissão foi negada |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "actions": "GetSongs,GetFavorites"
+}
+
+Resposta
+{
+  "status": "error",
+  "error": {
+    "unauthorized_actions": "GetFavorites",
+    "request_status": "pending"
+  }
+}
+```
 
 
 ---
@@ -887,8 +1013,8 @@ Retorna a lista de arquivos da respectiva aba: áudio, vídeo, imagem, arquivo
 | `data.*.position` | _String_ | Ajuste da imagem. Disponível para imagens. Pode ser: `adjust` `extend` `fill` `v2.22.0+` |
 | `data.*.blur` | _Boolean_ | Aplicar efeito blur `v2.22.0+` |
 | `data.*.transparent` | _Boolean_ | Exibir imagens com transparência `v2.22.0+` |
-| `data.*.last_executed_time` | _Boolean_ | Data da última execução do arquivo. Data e hora no formato: YYYY-MM-DD HH:MM `v2.24.0+` |
-| `data.*.last_executed_time_millis` | _Boolean_ |  `v2.24.0+` |
+| `data.*.last_executed_time` | _String_ | Data da última execução do arquivo. Data e hora no formato: YYYY-MM-DD HH:MM `v2.24.0+` |
+| `data.*.last_executed_time_millis` | _Number_ | Data da última execução do arquivo. (timestamp) `v2.24.0+` |
 | <br>Disponível se **include_thumbnail=true** |  |  |
 | `data.*.thumbnail` | _String_ | Imagem no formato base64 `v2.22.0+` |
 
@@ -1319,7 +1445,7 @@ Apresentação rápida de um texto
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `text` | _String_ | Texto que será exibido. [Styled Text](#styled-text) a partir da v2.19.0<br>Opcional se `slides` for declarado |
+| `text` | _String_ | Texto que será exibido. [Styled Text](https://github.com/holyrics/Scripts/blob/main/StyledText.md) a partir da v2.19.0<br>Opcional se `slides` for declarado |
 | `slides` | _Array&lt;[QuickPresentationSlide](#quick-presentation-slide)&gt;_ | Parâmetro alternativo para apresentações mais complexas<br>Opcional se `text` for declarado `v2.23.0+` |
 | `theme` | _[ThemeFilter](#theme-filter) (opcional)_ | Filtrar tema selecionado para exibição |
 | `custom_theme` | _[Theme](#theme) (opcional)_ | Tema personalizado utilizado para exibir o texto `v2.21.0+` |
@@ -1357,8 +1483,9 @@ Exibir uma contagem regressiva na tela público
 | `text_before` | _String (opcional)_ | Texto exibido na parte superior da contagem regressiva |
 | `text_after` | _String (opcional)_ | Texto exibido na parte inferior da contagem regressiva |
 | `zero_fill` | _Boolean (opcional)_ | Preencher o campo 'minuto' com zero à esquerda `Padrão: false` |
+| `hide_zero_minute` | _Boolean (opcional)_ | Ocultar a exibição dos minutos quando for zero `Padrão: false` `v2.25.0+` |
 | `countdown_relative_size` | _Number (opcional)_ | Tamanho relativo da contagem regressiva `Padrão: 250` |
-| `theme` | _String (opcional)_ | ID do Tema `v2.21.0+` |
+| `theme` | _[ThemeFilter](#theme-filter) (opcional)_ | Filtrar tema selecionado para exibição `v2.21.0+` |
 | `countdown_style` | _[FontSettings](#font-settings) (opcional)_ | Fonte personalizada para a contagem regressiva `v2.21.0+` |
 | `custom_theme` | _[Theme](#theme) (opcional)_ | Tema personalizado `v2.21.0+` |
 
@@ -3585,6 +3712,107 @@ Resposta
 
 ---
 
+### GetSongGroup
+- v2.25.0
+
+Grupo de música
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `name` | _String_ |  |
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _[Group](#group)_| 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "name": "Example"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "example",
+    "name": "example",
+    "songs": [
+      "123",
+      "456"
+    ],
+    "add_chorus_between_verses": false,
+    "hide_in_interface": false,
+    "metadata": {
+      "modified_time_millis": 1234
+    }
+  }
+}
+```
+
+
+---
+
+### GetSongGroups
+- v2.24.0
+
+Lista de grupos de música
+
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;[Group](#group)&gt;_| 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "example 1",
+      "name": "example 1",
+      "songs": [
+        "123",
+        "456"
+      ],
+      "add_chorus_between_verses": false,
+      "hide_in_interface": false,
+      "metadata": {
+        "modified_time_millis": 1234
+      }
+    },
+    {
+      "id": "example 2",
+      "name": "example 2",
+      "songs": [
+        "123",
+        "456"
+      ],
+      "add_chorus_between_verses": false,
+      "hide_in_interface": false,
+      "metadata": {
+        "modified_time_millis": 1234
+      }
+    }
+  ]
+}
+```
+
+
+---
+
 ### GetTeams
 - v2.22.0
 
@@ -3627,6 +3855,11 @@ Resposta
 
 Lista de integrantes
 
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `only_active` | _Boolean_ |  `Padrão: true` `v2.25.0+` |
 
 
 **Resposta:**
@@ -3638,6 +3871,11 @@ Lista de integrantes
 
 **Exemplo:**
 ```
+Requisição
+{
+  "only_active": true
+}
+
 Resposta
 {
   "status": "ok",
@@ -3662,6 +3900,11 @@ Resposta
 
 Lista de funções
 
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `only_active` | _Boolean_ |  `Padrão: true` `v2.25.0+` |
 
 
 **Resposta:**
@@ -3673,6 +3916,11 @@ Lista de funções
 
 **Exemplo:**
 ```
+Requisição
+{
+  "only_active": true
+}
+
 Resposta
 {
   "status": "ok",
@@ -3697,6 +3945,11 @@ Resposta
 
 Lista de cultos
 
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `only_active` | _Boolean_ |  `Padrão: true` `v2.25.0+` |
 
 
 **Resposta:**
@@ -3708,6 +3961,11 @@ Lista de cultos
 
 **Exemplo:**
 ```
+Requisição
+{
+  "only_active": true
+}
+
 Resposta
 {
   "status": "ok",
@@ -3902,6 +4160,10 @@ Configuração atual do painel de comunicação
 | `data.display_vlc_player_remaining_time` | _Boolean_ | Exibir tempo restante da mídia em execução no VLC Player `v2.20.0+` |
 | `data.attention_icon_color` | _String_ | Cor do ícone do botão **Atenção** `v2.23.0+` |
 | `data.attention_background_color` | _String_ | Cor do fundo do ícone do botão **Atenção** `v2.23.0+` |
+| `data.countdown_hide_zero_minute` | _Boolean_ | Ocultar a exibição dos minutos quando for zero `v2.25.0+` |
+| `data.countdown_hide_zero_hour` | _Boolean_ | Ocultar a exibição das horas quando for zero `v2.25.0+` |
+| `data.stopwatch_hide_zero_minute` | _Boolean_ | Ocultar a exibição dos minutos quando for zero `v2.25.0+` |
+| `data.stopwatch_hide_zero_hour` | _Boolean_ | Ocultar a exibição das horas quando for zero `v2.25.0+` |
 
 
 **Exemplo:**
@@ -3928,32 +4190,36 @@ Resposta
 ### SetCPSettings
 - v2.20.0
 
-Alterar configuração atual do painel de comunicação
+Alterar configuração atual do painel de comunicação.
 
 **Parâmetros:**
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `text` | _String (opcional)_ | Texto atual |
-| `show` | _Boolean (opcional)_ | Exibir o texto atual |
-| `display_ahead` | _Boolean (opcional)_ | Opção *'exibir à frente de tudo'* |
-| `theme` | _Object (opcional)_ | ID ou nome do tema padrão |
-| `theme.id` | _String (opcional)_ |  |
-| `theme.name` | _String (opcional)_ |  |
+| `text` | _String_ | Texto atual |
+| `show` | _Boolean_ | Exibir o texto atual |
+| `display_ahead` | _Boolean_ | Opção *'exibir à frente de tudo'* |
+| `theme` | _Object_ | ID ou nome do tema padrão |
+| `theme.id` | _String_ |  |
+| `theme.name` | _String_ |  |
 | `custom_theme` | _[Theme](#theme) (opcional)_ | Tema personalizado `v2.21.0+` |
-| `alert_text` | _String (opcional)_ | Texto atual do alerta |
-| `alert_show` | _Boolean (opcional)_ | Ativar a exibição do alerta |
-| `countdown_font_relative_size` | _Number (opcional)_ | Tamanho relativo da contagem regressiva |
-| `countdown_font_color` | _String (opcional)_ | Cor da fonte da contagem regressiva |
-| `stopwatch_font_color` | _String (opcional)_ | Cor da fonte do cronômetro |
-| `time_font_color` | _String (opcional)_ | Cor da fonte da hora |
-| `display_clock_as_background` | _Boolean (opcional)_ | Exibir relógio como plano de fundo |
-| `display_clock_on_alert` | _Boolean (opcional)_ | Exibir relógio no alerta |
-| `countdown_display_location` | _String (opcional)_ | Local de exibição da contagem regressiva ou cronômetro. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` |
-| `display_clock_with_countdown_fullscreen` | _Boolean (opcional)_ | Exibir relógio junto da contagem regressiva ou cronômetro quando exibido em tela cheia |
-| `display_vlc_player_remaining_time` | _Boolean (opcional)_ | Exibir tempo restante da mídia em execução no VLC Player |
-| `attention_icon_color` | _String (opcional)_ | Cor do ícone do botão **Atenção** `v2.23.0+` |
-| `attention_background_color` | _String (opcional)_ | Cor do fundo do ícone do botão **Atenção** `v2.23.0+` |
+| `alert_text` | _String_ | Texto atual do alerta |
+| `alert_show` | _Boolean_ | Ativar a exibição do alerta |
+| `countdown_font_relative_size` | _Number_ | Tamanho relativo da contagem regressiva |
+| `countdown_font_color` | _String_ | Cor da fonte da contagem regressiva |
+| `stopwatch_font_color` | _String_ | Cor da fonte do cronômetro |
+| `time_font_color` | _String_ | Cor da fonte da hora |
+| `display_clock_as_background` | _Boolean_ | Exibir relógio como plano de fundo |
+| `display_clock_on_alert` | _Boolean_ | Exibir relógio no alerta |
+| `countdown_display_location` | _String_ | Local de exibição da contagem regressiva ou cronômetro. `FULLSCREEN`  `FULLSCREEN_OR_ALERT`  `ALERT` |
+| `display_clock_with_countdown_fullscreen` | _Boolean_ | Exibir relógio junto da contagem regressiva ou cronômetro quando exibido em tela cheia |
+| `display_vlc_player_remaining_time` | _Boolean_ | Exibir tempo restante da mídia em execução no VLC Player |
+| `attention_icon_color` | _String_ | Cor do ícone do botão **Atenção** `v2.23.0+` |
+| `attention_background_color` | _String_ | Cor do fundo do ícone do botão **Atenção** `v2.23.0+` |
+| `countdown_hide_zero_minute` | _Boolean_ | Ocultar a exibição dos minutos quando for zero `v2.25.0+` |
+| `countdown_hide_zero_hour` | _Boolean_ | Ocultar a exibição das horas quando for zero `v2.25.0+` |
+| `stopwatch_hide_zero_minute` | _Boolean_ | Ocultar a exibição dos minutos quando for zero `v2.25.0+` |
+| `stopwatch_hide_zero_hour` | _Boolean_ | Ocultar a exibição das horas quando for zero `v2.25.0+` |
 
 
 _Método sem retorno_
@@ -4067,7 +4333,7 @@ Alterar o texto do painel de comunicação
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `text` | _String (opcional)_ | Alterar o texto do painel de comunicação. [Styled Text](#styled-text) a partir da v2.19.0 |
+| `text` | _String (opcional)_ | Alterar o texto do painel de comunicação. [Styled Text](https://github.com/holyrics/Scripts/blob/main/StyledText.md) a partir da v2.19.0 |
 | `show` | _Boolean (opcional)_ | Exibir/ocultar o texto |
 | `display_ahead` | _Boolean (opcional)_ | Alterar a opção *'exibir à frente de tudo'* |
 | `theme` | _Object (opcional)_ | ID ou nome do Tema utilizado para exibir o texto `v2.21.0+` |
@@ -5093,7 +5359,7 @@ Altera o valor de um campo da interface do programa
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `id` | _String_ | ID do item |
+| `id` | _String_ | ID do item. Pode ser: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme` |
 | `value` | _String_ | Novo valor |
 | `focus` | _Boolean (opcional)_ | Fazer o componente receber o foco do sistema |
 
@@ -5462,47 +5728,355 @@ Resposta
 
 ---
 
+### GetGlobalSettings
+- v2.25.0
 
 
-# Exemplo de implementação JavaScript
 
-Utilize os métodos da classe [JSLIB](https://github.com/holyrics/jslib) para criar sua própria implementação.
-<br/>
-Se você criar sua própria implementação, é necessário retornar 'true' se quiser que o programa consuma a requisição utilizando a implementação padrão.
-<br/>
-Qualquer valor retornado que seja diferente de 'true', o programa irá considerar que a requisição já foi consumida e vai respondê-la com o valor retornado.
+**Parâmetros:**
 
-```javascript
-function request(action, headers, content, info) {
-    switch (action) {
-        case 'my_custom_action':
-            //executar sua própria ação e resposta
-            return {'status': 'ok'}; //  <-  Resposta da requisição
-    }
-    //Retornando 'true' para o programa consumir esta requisição com a implementação padrão
-    return true;
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `filter` | _String (opcional)_ | Nome das configurações, separadas por vírgula |
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _[GlobalSettings](#global-settings)_ | 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "filter": "show_favorite_bar_main_window,fade_in_out_duration"
 }
 
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "show_favorite_bar_main_window": true,
+    "fade_in_out_duration": 500
+  }
+}
 ```
 
-### Parâmetros do método
 
-`action` - Nome da ação
+---
 
-`headers` - Contém os cabeçalhos da requisição. Exemplo: `headers.Authorization`
+### SetGlobalSettings
+- v2.25.0
 
-`content` - Objeto com o conteúdo extraído da requisição. Exemplo: `content.theme.id`
 
-`info` - Informações da requisição.
-<br/>
-`info.client_address` Endereço da origem da requisição
-<br/>
-`info.token` token de acesso utilizado na requisição
-<br/>
-`info.local` **true** se a origem da requisição for da rede local
-<br/>
-`info.web` **true** se a origem da requisição for da internet
-<br/>
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+|  | _[GlobalSettings](#global-settings)_ |  |
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _Object_ | Conjunto chave/valor com o resultado da alteração de cada item.<br>`true` se o valor foi alterado com sucesso, ou uma `string` com o motivo do erro. |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "show_favorite_bar_main_window": true,
+  "fade_in_out_duration": 100
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "show_favorite_bar_main_window": true,
+    "fade_in_out_duration": "invalid value: 100"
+  }
+}
+```
+
+
+---
+
+### GetStyledModels
+- v2.25.0
+
+
+
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _[StyledModel](#styled-model)_ | 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "key": "title",
+      "properties": {
+        "b": "true",
+        "size": "120"
+      }
+    },
+    {
+      "key": "footer",
+      "properties": {
+        "i": "true",
+        "size": "80"
+      }
+    }
+  ]
+}
+```
+
+
+---
+
+### GetStyledModelsAsMap
+- v2.25.0
+
+
+
+
+
+**Resposta:**
+
+| Tipo  | Descrição |
+| :---: | ------------|
+| _Object_ | Conjunto chave/valor<br>`StyledModel#key : StyledModel#properties` |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "title": {
+      "b": "true",
+      "size": "120"
+    },
+    "footer": {
+      "i": "true",
+      "size": "80"
+    }
+  }
+}
+```
+
+
+---
+
+### CreateItem
+- v2.25.0
+
+Cria um novo item<br> <br>Esta ação requer uma assinatura [Holyrics Plan](https://holyrics.com.br/holyrics_plan.html) para ser executada<br>Para utilizar esta ação é necessário liberar a permissão nas configurações<br>`menu arquivo > configurações > avançado > javascript > configurações > permissões avançadas`<br>Ou se estiver utilizando a implementação de um módulo, liberar permissão nas configurações do módulo e utilizar o método `hly` da classe **Module** `module.hly(action, input)`<br> <br>A estrutura do objeto passado como parâmetro deve ser de acordo com a tabela a seguir<br><table><tr><td><p align="right">**Ação**</p></td><td>Tipo</td></tr><tr><td><p align="right">CreateSong</p></td><td>[Lyrics](#lyrics)</td></tr><tr><td><p align="right">CreateText</p></td><td>[Text](#text)</td></tr><tr><td><p align="right">CreateTheme</p></td><td>[Theme](#theme)</td></tr><tr><td><p align="right">CreateTeam</p></td><td>[Team](#team)</td></tr><tr><td><p align="right">CreateRole</p></td><td>[Role](#role)</td></tr><tr><td><p align="right">CreateMember</p></td><td>[Member](#member)</td></tr><tr><td><p align="right">CreateEvent</p></td><td>[Event](#event)</td></tr><tr><td><p align="right">CreateSongGroup</p></td><td>[Group](#group)</td></tr></table>
+
+
+
+**Resposta:**
+
+| Tipo  | Descrição |
+| :---: | ------------|
+| _Object_ | Retorna o item criado |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "status": "ok",
+  "data": {
+    "title": "Title",
+    "artist": "Artist",
+    "author": "Author",
+    "slides": [
+      {
+        "text": "Example",
+        "slide_description": "Verse 1",
+        "translations": {
+          "pt": "Exemplo"
+        }
+      },
+      {
+        "text": "Example",
+        "slide_description": "Chorus",
+        "translations": {
+          "pt": "Exemplo"
+        }
+      },
+      {
+        "text": "Example",
+        "slide_description": "Verse 2",
+        "translations": {
+          "pt": "Exemplo"
+        }
+      }
+    ],
+    "title_translations": {
+      "pt": "Título"
+    },
+    "orde": "1,2,3,2,2",
+    "key": "G",
+    "bpm": 80,
+    "time_sig": "4/4"
+  }
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "123",
+    "title": "Title",
+    "artist": "Artist",
+    "author": "Author",
+    "slides": [
+      {
+        "text": "Example",
+        "slide_description": "Verse 1",
+        "translations": {
+          "pt": "Exemplo"
+        }
+      },
+      {
+        "text": "Example",
+        "slide_description": "Chorus",
+        "translations": {
+          "pt": "Exemplo"
+        }
+      },
+      {
+        "text": "Example",
+        "slide_description": "Verse 2",
+        "translations": {
+          "pt": "Exemplo"
+        }
+      }
+    ],
+    "title_translations": {
+      "pt": "Título"
+    },
+    "orde": "1,2,3,2,2",
+    "key": "G",
+    "bpm": 80,
+    "time_sig": "4/4"
+  }
+}
+```
+
+
+---
+
+### EditItem
+- v2.25.0
+
+Edita um item existente<br> <br>Esta ação requer uma assinatura [Holyrics Plan](https://holyrics.com.br/holyrics_plan.html) para ser executada<br>Para utilizar esta ação é necessário liberar a permissão nas configurações<br>`menu arquivo > configurações > avançado > javascript > configurações > permissões avançadas`<br>Ou se estiver utilizando a implementação de um módulo, liberar permissão nas configurações do módulo e utilizar o método `hly` da classe **Module** `module.hly(action, input)`<br> <br>Todos os parâmetros são opcionais, exceto: `id`<br>Somente os parâmetros declarados serão alterados, ou seja, não é necessário informar o objeto completo para alterar somente um parâmetro.<br>Parâmetros definidos como `read-only` não são editáveis <br>A estrutura do objeto passado como parâmetro deve ser de acordo com a tabela a seguir<br><table><tr><td><p align="right">**Ação**</p></td><td>Tipo</td></tr><tr><td><p align="right">EditSong</p></td><td>[Lyrics](#lyrics)</td></tr><tr><td><p align="right">EditText</p></td><td>[Text](#text)</td></tr><tr><td><p align="right">EditTheme</p></td><td>[Theme](#theme)</td></tr><tr><td><p align="right">EditTeam</p></td><td>[Team](#team)</td></tr><tr><td><p align="right">EditRole</p></td><td>[Role](#role)</td></tr><tr><td><p align="right">EditMember</p></td><td>[Member](#member)</td></tr><tr><td><p align="right">EditEvent</p></td><td>[Event](#event)</td></tr><tr><td><p align="right">EditSongGroup</p></td><td>[Group](#group)</td></tr></table>
+
+
+
+_Método sem retorno_
+
+
+
+---
+
+### DeleteItem
+- v2.25.0
+
+Apaga um item existente<br> <br>Esta ação requer uma assinatura [Holyrics Plan](https://holyrics.com.br/holyrics_plan.html) para ser executada<br>Para utilizar esta ação é necessário liberar a permissão nas configurações<br>`menu arquivo > configurações > avançado > javascript > configurações > permissões avançadas`<br>Ou se estiver utilizando a implementação de um módulo, liberar permissão nas configurações do módulo e utilizar o método `hly` da classe **Module** `module.hly(action, input)`<br> <br>Informe o id do respectivo item para removê-lo.<br> <br><table><tr><td><p align="right">**Ação**</p></td></tr><tr><td><p align="right">DeleteSong</p></td></tr><tr><td><p align="right">DeleteText</p></td></tr><tr><td><p align="right">DeleteTheme</p></td></tr><tr><td><p align="right">DeleteTeam</p></td></tr><tr><td><p align="right">DeleteRole</p></td></tr><tr><td><p align="right">DeleteMember</p></td></tr><tr><td><p align="right">DeleteEvent</p></td></tr><tr><td><p align="right">DeleteSongGroup</p></td></tr></table>
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do respectivo item |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "123"
+}
+```
+
+
+---
+
+### AddSongsToSongGroup
+- v2.25.0
+
+Adiciona músicas a um grupo<br> <br>Esta ação requer uma assinatura [Holyrics Plan](https://holyrics.com.br/holyrics_plan.html) para ser executada<br>Para utilizar esta ação é necessário liberar a permissão nas configurações<br>`menu arquivo > configurações > avançado > javascript > configurações > permissões avançadas`<br>Ou se estiver utilizando a implementação de um módulo, liberar permissão nas configurações do módulo e utilizar o método `hly` da classe **Module** `module.hly(action, input)`
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `group` | _String_ | Nome do grupo |
+| `songs` | _String_ | Lista com o id das músicas, separados por vírgula |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "group": "Name",
+  "songs": "123,456"
+}
+```
+
+
+---
+
+### RemoveSongsFromSongGroup
+- v2.25.0
+
+Remove músicas de um grupo<br> <br>Esta ação requer uma assinatura [Holyrics Plan](https://holyrics.com.br/holyrics_plan.html) para ser executada<br>Para utilizar esta ação é necessário liberar a permissão nas configurações<br>`menu arquivo > configurações > avançado > javascript > configurações > permissões avançadas`<br>Ou se estiver utilizando a implementação de um módulo, liberar permissão nas configurações do módulo e utilizar o método `hly` da classe **Module** `module.hly(action, input)`
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `group` | _String_ | Nome do grupo |
+| `songs` | _String_ | Lista com o id das músicas, separados por vírgula |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "group": "Name",
+  "songs": "123,456"
+}
+```
+
+
+---
+
+
 
 # Classes
 
@@ -5517,13 +6091,16 @@ function request(action, headers, content, info) {
 | `copyright` | _String_ | Copyright da música |
 | `slides` | _Array&lt;Object&gt;_ |  `v2.21.0+` |
 | `slides.*.text` | _String_ | Texto do slide `v2.21.0+` |
+| `slides.*.styled_text` | _String_ | Texto do slide com formatação **styled** (quando disponível) `v2.24.0+` |
 | `slides.*.slide_description` | _String_ | Descrição do slide `v2.21.1+` |
 | `slides.*.background_id` | _String_ | ID do tema ou plano de fundo salvo para o slide `v2.21.0+` |
+| `slides.*.translations` | _Object_ | Traduções para o slide.<br>Conjunto chave/valor. `v2.25.0+` |
 | `order` | _String_ | Ordem dos slides (índice a partir do 1), separado por vírgula `v2.21.0+` |
+| `title_translations` | _Object_ | Traduções para o slide título.<br>Conjunto chave/valor. `v2.25.0+` |
 | `key` | _String_ | Tom da música.<br>Pode ser: `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
 | `bpm` | _Number_ | BPM da música |
 | `time_sig` | _String_ | Tempo da música.<br>Pode ser: `2/2` `2/4` `3/4` `4/4` `5/4` `6/4` `3/8` `6/8` `7/8` `9/8` `12/8` |
-| `groups` | _Array&lt;[Group](#group)&gt;_ | Grupos onde a música está adicionada |
+| `groups` | _Array&lt;[Group](#group)&gt;_ | Grupos onde a música está adicionada `read-only` |
 | `linked_audio_file` | _String_ | Caminho do arquivo de áudio linkado com a música `v2.22.0+` |
 | `linked_backing_track_file` | _String_ | Caminho do arquivo de áudio (playback) linkado com a música `v2.22.0+` |
 | `streaming` | _Object_ | URI ou ID dos streamings `v2.22.0+` |
@@ -5537,7 +6114,9 @@ function request(action, headers, content, info) {
 | `streaming.backing_track.deezer` | _String_ |  `v2.22.0+` |
 | `midi` | _[Midi](#midi)_ | Atalho MIDI do item |
 | `extras` | _Object_ | Mapa de objetos extras (adicionados pelo usuário) `v2.21.0+` |
+| `theme` | _String_ | ID do tema salvo para a música `v2.25.0+` |
 | `archived` | _Boolean_ | Se a música está arquivada |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -5567,16 +6146,16 @@ function request(action, headers, content, info) {
     {
       "text": "Slide 3 line 1\nSlide 3 line 2",
       "styled_text": "Slide 3 line 1\nSlide 3 line 2",
-      "slide_description": "Verse 3",
+      "slide_description": "Verse 2",
       "background_id": null,
       "translations": null
     }
   ],
   "order": "1,2,3,2,2",
+  "title_translations": null,
   "key": "",
   "bpm": 0.0,
   "time_sig": "",
-  "groups": [],
   "linked_audio_file": "",
   "linked_backing_track_file": "",
   "streaming": {
@@ -5594,6 +6173,7 @@ function request(action, headers, content, info) {
   "extras": {
     "extra": ""
   },
+  "theme": null,
   "archived": false
 }
 ```
@@ -5608,8 +6188,12 @@ function request(action, headers, content, info) {
 | `theme` | _String_ | ID do tema salvo para o texto |
 | `slides` | _Array&lt;Object&gt;_ |  |
 | `slides.*.text` | _String_ | Texto do slide |
+| `slides.*.styled_text` | _String_ | Texto do slide com formatação **styled** (quanto disponível) `v2.24.0+` |
 | `slides.*.background_id` | _String_ | ID do tema ou plano de fundo salvo para o slide |
+| `slides.*.translations` | _Object_ | Traduções para o slide.<br>Conjunto chave/valor. `v2.25.0+` |
 | `extras` | _Object_ | Mapa de objetos extras (adicionados pelo usuário) `v2.24.0+` |
+| `formatting_type` | _String_ | `basic`  `styled`  `advanced` `v2.25.0+` |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -5639,7 +6223,7 @@ function request(action, headers, content, info) {
       "translations": null
     }
   ],
-  "extras": {}
+  "formatting_type": "basic"
 }
 ```
 </details>
@@ -5709,6 +6293,8 @@ function request(action, headers, content, info) {
 | <br>**settings** |  | <br>Configurações |
 | `settings.uppercase` | _Boolean_ | Exibir o texto em maiúsculo |
 | `settings.line_break` | _String_ | Aplicar quebra de linha. `system`  `true`  `false`<br> `Padrão: system` |
+| <br>**metadata** |  | <br> |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -5717,18 +6303,24 @@ function request(action, headers, content, info) {
   "id": "123",
   "name": "",
   "background": {
-    "type": "color", "id": "212121", "opacity": 100
+    "type": "color",
+    "id": "212121",
+    "opacity": 100
   },
   "base_color": "FFFFFF",
   "font": {
-    "name": "CMG Sans", "bold": true,
+    "name": "CMG Sans",
+    "bold": true,
     "italic": false,
     "size": 10.0,
-    "color": "F5F5F5", "line_spacing": 0.3,
+    "color": "F5F5F5",
+    "line_spacing": 0.3,
     "char_spacing": 0
   },
   "align": {
-    "horizontal": "center", "vertical": "middle", "margin": {
+    "horizontal": "center",
+    "vertical": "middle",
+    "margin": {
       "top": 3.0,
       "right": 3.0,
       "bottom": 3.0,
@@ -5736,15 +6328,20 @@ function request(action, headers, content, info) {
     }
   },
   "effect": {
-    "outline_color": "404040", "outline_weight": 0.0,
-    "brightness_color": "C0C0C0", "brightness_weight": 0.0,
-    "shadow_color": "404040", "shadow_x_weight": 0.0,
+    "outline_color": "404040",
+    "outline_weight": 0.0,
+    "brightness_color": "C0C0C0",
+    "brightness_weight": 0.0,
+    "shadow_color": "404040",
+    "shadow_x_weight": 0.0,
     "shadow_y_weight": 0.0,
     "blur": true
   },
   "shape_fill": {
-    "type": "box", "enabled": false,
-    "color": "000000", "margin": {
+    "type": "box",
+    "enabled": false,
+    "color": "000000",
+    "margin": {
       "top": 5.0,
       "right": 30.0,
       "bottom": 10.0,
@@ -5753,8 +6350,10 @@ function request(action, headers, content, info) {
     "corner": 0
   },
   "shape_outline": {
-    "type": "box", "enabled": false,
-    "color": "000000", "outline_thickness": 10,
+    "type": "box",
+    "enabled": false,
+    "color": "000000",
+    "outline_thickness": 10,
     "margin": {
       "top": 5.0,
       "right": 30.0,
@@ -5764,7 +6363,8 @@ function request(action, headers, content, info) {
     "corner": 0
   },
   "comment": {
-    "font_name": "Arial", "bold": false,
+    "font_name": "Arial",
+    "bold": false,
     "italic": true,
     "relative_size": 100,
     "color": "A0A0A0"
@@ -5783,6 +6383,9 @@ function request(action, headers, content, info) {
 | `id` | _String_ | ID do item |
 | `type` | _String_ | Tipo do item. Pode ser: `theme` `my_video` `my_image` `video` `image` |
 | `name` | _String_ | Nome do item |
+| `width` | _Number (opcional)_ |  |
+| `height` | _Number (opcional)_ |  |
+| `duration` | _Number (opcional)_ | Duração em milissegundos |
 | `tags` | _Array&lt;String&gt;_ | Lista de tags do item |
 | `bpm` | _Number_ | Valor BPM do item |
 | `midi` | _[Midi](#midi) (opcional)_ | Atalho MIDI do item |
@@ -5794,7 +6397,9 @@ function request(action, headers, content, info) {
   "id": "10",
   "type": "video",
   "name": "Hexagons",
-  "tags": [],
+  "duration": "29050",
+  "width": "1280",
+  "height": "720",
   "bpm": 0.0
 }
 ```
@@ -5817,7 +6422,6 @@ function request(action, headers, content, info) {
 {
   "name": "Chorus",
   "tag": "C",
-  "aliases": [],
   "font_color": "FFFFFF",
   "bg_color": "000080",
   "background": null,
@@ -5836,8 +6440,12 @@ function request(action, headers, content, info) {
 ## Group
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `name` | _String_ | Nome do item |
-| `songs` | _Array&lt;Number&gt;_ | Lista dos IDs das músicas |
+| `id` | _String_ | ID do item. (O mesmo valor que `name`). `v2.25.0+` |
+| `name` | _String_ | Nome do item `read-only` |
+| `songs` | _Array&lt;String&gt;_ | Lista dos IDs das músicas |
+| `add_chorus_between_verses` | _Boolean_ |  `v2.25.0+` |
+| `hide_in_interface` | _Boolean_ |  `v2.25.0+` |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 
 ## Announcement
 | Nome | Tipo  | Descrição |
@@ -5872,20 +6480,28 @@ function request(action, headers, content, info) {
 ## Service
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
+| `id` | _String_ | ID do item `v2.25.0+` |
 | `name` | _String_ | Nome do item |
+| `disabled` | _Boolean_ | Retorna **true** se o item estiver definido como desativado `v2.25.0+` |
 | `week` | _String_ | Semana. Pode ser: `all` `first` `second` `third` `fourth` `last` |
 | `day` | _String_ | Dia da semana. Pode ser: `sun` `mon` `tue` `wed` `thu` `fri` `sat` |
 | `hour` | _Number_ | Hora [0-23] |
 | `minute` | _Number_ | Minuto [0-59] |
 | `type` | _String_ | Tipo do item. Pode ser: `service` `event` |
 | `hide_week` | _Array&lt;String&gt;_ | Lista com as semanas ocultadas. Disponível se `week=all` |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 
 ## Event
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `name` | _String_ | Nome do evento |
+| `id` | _String_ | ID do item `v2.25.0+` |
+| `name` | _String_ | Nome do item |
+| `description` | _String_ | Descrição do item `v2.25.0+` |
 | `datetime` | _String_ | Data e hora no formato: YYYY-MM-DD HH:MM |
+| `datetime_millis` | _String_ | timestamp `v2.24.0+` `read-only` |
 | `wallpaper` | _String_ | Caminho relativo do arquivo utilizado como papel de parede do evento |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
+| `metadata.service` | _[Service](#service)_ | Culto ou evento regular que dá origem a esse evento. Pode ser `null` se for um evento criado individualmente. `v2.25.0+` `read-only` |
 
 ## Schedule
 | Nome | Tipo  | Descrição |
@@ -5905,6 +6521,8 @@ function request(action, headers, content, info) {
 | `roles.*.name` | _String_ | Nome da função |
 | `roles.*.member` | _[Member](#member)_ | Integrante escalado para a função |
 | `notes` | _String_ | Anotações `v2.21.0+` |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
+| `metadata.event` | _[Event](#event)_ | Evento que dá origem a essa lista de reprodução. Pode ser `null` se `type=temporary`. `v2.25.0+` `read-only` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -5954,8 +6572,6 @@ function request(action, headers, content, info) {
     }
   ],
   "responsible": null,
-  "members": [],
-  "roles": [],
   "notes": ""
 }
 ```
@@ -5967,21 +6583,26 @@ function request(action, headers, content, info) {
 | `id` | _String_ | ID do item |
 | `name` | _String_ | Nome do item |
 | `description` | _String_ | Descrição do item |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 
 ## Member
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
 | `name` | _String_ | Nome do item |
+| `disabled` | _Boolean_ | Retorna **true** se o item estiver definido como desativado `v2.25.0+` |
 | `skills` | _String_ | Habilidades |
 | `roles` | _Array&lt;[Role](#role)&gt;_ | Funções |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 
 ## Role
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
 | `name` | _String_ | Nome do item |
+| `disabled` | _Boolean_ | Retorna **true** se o item estiver definido como desativado `v2.25.0+` |
 | `team` | _[Team](#team)_ | Time |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 
 ## Automatic Presentation
 | Nome | Tipo  | Descrição |
@@ -6017,7 +6638,7 @@ function request(action, headers, content, info) {
 | `id` | _String (opcional)_ | ID do item |
 | `when` | _String_ | `displaying` `closing` `change` `event` |
 | `item` | _String_ | Tipo do item. Pode ser:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` |
-| `action` | _Function_ | Ação que será executada |
+| `action` | _Function_ | Ação que será executada.<br>`function(obj) { /*  */ }`<br>Conteúdo de `obj` de acordo com o tipo do item:<br>[`any_song`](https://github.com/holyrics/jslib#songinfo)  [`any_text`](https://github.com/holyrics/jslib#textinfo)  [`any_verse`](https://github.com/holyrics/jslib#verseinfo)  [`any_announcement`](https://github.com/holyrics/jslib#announcementinfo)  [`any_audio`](https://github.com/holyrics/jslib#audioinfo)  [`any_video`](https://github.com/holyrics/jslib#videoinfo)  [`any_image`](https://github.com/holyrics/jslib#imageinfo)  [`any_automatic_presentation`](https://github.com/holyrics/jslib#automaticpresentationinfo)  [`any_song_slide`](https://github.com/holyrics/jslib#songslideinfo)  [`any_text_slide`](https://github.com/holyrics/jslib#textslideinfo)  [`any_ppt_slide`](https://github.com/holyrics/jslib#pptslideinfo)  [`any_theme`](https://github.com/holyrics/jslib#themeinfo)  [`any_background`](https://github.com/holyrics/jslib#backgroundinfo)  [`any_title_subitem`](https://github.com/holyrics/jslib#titleinfo)  [`any_webcam`](https://github.com/holyrics/jslib#webcaminfo)  [`any_audio_folder`](https://github.com/holyrics/jslib#audioinfo)  [`any_video_folder`](https://github.com/holyrics/jslib#videoinfo)  [`any_image_folder`](https://github.com/holyrics/jslib#imageinfo)  [`any_ppt`](https://github.com/holyrics/jslib#pptinfo)  [`any_countdown`](https://github.com/holyrics/jslib#countdowninfo)  [`any_automatic_presentation_slide`](https://github.com/holyrics/jslib#automaticpresentationslideinfo)  [`f8`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`f9`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`f10`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`new_message_chat`](https://github.com/holyrics/jslib#newchatmessageinfo)  [`verse_presentation_changed`](https://github.com/holyrics/jslib#versepresentationchangedinfo)  [`playlist_changed`](https://github.com/holyrics/jslib#playlistchangedinfo)  [`file_modified`](https://github.com/holyrics/jslib#filemodifiedinfo)  [`player_progress`](https://github.com/holyrics/jslib#playerprogressinfo)<br><br>Todos os itens de **when=change** contém: `obj.id` `obj.name` `obj.old_value` `obj.new_value` |
 | `name` | _String (opcional)_ | Nome do item. Valor compatível para exibição no **JavaScript Monitor** `v2.23.0+` |
 | `filter` | _Object (opcional)_ | Executar ação somente se o objeto que gerou o gatilho corresponder ao objeto filter `v2.24.0+` |
 <details>
@@ -6029,8 +6650,7 @@ function request(action, headers, content, info) {
   "when": "displaying",
   "item": "any_song",
   "action": function(obj) { /* TODO */ },
-  "name": "name",
-  "filter": {}
+  "name": "name"
 }
 ```
 </details>
@@ -6250,7 +6870,10 @@ Configurações de exibição
   "book_panel_type": "grid",
   "book_panel_order": "automatic",
   "book_panel_order_available_items": [
-    "automatic", "standard", "ru", "tyv"
+    "automatic",
+    "standard",
+    "ru",
+    "tyv"
   ],
   "multiple_verses_separator_type": "double_line_break",
   "multiple_versions_separator_type": "double_line_break",
@@ -6339,11 +6962,15 @@ Configurações de exibição
   "info_1": {
     "show_page_count": false,
     "show_slide_description": false,
-    "horizontal_align": "right", "vertical_align": "bottom"
+    "horizontal_align": "right",
+    "vertical_align": "bottom"
   },
   "info_2": {
     "show": false,
-    "layout_row_1": "<title>< (%author_or_artist%)>", "layout_text_row_1": "", "horizontal_align": "right", "vertical_align": "bottom"
+    "layout_row_1": "<title>< (%author_or_artist%)>",
+    "layout_text_row_1": "",
+    "horizontal_align": "right",
+    "vertical_align": "bottom"
   },
   "font": {
     "name": null,
@@ -6400,8 +7027,7 @@ Configurações de exibição
       "position": 2,
       "name": "nome",
       "only_number": false,
-      "uppercase": false,
-      "suggestions": []
+      "uppercase": false
     },
     {
       "position": 22,
@@ -6436,8 +7062,7 @@ Configurações de exibição
   "position": 0,
   "name": "",
   "only_number": false,
-  "uppercase": false,
-  "suggestions": []
+  "uppercase": false
 }
 ```
 </details>
@@ -6458,7 +7083,9 @@ Configurações de exibição
   "name": "",
   "title": "...",
   "alternatives": [
-    "Item 1", "Item 2", "Item 3"
+    "Item 1",
+    "Item 2",
+    "Item 3"
   ],
   "correct_alternative_number": 2,
   "source": ""
@@ -6510,10 +7137,12 @@ Configurações de exibição
   "text": "text",
   "duration": 3,
   "translations": {
-    "key1": "value1", "key2": "value2"
+    "key1": "value1",
+    "key2": "value2"
   },
   "theme": {
-    "name": "...", "edit": {
+    "name": "...",
+    "edit": {
       "font": {
         "name": "Arial",
         "size": 10,
@@ -6592,10 +7221,14 @@ Conjunto chave/valor
   "fill_color": null,
   "clock": {
     "enabled": false,
-    "font_name": "", "bold": false,
+    "font_name": "",
+    "bold": false,
     "italic": false,
-    "color": "FF0000", "background": "000000", "height": 12,
-    "position": "top_right", "corner": 0
+    "color": "FF0000",
+    "background": "000000",
+    "height": 12,
+    "position": "top_right",
+    "corner": 0
   }
 }
 ```
@@ -6683,7 +7316,8 @@ Conjunto chave/valor
 {
   "reference": "Ps 23.1-2",
   "ids": [
-    "19023001", "19023002"
+    "19023001",
+    "19023002"
   ],
   "verses": [
     {
@@ -6739,6 +7373,26 @@ Configurações customizadas da tradução
 | `merge` | _Boolean_ |  |
 | `uppercase` | _Boolean_ |  |
 | `blank_line_height` | _Number_ | `0 ~ 100` |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "translation_1": {
+    "name": "default",
+    "style": "",
+    "prefix": "",
+    "suffix": ""
+  },
+  "translation_2": null,
+  "translation_3": null,
+  "translation_4": null,
+  "merge": false,
+  "uppercase": false,
+  "blank_line_height": 0
+}
+```
+</details>
 
 ## Translation Custom Settings Item
 Configurações customizadas da tradução (item)
@@ -6746,9 +7400,257 @@ Configurações customizadas da tradução (item)
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `name` | _String_ | Nome da tradução. Utilize 'default' para usar o texto original. |
-| `style` | _String_ | Formatação customizada do texto. [Styled Text](#styled-text) |
+| `style` | _String_ | Formatação customizada do texto. [Styled Text](https://github.com/holyrics/Scripts/blob/main/StyledText.md) |
 | `prefix` | _String_ | Texto adicionado no início de cada linha |
 | `suffix` | _String_ | Texto adicionado no final de cada linha |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "name": "default",
+  "style": "",
+  "prefix": "",
+  "suffix": ""
+}
+```
+</details>
+
+## Styled Model
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `key` | _String_ |  |
+| `properties` | _Object_ | Conjunto chave/valor |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "key": "title",
+  "properties": {
+    "b": "true",
+    "size": "120"
+  }
+}
+```
+</details>
+
+## Initial Slide Settings
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `display_mode` | _String_ | Valores aceitos: `title_author` `title_author_or_artist` `title` `title_artist` `blank` `remove` |
+| `uppercase` | _Boolean_ |  |
+| `automatic_line_break` | _Boolean_ |  |
+| `underlined_title` | _Boolean_ |  |
+| `title_font_relative_size` | _Number_ | `40 ~ 160` |
+| `author_or_artist_font_relative_size` | _Number_ | `40 ~ 160` |
+| `keep_ratio` | _Boolean_ |  |
+| `remove_final_slide` | _Boolean_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "display_mode": "title_author_or_artist",
+  "uppercase": false,
+  "automatic_line_break": true,
+  "underlined_title": true,
+  "title_font_relative_size": 130,
+  "author_or_artist_font_relative_size": 110,
+  "keep_ratio": true,
+  "remove_final_slide": false
+}
+```
+</details>
+
+## Copyright Settings
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `display_mode` | _String_ | Valores aceitos: `disabled` `first_slide` `all_slides` `last_slide` `display_for_x_seconds` |
+| `seconds` | _String_ | Disponível se `display_mode=display_for_x_seconds`<br>Valores aceitos: `5` `10` `15` `20` `30` `60` `120` |
+| `layout` | _String_ | Valores aceitos: `t,a` `t;a` `t,a;c` `t;a;c` |
+| `font.name` | _String_ | Nome da fonte |
+| `font.bold` | _String_ | Negrito |
+| `font.italic` | _String_ | Itálico |
+| `font.color` | _String_ | Cor no formato hexadecimal |
+| `line_height` | _Number_ | `2.0 ~ 10.0` |
+| `align` | _String_ | Valores aceitos: `left` `center` `right` |
+| `opaticy` | _Number_ | `30 ~ 100` |
+| `position` | _String_ | Valores aceitos: `top_left` `top_center` `top_right` `bottom_left` `bottom_center` `bottom_right` |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "display_mode": "all_slides",
+  "layout": "t;a;c",
+  "font": {
+    "name": "Arial",
+    "bold": true,
+    "italic": true,
+    "color": "FFFF00"
+  },
+  "line_height": 3.0,
+  "align": "left",
+  "opacity": 70,
+  "position": "top_left"
+}
+```
+</details>
+
+## Image Presentation Settings
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `adjust_type` | _String_ | `adjust` `extend` |
+| `blur` | _Object_ | Utilizado somente se: `adjust_type=adjust` |
+| `blur.enabled` | _Boolean_ |  |
+| `blur.radius` | _Number_ | `1 ~ 20` |
+| `blur.times` | _Number_ | `1 ~ 10` |
+| `blur.opacity` | _Number_ | `10 ~ 100` |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "adjust_type": "adjust",
+  "blur": {
+    "enabled": true,
+    "radius": 8,
+    "times": 5,
+    "opacity": 70
+  }
+}
+```
+</details>
+
+## Non-Latin Alphabet Support Settings
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `enabled` | _Boolean_ |  |
+| `font_or_script` | _String_ | `system` `lucida_sans` `arial_unicode_ms` `nirmala_ui` `arabic` `armenian` `bengali` `bopomofo` `cyrillic` `devanagari` `georgian` `gujarati` `gurmukhi` `han` `hebrew` `hiragana` `kannada` `katakana` `malayalam` `meetei_mayek` `ol_chiki` `oriya` `sinhala` `tamil` `telugu` `thai` |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "enabled": false,
+  "font_or_script": "system"
+}
+```
+</details>
+
+## Global Settings
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `fade_in_out_enabled` | _Boolean_ |  |
+| `fade_in_out_duration` | _Number_ | `200 ~ 1200` |
+| `show_history_main_window` | _Boolean_ |  |
+| `show_favorite_bar_main_window` | _Boolean_ |  |
+| `show_favorite_bar_bible_window` | _Boolean_ |  |
+| `show_module_bar_main_window` | _Boolean_ |  |
+| `show_module_bar_bible_window` | _Boolean_ |  |
+| `show_automatic_presentation_tab_main_window` | _Boolean_ |  |
+| `text_editor_font_name` | _String_ |  |
+| `show_comment_main_window` | _Boolean_ |  |
+| `show_comment_presentation_footer` | _Boolean_ |  |
+| `show_comment_app` | _Boolean_ |  |
+| `initial_slide` | _[InitialSlideSettings](#initial-slide-settings)_ |  |
+| `copyright` | _Object_ | Conjunto chave/valor<br>chave: `public` `screen_2` `screen_3` `screen_?` `stream_image`<br>valor: [CopyrightSettings](#copyright-settings) |
+| `image_presentation` | _[ImagePresentationSettings](#image-presentation-settings)_ |  |
+| `black_screen_color` | _String_ | Cor no formato hexadecimal |
+| `swap_f5` | _Boolean_ |  |
+| `stage_view_modifier_enabled` | _Boolean_ |  |
+| `disable_modifier_automatically` | _Boolean_ |  |
+| `automatic_presentation_theme_chooser` | _Boolean_ |  |
+| `automatic_presentation_execution_delay` | _String_ | Valores aceitos: `0` `1000` `1500` `2000` `2500` `3000` |
+| `skip_slide_transition_if_equals` | _Boolean_ |  |
+| `non_latin_alphabet_support` | _[NonLatinAlphabetSupportSettings](#non-latin-alphabet-support-settings)_ |  |
+| `public_screen_expand_width` | _Number_ | `0 ~ 3840` |
+| `public_screen_rounded_border` | _Boolean_ |  |
+| `public_screen_rounded_border_size` | _Number_ | `0 ~ 540` |
+| `display_custom_formatting_enabled` | _Boolean_ |  |
+| `display_custom_background_enabled` | _Boolean_ |  |
+| `display_advanced_editor_enabled` | _Boolean_ |  |
+| `advanced_editor_block_line_break` | _Boolean_ |  |
+| `slide_description_repeat_description_for_sequence` | _Boolean_ |  |
+| `standardize_automatic_line_break` | _Boolean_ |  |
+| `allow_main_window_and_bible_window_simultaneously` | _Boolean_ |  |
+| `preferential_arrangement_collection` | _String_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "fade_in_out_enabled": true,
+  "fade_in_out_duration": 500,
+  "show_history_main_window": true,
+  "show_favorite_bar_main_window": true,
+  "show_favorite_bar_bible_window": false,
+  "show_module_bar_main_window": false,
+  "show_module_bar_bible_window": false,
+  "show_automatic_presentation_tab_main_window": false,
+  "text_editor_font_name": "Lucida Sans Unicode",
+  "show_comment_main_window": false,
+  "show_comment_presentation_footer": true,
+  "show_comment_app": true,
+  "initial_slide": {
+    "display_mode": "title_author_or_artist",
+    "uppercase": false,
+    "automatic_line_break": true,
+    "underlined_title": true,
+    "title_font_relative_size": 130,
+    "author_or_artist_font_relative_size": 110,
+    "keep_ratio": true,
+    "remove_final_slide": false
+  },
+  "copyright": {
+    "display_mode": "all_slides",
+    "layout": "t;a;c",
+    "font": {
+      "name": "Arial",
+      "bold": true,
+      "italic": true,
+      "color": "FFFF00"
+    },
+    "line_height": 3.0,
+    "align": "left",
+    "opacity": 70,
+    "position": "top_left"
+  },
+  "image_presentation": {
+    "adjust_type": "adjust",
+    "blur": {
+      "enabled": true,
+      "radius": 8,
+      "times": 5,
+      "opacity": 70
+    }
+  },
+  "black_screen_color": "1E1E1E",
+  "swap_f5": false,
+  "stage_view_modifier_enabled": true,
+  "disable_modifier_automatically": true,
+  "automatic_presentation_theme_chooser": true,
+  "automatic_presentation_execution_delay": 0,
+  "skip_slide_transition_if_equals": false,
+  "non_latin_alphabet_support": {
+    "enabled": false,
+    "font_or_script": "system"
+  },
+  "public_screen_expand_width": 0,
+  "public_screen_rounded_border": false,
+  "public_screen_rounded_border_size": 100,
+  "display_custom_formatting_enabled": true,
+  "display_custom_background_enabled": true,
+  "display_advanced_editor_enabled": true,
+  "advanced_editor_block_line_break": true,
+  "slide_description_repeat_description_for_sequence": true,
+  "standardize_automatic_line_break": false,
+  "allow_main_window_and_bible_window_simultaneously": false,
+  "preferential_arrangement_collection": ""
+}
+```
+</details>
 
 ## AddItem
 | Nome | Tipo  | Descrição |
@@ -6843,8 +7745,7 @@ Configurações customizadas da tradução (item)
   "id": "",
   "type": "audio",
   "name": "file.mp3",
-  "isDir": false,
-  "properties": {}
+  "isDir": false
 }
 ```
 </details>
@@ -6863,8 +7764,7 @@ Configurações customizadas da tradução (item)
   "id": "",
   "type": "video",
   "name": "file.mp4",
-  "isDir": false,
-  "properties": {}
+  "isDir": false
 }
 ```
 </details>
@@ -6880,6 +7780,22 @@ Configurações customizadas da tradução (item)
 ```json
 {
   "type": "image",
+  "name": "file.ext"
+}
+```
+</details>
+
+## AddItemFile
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | file |
+| `name` | _String_ | Nome do arquivo |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "type": "file",
   "name": "file.ext"
 }
 ```
@@ -6919,7 +7835,9 @@ Configurações customizadas da tradução (item)
 {
   "type": "announcement",
   "names": [
-    "Anúncio 1", "Anúncio 2", "Anúncio 3"
+    "Anúncio 1",
+    "Anúncio 2",
+    "Anúncio 3"
   ],
   "automatic": {
     "seconds": 10,
@@ -6938,8 +7856,9 @@ Configurações customizadas da tradução (item)
 | `text_before` | _String (opcional)_ | Texto exibido na parte superior da contagem regressiva |
 | `text_after` | _String (opcional)_ | Texto exibido na parte inferior da contagem regressiva |
 | `zero_fill` | _Boolean (opcional)_ | Preencher o campo 'minuto' com zero à esquerda `Padrão: false` |
+| `hide_zero_minute` | _Boolean (opcional)_ | Ocultar a exibição dos minutos quando for zero `Padrão: false` `v2.25.0+` |
 | `countdown_relative_size` | _Number (opcional)_ | Tamanho relativo da contagem regressiva `Padrão: 250` |
-| `theme` | _String (opcional)_ | ID do Tema `v2.21.0+` |
+| `theme` | _[ThemeFilter](#theme-filter) (opcional)_ | Filtrar tema selecionado para exibição `v2.21.0+` |
 | `countdown_style` | _[FontSettings](#font-settings) (opcional)_ | Fonte personalizada para a contagem regressiva `v2.21.0+` |
 <details>
   <summary>Ver exemplo</summary>
@@ -6959,7 +7878,8 @@ Configurações customizadas da tradução (item)
     "bold": null,
     "italic": true,
     "color": null
-  }
+  },
+  "hide_zero_minute": false
 }
 ```
 </details>
@@ -6982,6 +7902,24 @@ Configurações customizadas da tradução (item)
   "seconds": 0,
   "stop_at_zero": false,
   "description": ""
+}
+```
+</details>
+
+## AddItemPlainText
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | plain_text |
+| `name` | _String_ | Nome do item |
+| `text` | _String_ | Texto |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "type": "plain_text",
+  "name": "",
+  "text": "Exemplo"
 }
 ```
 </details>
@@ -7022,7 +7960,8 @@ Configurações customizadas da tradução (item)
   "id": "xyz",
   "description": "",
   "inputs": {
-    "message": "Exemplo", "duration": 30
+    "message": "Exemplo",
+    "duration": 30
   }
 }
 ```
@@ -7044,7 +7983,8 @@ Configurações customizadas da tradução (item)
   "id": "xyz",
   "description": "",
   "inputs": {
-    "message": "Exemplo", "duration": 30
+    "message": "Exemplo",
+    "duration": 30
   }
 }
 ```
@@ -7122,6 +8062,15 @@ Configurações customizadas da tradução (item)
 ```
 </details>
 
+## VerseInfo
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{}
+```
+</details>
+
 ## AudioInfo
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
@@ -7142,8 +8091,7 @@ Configurações customizadas da tradução (item)
   "file_relative_path": "audio\\folder\\file.mp3",
   "file_path": "C:\\Holyrics\\Holyrics\\files\\media\\audio\\folder\\file.mp3",
   "is_dir": false,
-  "extension": "mp3",
-  "properties": {}
+  "extension": "mp3"
 }
 ```
 </details>
@@ -7168,8 +8116,7 @@ Configurações customizadas da tradução (item)
   "file_relative_path": "video\\folder\\file.mp4",
   "file_path": "C:\\Holyrics\\Holyrics\\files\\media\\video\\folder\\file.mp4",
   "is_dir": false,
-  "extension": "mp4",
-  "properties": {}
+  "extension": "mp4"
 }
 ```
 </details>
@@ -7194,8 +8141,7 @@ Configurações customizadas da tradução (item)
   "file_relative_path": "image\\folder\\file.jpg",
   "file_path": "C:\\Holyrics\\Holyrics\\files\\media\\image\\folder\\file.jpg",
   "is_dir": false,
-  "extension": "jpg",
-  "properties": {}
+  "extension": "jpg"
 }
 ```
 </details>
@@ -7220,8 +8166,7 @@ Configurações customizadas da tradução (item)
   "file_relative_path": "file\\folder\\file.txt",
   "file_path": "C:\\Holyrics\\Holyrics\\files\\media\\file\\folder\\file.txt",
   "is_dir": false,
-  "extension": "txt",
-  "properties": {}
+  "extension": "txt"
 }
 ```
 </details>
@@ -7252,6 +8197,418 @@ Configurações customizadas da tradução (item)
 {
   "id": 0,
   "name": "name"
+}
+```
+</details>
+
+## SongSlideInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID da música |
+| `slide_index` | _Number_ |  |
+| `slide_total` | _Number_ |  |
+| `slide_description` | _String_ |  |
+| `slide_show_index` | _Number_ |  |
+| `slide_show_total` | _Number_ |  |
+| `title` | _String_ | Título da música |
+| `artist` | _String_ | Artista da música |
+| `author` | _String_ | Autor da música |
+| `note` | _String_ | Anotação da música |
+| `copyright` | _String_ | Copyright da música |
+| `key` | _String_ | Tom da música.<br>Pode ser: `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
+| `bpm` | _Number_ | BPM da música |
+| `time_sig` | _String_ | Tempo da música.<br>Pode ser: `2/2` `2/4` `3/4` `4/4` `5/4` `6/4` `3/8` `6/8` `7/8` `9/8` `12/8` |
+| `text` | _String_ |  |
+| `comment` | _String_ |  |
+| `extra` | _String_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "id": "0",
+  "slide_index": 2,
+  "slide_total": 8,
+  "slide_description": "",
+  "slide_show_index": 2,
+  "slide_show_total": 12,
+  "title": "",
+  "artist": "",
+  "author": "",
+  "note": "",
+  "copyright": "",
+  "key": "",
+  "bpm": 0.0,
+  "time_sig": "",
+  "text": "",
+  "comment": "",
+  "extra": ""
+}
+```
+</details>
+
+## TextSlideInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do texto |
+| `title` | _String_ | Título do texto |
+| `text` | _String_ |  |
+| `comment` | _String_ |  |
+| `folder` | _String_ |  |
+| `slide_index` | _String_ |  |
+| `slide_total` | _String_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "id": "",
+  "title": "",
+  "text": "",
+  "comment": "",
+  "folder": "",
+  "slide_index": 2,
+  "slide_total": 8
+}
+```
+</details>
+
+## PPTInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `file_name` | _String_ |  |
+| `file_fullname` | _String_ |  |
+| `file_relative_path` | _String_ |  |
+| `file_path` | _String_ |  |
+| `is_dir` | _Boolean_ |  |
+| `extension` | _String_ |  |
+| `properties` | _Object_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "file_name": "file.txt",
+  "file_fullname": "folder\\file.txt",
+  "file_relative_path": "file\\folder\\file.txt",
+  "file_path": "C:\\Holyrics\\Holyrics\\files\\media\\file\\folder\\file.txt",
+  "is_dir": false,
+  "extension": "txt"
+}
+```
+</details>
+
+## PPTSlideInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `file_name` | _String_ |  |
+| `slide_number` | _Number_ |  |
+| `slide_total` | _Number_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "file_name": "name",
+  "slide_number": 1,
+  "slide_total": 10
+}
+```
+</details>
+
+## ThemeInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _Number_ |  |
+| `name` | _String_ |  |
+| `from_user_list` | _Boolean_ |  |
+| `tags` | _String_ |  |
+| `bpm` | _String_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "id": 0,
+  "name": "name",
+  "from_user_list": true,
+  "tags": "",
+  "bpm": "0"
+}
+```
+</details>
+
+## BackgroundInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | `THEME` `MY_VIDEO` `MY_IMAGE` `VIDEO` `IMAGE` |
+| `id` | _Number_ |  |
+| `name` | _String_ |  |
+| `from_user_list` | _Boolean_ |  |
+| `tags` | _String_ |  |
+| `bpm` | _String_ |  |
+| `color_map` | _Array&lt;Object&gt;_ |  |
+| `color_map.*.hex` | _String_ | Cor no formato hexadecimal |
+| `color_map.*.red` | _Number_ | Vermelho  `0 ~ 255` |
+| `color_map.*.green` | _Number_ | Verde  `0 ~ 255` |
+| `color_map.*.blue` | _Number_ | Azul  `0 ~ 255` |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "type": "MY_VIDEO",
+  "id": 0,
+  "name": "name",
+  "from_user_list": true,
+  "tags": "",
+  "bpm": "0",
+  "color_map": [
+    {
+      "hex": "000000",
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    {
+      "hex": "000000",
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    {
+      "hex": "000000",
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    {
+      "hex": "000000",
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    {
+      "hex": "000000",
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    {
+      "hex": "000000",
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    {
+      "hex": "000000",
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    {
+      "hex": "000000",
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    }
+  ]
+}
+```
+</details>
+
+## TitleInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `title` | _String_ |  |
+| `subitem` | _Object_ |  |
+| `subitem_index` | _Number_ |  |
+| `playlist_index` | _Number_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "title": "",
+  "subitem_index": -1,
+  "playlist_index": -1
+}
+```
+</details>
+
+## WebcamInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `name` | _String_ |  |
+| `fps` | _Number_ |  |
+| `width` | _Number_ |  |
+| `height` | _Number_ |  |
+| `mute` | _Boolean_ |  |
+| `aspect_ratio` | _String_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "name": "name",
+  "fps": 30.0,
+  "width": 1280,
+  "height": 720,
+  "mute": false,
+  "aspect_ratio": "1:1"
+}
+```
+</details>
+
+## CountdownInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `time` | _String_ |  |
+| `exact_time` | _Boolean_ |  |
+| `text_before` | _String_ |  |
+| `text_after` | _String_ |  |
+| `zero_fill` | _Boolean_ |  |
+| `countdown_relative_size` | _Number_ |  |
+| `hide_zero_minute` | _Boolean_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "time": "",
+  "exact_time": false,
+  "text_before": "",
+  "text_after": "",
+  "zero_fill": false,
+  "countdown_relative_size": 0,
+  "hide_zero_minute": false
+}
+```
+</details>
+
+## AutomaticPresentationSlideInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ |  |
+| `slide_index` | _Number_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "id": "filename.ap",
+  "slide_index": 2
+}
+```
+</details>
+
+## PresentationModifierInfoInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | `WALLPAPER` `BLANK_SCREEN` `BLACK_SCREEN` |
+| `name` | _String_ | Nome do item |
+| `shortcut` | _String_ | `F8` `F9` `F10` |
+| `presentation_type` | _String_ | `SONG` `TEXT` `VERSE` `ANY_ITEM` |
+| `state` | _Boolean_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "type": "BLANK_SCREEN",
+  "name": "Blank Screen",
+  "shortcut": "F9",
+  "presentation_type": "SONG",
+  "state": false
+}
+```
+</details>
+
+## NewChatMessageInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ |  |
+| `datetime` | _Number_ |  |
+| `user_id` | _String_ |  |
+| `name` | _String_ |  |
+| `message` | _String_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "id": "1742267662466",
+  "datetime": 1742267662466,
+  "user_id": "-1qfe9t8wtrsb6p5",
+  "name": "example",
+  "message": "example"
+}
+```
+</details>
+
+## VersePresentationChangedInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ |  |
+| `book` | _Number_ |  |
+| `chapter` | _Number_ |  |
+| `verse` | _Number_ |  |
+| `reference` | _String_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "id": "01001001",
+  "book": 1,
+  "chapter": 1,
+  "verse": 1,
+  "reference": "Gn 1:1"
+}
+```
+</details>
+
+## PlaylistChangedInfo
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{}
+```
+</details>
+
+## FileModifiedInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `media_type` | _String_ |  |
+| `action` | _String_ |  |
+| `name` | _String_ |  |
+| `is_dir` | _Boolean_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "media_type": "image",
+  "action": "created",
+  "name": "image.jpg",
+  "is_dir": false
+}
+```
+</details>
+
+## PlayerProgressInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `time` | _Number_ |  |
+| `total` | _Number_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "time": 0,
+  "total": 60000
 }
 ```
 </details>
