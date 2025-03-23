@@ -674,10 +674,10 @@ Performs a search in the user's lyrics list
 | ---- | :---: | ------------|
 | `input` | _String_ | Filter |
 | `text` | _String_ | Text to be searched |
-| `title` | _Boolean (optional)_ |  `Default: true` |
-| `artist` | _Boolean (optional)_ |  `Default: true` |
-| `note` | _Boolean (optional)_ |  `Default: true` |
-| `lyrics` | _Boolean (optional)_ |  `Default: false` |
+| `title` | _Boolean (optional)_ |  `Default: true` |
+| `artist` | _Boolean (optional)_ |  `Default: true` |
+| `note` | _Boolean (optional)_ |  `Default: true` |
+| `lyrics` | _Boolean (optional)_ |  `Default: false` |
 | `group` | _String (optional)_ |  |
 | `fields` | _String (optional)_ | Comma-separated field names. If this field is declared, only the specified fields will be returned `v2.24.0+` |
 
@@ -742,7 +742,7 @@ Starts a lyric show.
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
-| `initial_index` | _Number (optional)_ | Initial index of the presentation `Default: 0` `v2.23.0+` |
+| `initial_index` | _Number (optional)_ | Initial index of the presentation `Default: 0` `v2.23.0+` |
 
 
 _Method does not return value_
@@ -925,7 +925,7 @@ Starts a presentation of a text tab item.
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
-| `initial_index` | _Number (optional)_ | Initial index of the presentation `Default: 0` `v2.23.0+` |
+| `initial_index` | _Number (optional)_ | Initial index of the presentation `Default: 0` `v2.23.0+` |
 
 
 _Method does not return value_
@@ -955,7 +955,7 @@ Starts a Bible verse presentation.<br>Note: It is possible to display a maximum 
 | `ids` | _Array&lt;String&gt; (optional)_ | To display a list of verses. List with the ID of each verse.<br/>Example: ['19023001', '43003016', '45012002'] |
 | `references` | _String (optional)_ | References. Example: **John 3:16** or **Rm 12:2** or **Gn 1:1-3 Sl 23.1** |
 | `version` | _String (optional)_ | Name or abbreviation of the translation used `v2.21.0+` |
-| `quick_presentation` | _Boolean (optional)_ | `true` to display the verse through a quick presentation popup window.<br>Allows, for example, to start the presentation of a verse without ending the current presentation, returning to the current presentation when the verse presentation ends. `Default: false` `v2.24.0+` |
+| `quick_presentation` | _Boolean (optional)_ | `true` to display the verse through a quick presentation popup window.<br>Allows, for example, to start the presentation of a verse without ending the current presentation, returning to the current presentation when the verse presentation ends. `Default: false` `v2.24.0+` |
 
 
 _Method does not return value_
@@ -991,8 +991,8 @@ Returns the list of files from the respective tab: audio, video, image, file
 | ---- | :---: | ------------|
 | `folder` | _String (optional)_ | Subfolder name to list files |
 | `filter` | _String (optional)_ | Filter files by name |
-| `include_metadata` | _Boolean (optional)_ | Add metadata to the response `Default: false` `v2.22.0+` |
-| `include_thumbnail` | _Boolean (optional)_ | Add thumbnail to response (80x45) `Default: false` `v2.22.0+` |
+| `include_metadata` | _Boolean (optional)_ | Add metadata to the response `Default: false` `v2.22.0+` |
+| `include_thumbnail` | _Boolean (optional)_ | Add thumbnail to response (80x45) `Default: false` `v2.22.0+` |
 
 
 **Response:**
@@ -1061,8 +1061,8 @@ Returns the data of a file from the list of files in the respective tab: audio, 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `name` | _String_ | File name (including subfolder) |
-| `include_metadata` | _Boolean (optional)_ | Add metadata to the response `Default: false` |
-| `include_thumbnail` | _Boolean (optional)_ | Add thumbnail to response (80x45) `Default: false` |
+| `include_metadata` | _Boolean (optional)_ | Add metadata to the response `Default: false` |
+| `include_thumbnail` | _Boolean (optional)_ | Add thumbnail to response (80x45) `Default: false` |
 
 
 **Response:**
@@ -1450,7 +1450,7 @@ Quick display of text
 | `theme` | _[ThemeFilter](#theme-filter) (optional)_ | Filter selected theme for display |
 | `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme used to display the text `v2.21.0+` |
 | `automatic` | _[Automatic](#automatic) (optional)_ | If informed, the presentation of the items will be automatic |
-| `initial_index` | _Number (optional)_ | Initial index of the presentation `Default: 0` `v2.23.0+` |
+| `initial_index` | _Number (optional)_ | Initial index of the presentation `Default: 0` `v2.23.0+` |
 
 
 _Method does not return value_
@@ -1479,12 +1479,12 @@ Display a countdown on the public screen
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `time` | _String_ | HH:MM or MM:SS |
-| `exact_time` | _Boolean (optional)_ | If **true**, `time` should be HH:MM (exact hour and minute). If **false**, `time` should be MM:SS (amount of minutes and seconds) `Default: false` |
+| `exact_time` | _Boolean (optional)_ | If **true**, `time` should be HH:MM (exact hour and minute). If **false**, `time` should be MM:SS (amount of minutes and seconds) `Default: false` |
 | `text_before` | _String (optional)_ | Text displayed at the top of the countdown |
 | `text_after` | _String (optional)_ | Text displayed at the bottom of the countdown |
-| `zero_fill` | _Boolean (optional)_ | Fill in the 'minute' field with zero on the left `Default: false` |
-| `hide_zero_minute` | _Boolean (optional)_ | Hide the display of minutes when it is zero `Default: false` `v2.25.0+` |
-| `countdown_relative_size` | _Number (optional)_ | Relative size of the countdown `Default: 250` |
+| `zero_fill` | _Boolean (optional)_ | Fill in the 'minute' field with zero on the left `Default: false` |
+| `hide_zero_minute` | _Boolean (optional)_ | Hide the display of minutes when it is zero `Default: false` `v2.25.0+` |
+| `countdown_relative_size` | _Number (optional)_ | Relative size of the countdown `Default: 250` |
 | `theme` | _[ThemeFilter](#theme-filter) (optional)_ | Filter selected theme for display `v2.21.0+` |
 | `countdown_style` | _[FontSettings](#font-settings) (optional)_ | Custom font for countdown `v2.21.0+` |
 | `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme `v2.21.0+` |
@@ -1922,8 +1922,8 @@ Add song lyrics to playlist
 | ---- | :---: | ------------|
 | `id` | _String (optional)_ | Lyrics ID |
 | `ids` | _Array&lt;String&gt; (optional)_ | List with id of each lyics |
-| `index` | _Number (optional)_ | Position in the list where the item will be added (starts at zero). Items are added to the end of the list by default. `Default: -1` |
-| `media_playlist` | _Boolean (optional)_ | Add the lyrics to the media playlist `Default: false` |
+| `index` | _Number (optional)_ | Position in the list where the item will be added (starts at zero). Items are added to the end of the list by default. `Default: -1` |
+| `media_playlist` | _Boolean (optional)_ | Add the lyrics to the media playlist `Default: false` |
 
 
 _Method does not return value_
@@ -2302,8 +2302,8 @@ Add items to the media playlist
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `items` | _Array&lt;[AddItem](#add-item)&gt;_ | List with the items that will be added |
-| `index` | _Number (optional)_ | Position in the list where the item will be added (starts at zero). Items are added to the end of the list by default. `Default: -1` |
-| `ignore_duplicates` | _Boolean (optional)_ | Do not duplicate items when adding new items, that is, do not add an item if it is already on the list. `Default: false` |
+| `index` | _Number (optional)_ | Position in the list where the item will be added (starts at zero). Items are added to the end of the list by default. `Default: -1` |
+| `ignore_duplicates` | _Boolean (optional)_ | Do not duplicate items when adding new items, that is, do not add an item if it is already on the list. `Default: false` |
 
 
 _Method does not return value_
@@ -2771,10 +2771,10 @@ Item currently being presented or **null** if no presentation is being displayed
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `include_slides` | _Boolean (optional)_ | Return the list of slides from the current presentation. Unavailable for verse presentation. `Default: false` `v2.21.0+` |
-| `include_slide_comment` | _Boolean (optional)_ | Include comments (if any) in the slide text. Available if **include_slides=true**. `Default: false` `v2.21.0+` |
-| `include_slide_preview` | _Boolean (optional)_ | Include slide preview image. Available if **include_slides=true**. `Default: false` `v2.21.0+` |
-| `slide_preview_size` | _String (optional)_ | Preview size in WxH format (ex. 320x180). (max 640x360)<br>Available if **include_slide_preview=true** `Default: false` `v2.21.0+` |
+| `include_slides` | _Boolean (optional)_ | Return the list of slides from the current presentation. Unavailable for verse presentation. `Default: false` `v2.21.0+` |
+| `include_slide_comment` | _Boolean (optional)_ | Include comments (if any) in the slide text. Available if **include_slides=true**. `Default: false` `v2.21.0+` |
+| `include_slide_preview` | _Boolean (optional)_ | Include slide preview image. Available if **include_slides=true**. `Default: false` `v2.21.0+` |
+| `slide_preview_size` | _String (optional)_ | Preview size in WxH format (ex. 320x180). (max 640x360)<br>Available if **include_slide_preview=true** `Default: false` `v2.21.0+` |
 
 
 **Response:**
@@ -3056,7 +3056,7 @@ List of themes and backgrounds
 | `type` | _String (optional)_ | Can be: `theme` `my_video` `my_image` `video` `image` |
 | `tag` | _String (optional)_ |  |
 | `tags` | _Array&lt;String&gt; (optional)_ |  |
-| `intersection` | _Boolean (optional)_ | If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will return only items that contain **all** the informed tags, if **false**, the filter will return the items that have at least one of the informed tags `Default: false` |
+| `intersection` | _Boolean (optional)_ | If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will return only items that contain **all** the informed tags, if **false**, the filter will return the items that have at least one of the informed tags `Default: false` |
 
 
 **Response:**
@@ -3129,7 +3129,7 @@ Changes the background (or theme) of the current presentation. If more than one 
 | `type` | _String (optional)_ | Can be: `theme` `my_video` `my_image` `video` `image` |
 | `tag` | _String (optional)_ |  |
 | `tags` | _Array&lt;String&gt; (optional)_ |  |
-| `intersection` | _Boolean (optional)_ | If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will return only items that contain **all** the informed tags, if **false**, the filter will return the items that have at least one of the informed tags `Default: false` |
+| `intersection` | _Boolean (optional)_ | If the **tags** field is filled with multiple items, the **intersection** option defines the type of join. If **true**, the filter will return only items that contain **all** the informed tags, if **false**, the filter will return the items that have at least one of the informed tags `Default: false` |
 | `edit` | _[Theme](#theme) (optional)_ | Settings to modify the selected Theme for display `v2.21.0+` |
 | `custom_theme` | _[Theme](#theme) (optional)_ | Custom theme `v2.21.0+` |
 
@@ -3677,8 +3677,8 @@ Gets the date of the "Song played" history closest to a date and time passed as 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Song lyric ID |
-| `datetime` | _String (optional)_ | Accepted formats: `timestamp` `YYYY-MM-DD` `YYYY/MM/DD` `YYYY-MM-DD HH:MM:SS` `YYYY/MM/DD HH:MM:SS` `DD-MM-YYYY` `DD/MM/YYYY` `DD-MM-YYYY HH:MM:SS` `DD/MM/YYYY HH:MM:SS` `Default: Date.now()` |
-| `type` | _String (optional)_ | Search filter. Can be:<br>`any` any value closest to the specified date<br>`before_datetime` The closest value that is earlier than or equal to the specified date (value <= datetime)<br>`after_datetime` The closest value that is equal to or later than the specified date (value >= datetime) `Default: any` |
+| `datetime` | _String (optional)_ | Accepted formats: `timestamp` `YYYY-MM-DD` `YYYY/MM/DD` `YYYY-MM-DD HH:MM:SS` `YYYY/MM/DD HH:MM:SS` `DD-MM-YYYY` `DD/MM/YYYY` `DD-MM-YYYY HH:MM:SS` `DD/MM/YYYY HH:MM:SS` `Default: Date.now()` |
+| `type` | _String (optional)_ | Search filter. Can be:<br>`any` any value closest to the specified date<br>`before_datetime` The closest value that is earlier than or equal to the specified date (value <= datetime)<br>`after_datetime` The closest value that is equal to or later than the specified date (value >= datetime) `Default: any` |
 
 
 **Response:**
@@ -3859,7 +3859,7 @@ List of members
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `only_active` | _Boolean_ |  `Default: true` `v2.25.0+` |
+| `only_active` | _Boolean_ |  `Default: true` `v2.25.0+` |
 
 
 **Response:**
@@ -3904,7 +3904,7 @@ List of functions
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `only_active` | _Boolean_ |  `Default: true` `v2.25.0+` |
+| `only_active` | _Boolean_ |  `Default: true` `v2.25.0+` |
 
 
 **Response:**
@@ -3949,7 +3949,7 @@ Service list
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `only_active` | _Boolean_ |  `Default: true` `v2.25.0+` |
+| `only_active` | _Boolean_ |  `Default: true` `v2.25.0+` |
 
 
 **Response:**
@@ -4249,7 +4249,7 @@ Starts a countdown on the communication panel
 | `minutes` | _Number_ | Number of minutes |
 | `seconds` | _Number_ | Number of seconds |
 | `yellow_starts_at` | _Number (optional)_ | Value in seconds to define how long the countdown will be yellow from |
-| `stop_at_zero` | _Boolean (optional)_ | Stop the countdown when it reaches zero `Default: false` |
+| `stop_at_zero` | _Boolean (optional)_ | Stop the countdown when it reaches zero `Default: false` |
 | `text` | _String (optional)_ | Text for display. By default, the text is displayed before the numeric part. For special formatting, use the variable `@cp_countdown` in the middle of the text to indicate the location of the numeric part. `v2.24.0+` |
 | `alert_text` | _String (optional)_ | Alternative text to be displayed when the display is in the alert. By default, the text is displayed before the numeric part. For special formatting, use the variable `@cp_countdown` in the middle of the text to indicate the location of the numeric part. `v2.24.0+` |
 
@@ -5776,7 +5776,7 @@ Response
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-|  | _[GlobalSettings](#global-settings)_ |  |
+| `input` | _[GlobalSettings](#global-settings)_ |  |
 
 
 **Response:**
@@ -6095,8 +6095,9 @@ Request
 | `slides.*.slide_description` | _String_ | Slide description `v2.21.1+` |
 | `slides.*.background_id` | _String_ | ID of the theme or background saved for the slide `v2.21.0+` |
 | `slides.*.translations` | _Object_ | Translations for the slide.<br>Key/value pair. `v2.25.0+` |
-| `formatting_type` | _String_ | `basic`  `styled`  `advanced`<br> <br>When using this object in creation or editing methods, if `formatting_type=basic` is used, the value of the variable `slides.*.text` will be used; otherwise, the value of the variable `slides.*.styled_text` will be used `Default: basic` `v2.25.0+` |
+| `formatting_type` | _String_ | `basic`  `styled`  `advanced`<br> <br>When using this object in creation or editing methods, if `formatting_type=basic` is used, the value of the variable `slides.*.text` will be used; otherwise, the value of the variable `slides.*.styled_text` will be used `Default: basic` `v2.25.0+` |
 | `order` | _String_ | Order of slides (index from 1), separated by comma `v2.21.0+` |
+|  | _Array&lt;[SongArrangement](#song-arrangement)&gt;_ |  `v2.25.1+` |
 | `title_translations` | _Object_ | Translations for the title slide.<br>Key/value pair. `v2.25.0+` |
 | `key` | _String_ | Tone of music.<br>Can be: `C` `C#` `Db` `D` `D#` `Eb` `E` `F` `F#` `Gb` `G` `G#` `Ab` `A` `A#` `Bb` `B` `Cm` `C#m` `Dbm` `Dm` `D#m` `Ebm` `Em` `Fm` `F#m` `Gbm` `Gm` `G#m` `Abm` `Am` `A#m` `Bbm` `Bm` |
 | `bpm` | _Number_ | BPM of the song |
@@ -6193,7 +6194,7 @@ Request
 | `slides.*.styled_text` | _String_ | Slide text with **styled** formatting (when available) `v2.24.0+` |
 | `slides.*.background_id` | _String_ | ID of the theme or background saved for the slide |
 | `slides.*.translations` | _Object_ | Translations for the slide.<br>Key/value pair. `v2.25.0+` |
-| `formatting_type` | _String_ | `basic`  `styled`  `advanced`<br> <br>When using this object in creation or editing methods, if `formatting_type=basic` is used, the value of the variable `slides.*.text` will be used; otherwise, the value of the variable `slides.*.styled_text` will be used `Default: basic` `v2.25.0+` |
+| `formatting_type` | _String_ | `basic`  `styled`  `advanced`<br> <br>When using this object in creation or editing methods, if `formatting_type=basic` is used, the value of the variable `slides.*.text` will be used; otherwise, the value of the variable `slides.*.styled_text` will be used `Default: basic` `v2.25.0+` |
 | `extras` | _Object_ | Map of extra objects (added by the user) `v2.24.0+` |
 | `metadata.modified_time_millis` | _Number_ | File modification date. (timestamp) `v2.25.0+` `read-only` |
 <details>
@@ -6294,7 +6295,7 @@ Request
 | `comment.color` | _String_ | Color in hexadecimal format |
 | <br>**settings** |  | <br>Settings |
 | `settings.uppercase` | _Boolean_ | Display the text in uppercase |
-| `settings.line_break` | _String_ | Apply line break. `system`  `true`  `false`<br> `Default: system` |
+| `settings.line_break` | _String_ | Apply line break. `system`  `true`  `false`<br> `Default: system` |
 | <br>**metadata** |  | <br> |
 | `metadata.modified_time_millis` | _Number_ | File modification date. (timestamp) `v2.25.0+` `read-only` |
 <details>
@@ -6448,6 +6449,23 @@ Request
 | `add_chorus_between_verses` | _Boolean_ |  `v2.25.0+` |
 | `hide_in_interface` | _Boolean_ |  `v2.25.0+` |
 | `metadata.modified_time_millis` | _Number_ | File modification date. (timestamp) `v2.25.0+` `read-only` |
+
+## Song Arrangement
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `name` | _String_ | Item name |
+| `sequence` | _String_ | Order of slides (index from 1), separated by comma |
+| `collections` | _Array&lt;String&gt;_ | Short name of the item |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "name": "",
+  "sequence": "1,2,3,2,2"
+}
+```
+</details>
 
 ## Announcement
 | Name | Type  | Description |
@@ -6891,10 +6909,10 @@ Display settings
 ## Font Settings
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `font_name` | _String (optional)_ | Font name `Default: null` |
-| `bold` | _Boolean (optional)_ | Bold `Default: null` |
-| `italic` | _Boolean (optional)_ | Italic `Default: null` |
-| `color` | _String (optional)_ | Color in hexadecimal `Default: null` |
+| `font_name` | _String (optional)_ | Font name `Default: null` |
+| `bold` | _Boolean (optional)_ | Bold `Default: null` |
+| `italic` | _Boolean (optional)_ | Italic `Default: null` |
+| `color` | _String (optional)_ | Color in hexadecimal `Default: null` |
 
 ## Stage View
 | Name | Type  | Description |
@@ -7075,7 +7093,7 @@ Display settings
 | `name` | _String_ | Item name `v2.24.0+` |
 | `title` | _String_ | Question |
 | `alternatives` | _Array&lt;String&gt;_ | Alternatives |
-| `correct_alternative_number` | _Number (optional)_ | Number of the correct alternative. Starts at 1 `Default: 1` |
+| `correct_alternative_number` | _Number (optional)_ | Number of the correct alternative. Starts at 1 `Default: 1` |
 | `source` | _String (optional)_ | Answer font |
 <details>
   <summary>See example</summary>
@@ -7102,10 +7120,10 @@ Display settings
 | `correct_answer_color_background` | _String (optional)_ | Background color for the correct answer |
 | `incorrect_answer_color_font` | _String (optional)_ | Font color for the incorrect answer |
 | `incorrect_answer_color_background` | _String (optional)_ | Background color for the incorrect answer |
-| `question_and_alternatives_different_slides` | _Boolean (optional)_ | Display the question and alternatives on separate slides `Default: false` |
-| `display_alternatives_one_by_one` | _Boolean (optional)_ | Display the alternatives one by one `Default: true` |
-| `alternative_char_type` | _String (optional)_ | Type of character to list the alternatives `number (1, 2, 3...)`  `alpha (A, B, C...)` `Default: 'alpha'` |
-| `alternative_separator_char` | _String (optional)_ | Separator character. Allowed values:  ` `  `.`  `)`  `-`  `:` `Default: '.'` |
+| `question_and_alternatives_different_slides` | _Boolean (optional)_ | Display the question and alternatives on separate slides `Default: false` |
+| `display_alternatives_one_by_one` | _Boolean (optional)_ | Display the alternatives one by one `Default: true` |
+| `alternative_char_type` | _String (optional)_ | Type of character to list the alternatives `number (1, 2, 3...)`  `alpha (A, B, C...)` `Default: 'alpha'` |
+| `alternative_separator_char` | _String (optional)_ | Separator character. Allowed values:  ` `  `.`  `)`  `-`  `:` `Default: '.'` |
 <details>
   <summary>See example</summary>
 
@@ -7665,7 +7683,7 @@ Custom translation settings (item)
 | `type` | _String_ | title |
 | `name` | _String_ | Item name |
 | `background_color` | _String (optional)_ | Background color in hexadecimal, example: 000080 |
-| `collapsed` | _Boolean (optional)_ |  `Default: false` |
+| `collapsed` | _Boolean (optional)_ |  `Default: false` |
 <details>
   <summary>See example</summary>
 
@@ -7854,12 +7872,12 @@ Custom translation settings (item)
 | ---- | :---: | ------------|
 | `type` | _String_ | countdown |
 | `time` | _String_ | HH:MM or MM:SS |
-| `exact_time` | _Boolean (optional)_ | If **true**, `time` should be HH:MM (exact hour and minute). If **false**, `time` should be MM:SS (amount of minutes and seconds) `Default: false` |
+| `exact_time` | _Boolean (optional)_ | If **true**, `time` should be HH:MM (exact hour and minute). If **false**, `time` should be MM:SS (amount of minutes and seconds) `Default: false` |
 | `text_before` | _String (optional)_ | Text displayed at the top of the countdown |
 | `text_after` | _String (optional)_ | Text displayed at the bottom of the countdown |
-| `zero_fill` | _Boolean (optional)_ | Fill in the 'minute' field with zero on the left `Default: false` |
-| `hide_zero_minute` | _Boolean (optional)_ | Hide the display of minutes when it is zero `Default: false` `v2.25.0+` |
-| `countdown_relative_size` | _Number (optional)_ | Relative size of the countdown `Default: 250` |
+| `zero_fill` | _Boolean (optional)_ | Fill in the 'minute' field with zero on the left `Default: false` |
+| `hide_zero_minute` | _Boolean (optional)_ | Hide the display of minutes when it is zero `Default: false` `v2.25.0+` |
+| `countdown_relative_size` | _Number (optional)_ | Relative size of the countdown `Default: 250` |
 | `theme` | _[ThemeFilter](#theme-filter) (optional)_ | Filter selected theme for display `v2.21.0+` |
 | `countdown_style` | _[FontSettings](#font-settings) (optional)_ | Custom font for countdown `v2.21.0+` |
 <details>
@@ -7892,7 +7910,7 @@ Custom translation settings (item)
 | `type` | _String_ | countdown_cp |
 | `minutes` | _Number_ | Number of minutes |
 | `seconds` | _Number_ | Number of seconds |
-| `stop_at_zero` | _Boolean (optional)_ | Stop the countdown when it reaches zero `Default: false` |
+| `stop_at_zero` | _Boolean (optional)_ | Stop the countdown when it reaches zero `Default: false` |
 | `description` | _String_ | Item description |
 <details>
   <summary>See example</summary>
