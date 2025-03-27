@@ -290,7 +290,7 @@ Response
 
 # JavaScript implementation example
 
-Use the methods of the [JSLIB](https://github.com/holyrics/jslib) class to create your own implementation.
+Use the methods of the [JSLIB](https://github.com/holyrics/jslib/blob/main/README-en.md) class to create your own implementation.
 <br/>
 If you create your own implementation, you need to return 'true' if you want the program to consume the request using the default implementation.
 <br/>

@@ -290,7 +290,7 @@ Resposta
 
 # Exemplo de implementação JavaScript
 
-Utilize os métodos da classe [JSLIB](https://github.com/holyrics/jslib) para criar sua própria implementação.
+Utilize os métodos da classe [JSLIB](https://github.com/holyrics/jslib/blob/main/README.md) para criar sua própria implementação.
 <br/>
 Se você criar sua própria implementação, é necessário retornar 'true' se quiser que o programa consuma a requisição utilizando a implementação padrão.
 <br/>
