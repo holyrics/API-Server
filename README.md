@@ -353,6 +353,7 @@ function request(action, headers, content, info) {
   - [ShowCustomMessage](#showcustommessage)
   - [ShowQuickPresentation](#showquickpresentation)
   - [ShowCountdown](#showcountdown)
+  - [GetQuizList](#getquizlist)
   - [ShowQuiz](#showquiz)
   - [QuizAction](#quizaction)
   - [GetAutomaticPresentations](#getautomaticpresentations)
@@ -388,6 +389,7 @@ function request(action, headers, content, info) {
   - [ApiAction](#apiaction)
   - [ScriptAction](#scriptaction)
   - [ApiRequest](#apirequest)
+  - [ModuleAction](#moduleaction)
   - [GetCurrentPresentation](#getcurrentpresentation)
   - [CloseCurrentPresentation](#closecurrentpresentation)
   - [GetF8](#getf8)
@@ -400,6 +402,7 @@ function request(action, headers, content, info) {
   - [GetCurrentBackground](#getcurrentbackground)
   - [GetCurrentTheme](#getcurrenttheme)
   - [GetBackgrounds](#getbackgrounds)
+  - [GetBackgroundTags](#getbackgroundtags)
   - [SetCurrentBackground](#setcurrentbackground)
   - [GetThumbnail](#getthumbnail)
   - [GetColorMap](#getcolormap)
@@ -421,6 +424,7 @@ function request(action, headers, content, info) {
   - [GetEvents](#getevents)
   - [GetAnnouncement](#getannouncement)
   - [GetAnnouncements](#getannouncements)
+  - [GetModules](#getmodules)
   - [GetCommunicationPanelInfo](#getcommunicationpanelinfo)
   - [SetCommunicationPanelSettings](#setcommunicationpanelsettings)
   - [StartCountdownCommunicationPanel](#startcountdowncommunicationpanel)
@@ -434,6 +438,7 @@ function request(action, headers, content, info) {
   - [SetWallpaperSettings](#setwallpapersettings)
   - [GetDisplaySettings](#getdisplaysettings)
   - [SetDisplaySettings](#setdisplaysettings)
+  - [GetDisplaySettingsPresets](#getdisplaysettingspresets)
   - [GetTransitionEffectSettings](#gettransitioneffectsettings)
   - [SetTransitionEffectSettings](#settransitioneffectsettings)
   - [GetBibleVersions](#getbibleversions)
@@ -456,6 +461,7 @@ function request(action, headers, content, info) {
   - [OpenDrawLots](#opendrawlots)
   - [GetMediaDuration](#getmediaduration)
   - [GetVersion](#getversion)
+  - [GetAPIServerInfo](#getapiserverinfo)
   - [GetRealTimeSongKey](#getrealtimesongkey)
   - [SetRealTimeSongKey](#setrealtimesongkey)
   - [ActionNextQuickPresentation](#actionnextquickpresentation)
@@ -463,15 +469,24 @@ function request(action, headers, content, info) {
   - [CloseCurrentQuickPresentation](#closecurrentquickpresentation)
   - [GetCurrentQuickPresentation](#getcurrentquickpresentation)
   - [GetTriggers](#gettriggers)
+  - [GetScheduledTasks](#getscheduledtasks)
   - [GetGlobalSettings](#getglobalsettings)
   - [SetGlobalSettings](#setglobalsettings)
   - [GetStyledModels](#getstyledmodels)
   - [GetStyledModelsAsMap](#getstyledmodelsasmap)
+  - [GetMidiSettings](#getmidisettings)
+  - [GetRuleGroupList](#getrulegrouplist)
+  - [GetRuleGroup](#getrulegroup)
+  - [TestRuleGroup](#testrulegroup)
+  - [GetTransitionEffectTemplateSettingsList](#gettransitioneffecttemplatesettingslist)
+  - [GetTransitionEffectTemplateSettings](#gettransitioneffecttemplatesettings)
+  - [SetTransitionEffectTemplateSettings](#settransitioneffecttemplatesettings)
   - [CreateItem](#createitem)
   - [EditItem](#edititem)
   - [DeleteItem](#deleteitem)
   - [AddSongsToSongGroup](#addsongstosonggroup)
   - [RemoveSongsFromSongGroup](#removesongsfromsonggroup)
+  - [SetCurrentSchedule](#setcurrentschedule)
 
 
 ---
@@ -1504,6 +1519,55 @@ Requisição
 
 ---
 
+### GetQuizList
+- v2.26.0
+
+Obter os grupos de múltipla escolha existentes
+
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;[QuizGroup](#quiz-group)&gt;_| 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "name": "",
+    "questions": {
+      "name": "",
+      "title": "...",
+      "alternatives": [
+        "Item 1",
+        "Item 2",
+        "Item 3"
+      ],
+      "correct_alternative_number": 2,
+      "source": ""
+    },
+    "settings": {
+      "correct_answer_color_font": "00796B",
+      "correct_answer_color_background": "CCFFCC",
+      "incorrect_answer_color_font": "721C24",
+      "incorrect_answer_color_background": "F7D7DB",
+      "question_and_alternatives_different_slides": false,
+      "display_alternatives_one_by_one": true,
+      "alternative_separator_char": ".",
+      "alternative_char_type": "alpha"
+    }
+  }
+}
+```
+
+
+---
+
 ### ShowQuiz
 - v2.20.0
 
@@ -1924,6 +1988,7 @@ Adicionar letra de música na lista de reprodução
 | `ids` | _Array&lt;String&gt; (opcional)_ | Lista com id de cada letra |
 | `index` | _Number (opcional)_ | Posição na lista onde o item será adicionado (inicia em zero). Os itens são adicionados no final da lista por padrão. `Padrão: -1` |
 | `media_playlist` | _Boolean (opcional)_ | Adicionar as letras na lista de reprodução de mídia `Padrão: false` |
+| `event_id` | _String (opcional)_ | Para alterar a lista de reprodução de um culto ou evento específico.<br>Quando `event_id` não for declarado, a lista de reprodução atualmente selecionada na interface será editada.<br>Atenção, disponível somente a partir da versão `2.26.0`, significa que em versões anteriores este método sempre vai alterar a lista de reprodução atualmente selecionada na interface, ignorando este parâmetro `event_id` `Padrão: null` `v2.26.0+` |
 
 
 _Método sem retorno_
@@ -1960,6 +2025,7 @@ Remover letra de música na lista de reprodução
 | `ids` | _Array&lt;String&gt; (opcional)_ | Lista com id de cada letra |
 | `index` | _Number (opcional)_ | Posição do item na lista que será removido (inicia em zero). |
 | `indexes` | _Array&lt;Number&gt; (opcional)_ | Lista com a posição de cada item na lista que será removido. (Inicia em zero) |
+| `event_id` | _String (opcional)_ | Para alterar a lista de reprodução de um culto ou evento específico.<br>Quando `event_id` não for declarado, a lista de reprodução atualmente selecionada na interface será editada.<br>Atenção, disponível somente a partir da versão `2.26.0`, significa que em versões anteriores este método sempre vai alterar a lista de reprodução atualmente selecionada na interface, ignorando este parâmetro `event_id` `Padrão: null` `v2.26.0+` |
 
 
 _Método sem retorno_
@@ -1998,6 +2064,7 @@ Alterar um item da lista de reprodução de letra de música
 | ---- | :---: | ------------|
 | `index` | _Number_ | Índice do item na lista |
 | `song_id` | _String_ | Novo item |
+| `event_id` | _String (opcional)_ | Para alterar a lista de reprodução de um culto ou evento específico.<br>Quando `event_id` não for declarado, a lista de reprodução atualmente selecionada na interface será editada.<br>Atenção, disponível somente a partir da versão `2.26.0`, significa que em versões anteriores este método sempre vai alterar a lista de reprodução atualmente selecionada na interface, ignorando este parâmetro `event_id` `Padrão: null` `v2.26.0+` |
 
 
 _Método sem retorno_
@@ -2062,6 +2129,7 @@ Alterar um item da lista de reprodução de mídia
 | ---- | :---: | ------------|
 | `index` | _Number_ | Índice do item na lista |
 | `item` | _[AddItem](#add-item)_ | Novo item |
+| `event_id` | _String (opcional)_ | Para alterar a lista de reprodução de um culto ou evento específico.<br>Quando `event_id` não for declarado, a lista de reprodução atualmente selecionada na interface será editada.<br>Atenção, disponível somente a partir da versão `2.26.0`, significa que em versões anteriores este método sempre vai alterar a lista de reprodução atualmente selecionada na interface, ignorando este parâmetro `event_id` `Padrão: null` `v2.26.0+` |
 
 
 _Método sem retorno_
@@ -2304,6 +2372,7 @@ Adicionar itens à lista de reprodução de mídias
 | `items` | _Array&lt;[AddItem](#add-item)&gt;_ | Lista com os itens que serão adicionados |
 | `index` | _Number (opcional)_ | Posição na lista onde o item será adicionado (inicia em zero). Os itens são adicionados no final da lista por padrão. `Padrão: -1` |
 | `ignore_duplicates` | _Boolean (opcional)_ | Não duplicar itens ao adicionar novos itens, ou seja, não adiciona um item se ele já estiver na lista. `Padrão: false` |
+| `event_id` | _String (opcional)_ | Para alterar a lista de reprodução de um culto ou evento específico.<br>Quando `event_id` não for declarado, a lista de reprodução atualmente selecionada na interface será editada.<br>Atenção, disponível somente a partir da versão `2.26.0`, significa que em versões anteriores este método sempre vai alterar a lista de reprodução atualmente selecionada na interface, ignorando este parâmetro `event_id` `Padrão: null` `v2.26.0+` |
 
 
 _Método sem retorno_
@@ -2436,6 +2505,7 @@ Remover itens da lista de reprodução de mídia
 | `ids` | _Array&lt;String&gt; (opcional)_ | Lista com id de cada item |
 | `index` | _Number (opcional)_ | Posição do item na lista que será removido (inicia em zero). |
 | `indexes` | _Array&lt;Number&gt; (opcional)_ | Lista com a posição de cada item na lista que será removido. (Inicia em zero) |
+| `event_id` | _String (opcional)_ | Para alterar a lista de reprodução de um culto ou evento específico.<br>Quando `event_id` não for declarado, a lista de reprodução atualmente selecionada na interface será editada.<br>Atenção, disponível somente a partir da versão `2.26.0`, significa que em versões anteriores este método sempre vai alterar a lista de reprodução atualmente selecionada na interface, ignorando este parâmetro `event_id` `Padrão: null` `v2.26.0+` |
 
 
 _Método sem retorno_
@@ -2756,6 +2826,57 @@ Resposta
   "data": {
     "sourceActive": "example"
   }
+}
+```
+
+
+---
+
+### ModuleAction
+- v2.26.0
+
+Executar uma ação pública de um módulo
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `module_id` | _String_ | id do módulo |
+| `action_id` | _String_ | id da ação |
+| `action_type` | _String (opcional)_ | Valores aceitos: `call` `open`<br>**call:** Executa a ação<br>**open:** Abre uma janela popup para o usuário inserir/editar os parâmetros e executar a ação `Padrão: call` |
+| `async` | _Boolean (opcional)_ | Executar a ação de forma assíncrona, ou seja, sem retornar a resposta da ação. Disponível se `action_type=call` `Padrão: false` |
+| `timeout` | _Number (opcional)_ | `100 ~ 4000` Tempo limite para execução da ação. Disponível se `action_type=call` `Padrão: 500` |
+| `notification` | _Boolean (opcional)_ | Exibir uma notificação em vez de exibir o popup diretamente na tela para o usuário. Disponível se `action_type=open` `Padrão: false` |
+| `input` | _Object (opcional)_ | Mapa chave/valor com os parâmetros para execução da ação, onde cada chave é o respectivo id do input declarado na ação do módulo |
+
+
+**Resposta:**
+
+| Tipo  | Descrição |
+| :---: | ------------|
+| _Object_ | Resposta da ação. Disponível se `action_type=call && async=false` |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "module_id": "",
+  "action_id": "",
+  "action_type": "",
+  "async": false,
+  "timeout": 0,
+  "notification": false,
+  "input": {
+    "a": "abc",
+    "b": "xyz"
+  }
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {}
 }
 ```
 
@@ -3108,6 +3229,37 @@ Resposta
       }
     }
   ]
+}
+```
+
+
+---
+
+### GetBackgroundTags
+- v2.26.0
+
+Lista das Tags criadas para organização de Temas e Backgrounds
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `input` | _Object (opcional)_ | Filtro |
+| `type` | _String (opcional)_ | Pode ser: `theme` `my_video` `my_image` `video` `image` |
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _Array&lt;String&gt;_ | Lista com o nome das Tags |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "type": "my_video"
 }
 ```
 
@@ -3558,6 +3710,7 @@ Preenche a lista de mídias da lista de reprodução selecionada atualmente no p
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `name` | _String_ | Nome da lista de reprodução salva |
+| `merge` | _Boolean_ | Adiciona os itens no final da lista em vez de substituir `Padrão: false` `v2.24.0+` |
 
 
 _Método sem retorno_
@@ -4120,6 +4273,59 @@ Resposta
       "archived": false
     }
   ]
+}
+```
+
+
+---
+
+### GetModules
+- v2.26.0
+
+Lista de módulos
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `input` | _Object (opcional)_ | Filtro |
+| `id` | _String (opcional)_ |  |
+| `name` | _String (opcional)_ |  |
+| `jscommunity_id` | _String (opcional)_ |  |
+| `info_id` | _String (opcional)_ |  |
+| `active` | _Boolean (opcional)_ |  |
+| `enabled_by_user` | _Boolean (opcional)_ |  |
+| `conditional_execution` | _Boolean (opcional)_ |  |
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;[Module](#module)&gt;_| 
+
+
+**Exemplo:**
+```
+Requisição
+{}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "abc",
+    "jscommunity_id": "xyz",
+    "info_id": "xyz",
+    "name": "Example",
+    "active": false,
+    "enabled_by_user": false,
+    "conditional_execution": false,
+    "show_panel": true,
+    "available_in_main_window": true,
+    "available_in_bible_window": true,
+    "actions": {}
+  }
 }
 ```
 
@@ -4740,6 +4946,83 @@ Resposta
 
 ---
 
+### GetDisplaySettingsPresets
+- v2.26.0
+
+Lista com os modelos salvos de configurações de exibição
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _Object_ | Tipo de preset. Valores aceitos: `public` `return` `image` `html` |
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;[DisplaySettingsPreset](#display-settings-preset)&gt;_| 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "type": "public"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "abcxyz",
+    "name": "Example",
+    "settings": {
+      "slide_info": {
+        "info_1": {
+          "show_page_count": false,
+          "show_slide_description": false,
+          "horizontal_align": "right",
+          "vertical_align": "bottom"
+        },
+        "info_2": {
+          "show": false,
+          "layout_row_1": "<title>< (%author_or_artist%)>",
+          "horizontal_align": "right",
+          "vertical_align": "bottom"
+        },
+        "font": {
+          "name": null,
+          "bold": null,
+          "italic": null,
+          "color": null
+        },
+        "height": 7,
+        "paint_theme_effect": true
+      },
+      "slide_translation": "",
+      "margin": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0
+      },
+      "area": {
+        "x": 1920,
+        "y": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "hide": false
+    }
+  }
+}
+```
+
+
+---
+
 ### GetTransitionEffectSettings
 - v2.21.0
 
@@ -5323,7 +5606,7 @@ Retorna o valor de um campo da interface do programa
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `id` | _String_ | ID do item. Pode ser: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme` |
+| `id` | _String_ | ID do item. Pode ser: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event` |
 
 
 **Resposta:**
@@ -5359,7 +5642,7 @@ Altera o valor de um campo da interface do programa
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `id` | _String_ | ID do item. Pode ser: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme` |
+| `id` | _String_ | ID do item. Pode ser: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event` |
 | `value` | _String_ | Novo valor |
 | `focus` | _Boolean (opcional)_ | Fazer o componente receber o foco do sistema |
 
@@ -5496,8 +5779,10 @@ Retorna informações da versão do programa em execução
 | `data.platformDescription` | _String_ | Nome detalhado do sistema operacional |
 | `data.baseDir` | _String_ |  `v2.24.0+` |
 | `data.language` | _String_ |  `v2.24.0+` |
+| `data.platformLanguage` | _String_ |  `v2.26.0+` |
 | `data.theme` | _String_ | Um dos seguintes valores: `DEFAULT` `DARK_SOFT` `DARK_MEDIUM` `DARK_STRONG` `v2.24.0+` |
 | `data.jscVersion` | _String_ | JS Community Version y.m.d `v2.24.0+` |
+| `data.ip_list` | _Array&lt;String&gt;_ |  `v2.26.0+` |
 
 
 **Exemplo:**
@@ -5515,6 +5800,42 @@ Resposta
       "theme": "DARK_STRONG",
       "jscVersion": "24.10.12"
     }
+  }
+}
+```
+
+
+---
+
+### GetAPIServerInfo
+- v2.26.0
+
+Retorna informações do servidor API
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data.enabled_local` | _Boolean_ | Se está ativado para acesso local |
+| `data.enabled_web` | _Boolean_ | Se está ativado para acesso pela internet |
+| `data.port` | _Number_ |  |
+| `data.ip_list` | _Array&lt;String&gt;_ |  |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "enabled_local": false,
+    "enabled_web": false,
+    "port": 8091,
+    "ip_list": [
+      "192.168.0.123"
+    ]
   }
 }
 ```
@@ -5692,7 +6013,7 @@ Retorna a lista de gatilhos salvos
 | `data.*.id` | _String_ | ID do item |
 | `data.*.enabled` | _Boolean_ |  |
 | `data.*.when` | _String_ | Pode ser: `displaying` `closing` `change` `event` |
-| `data.*.type` | _String_ | Tipo do item. Pode ser:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` |
+| `data.*.type` | _String_ | Tipo do item. Pode ser:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle` `bible_version_1` `bible_version_2` `bible_version_3` `bible_any_version`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` `draw_lots_item_drawn` |
 | `data.*.item.title` | _String_ |  |
 | `data.*.item.reference` | _Object_ |  |
 | `data.*.receiver.type` | _String_ | Pode ser: `get` `post` `ws` `tcp` `udp` `midi` `javascript` `community` `multiple_actions` `obs_v4` `obs_v5` `lumikit` `vmix` `osc` `soundcraft` `ha` `ptz` `tbot` `openai` |
@@ -5719,6 +6040,53 @@ Resposta
         "type": "obs_v5"
       },
       "description": "",
+      "tags": []
+    }
+  ]
+}
+```
+
+
+---
+
+### GetScheduledTasks
+- v2.26.0
+
+Retorna a lista de tarefas agendadas
+
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;[ScheduledTask](#scheduled-task)&gt;_| 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "abc",
+      "enabled": true,
+      "time": "18:50:00",
+      "days": [
+        "sun"
+      ],
+      "item": {},
+      "tags": []
+    },
+    {
+      "id": "xyz",
+      "enabled": true,
+      "time": "18:55:00",
+      "days": [
+        "sun"
+      ],
+      "item": {},
       "tags": []
     }
   ]
@@ -5877,6 +6245,440 @@ Resposta
       "size": "80"
     }
   }
+}
+```
+
+
+---
+
+### GetMidiSettings
+- v2.26.0
+
+
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data.codes` | _Object_ | Conjunto chave/valor<br>A chave é o id da respectiva ação e o valor é o código MIDI `0 ~ 127`<br>IDs disponíveis: `presentation_action_next` `presentation_action_previous` `presentation_action_exit` `presentation_action_blank` `presentation_action_black` `presentation_action_wallpaper` `presentation_action_next_playlist_item` `presentation_action_previous_playlist_item` `media_player_play_pause` `media_player_stop` `media_player_next` `media_player_previous` `media_player_mute` `media_player_fullscreen` `media_player_volume` `presentation_action_go_to_slide` `select_item_from_song_playlist` `select_item_from_media_playlist` `multiple_choice` `shortcut_1` `shortcut_2` `shortcut_3` `shortcut_4` `shortcut_5` `shortcut_6` `shortcut_7` `shortcut_8` `shortcut_9` `shortcut_10` `shortcut_11` `shortcut_12` `shortcut_13` `shortcut_14` `shortcut_15` `shortcut_16` |
+| `data.settings` | _Object_ | Configurações |
+| `data.settings.base_octave` | _Object_ | Número base de início da oitava para código midi = 0 (zero).<br>Ou seja, se `base_octave=-1`, então `código midi=0` é igual a `C-1`<br>Pode ser -1 ou -2 |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "codes": {
+      "presentation_action_next": 0,
+      "presentation_action_previous": 1,
+      "presentation_action_exit": 2,
+      "presentation_action_blank": 3,
+      "presentation_action_black": 4,
+      "presentation_action_wallpaper": 5,
+      "media_player_play_pause": 6,
+      "media_player_stop": 7,
+      "media_player_next": 8,
+      "media_player_previous": 9,
+      "media_player_mute": 10,
+      "media_player_fullscreen": 11,
+      "media_player_volume": 12,
+      "presentation_action_go_to_slide": 13,
+      "select_item_from_song_playlist": 14,
+      "select_item_from_media_playlist": 15,
+      "shortcut_1": 16,
+      "shortcut_2": 17,
+      "shortcut_3": 18,
+      "shortcut_4": 19,
+      "shortcut_5": 20,
+      "shortcut_6": 21,
+      "shortcut_7": 22,
+      "shortcut_8": 23,
+      "shortcut_9": 24,
+      "shortcut_10": 25,
+      "shortcut_11": 26,
+      "shortcut_12": 27,
+      "shortcut_13": 28,
+      "shortcut_14": 29,
+      "shortcut_15": 30,
+      "shortcut_16": 31
+    },
+    "settings": {
+      "base_octave": -1
+    }
+  }
+}
+```
+
+
+---
+
+### GetRuleGroupList
+- v2.26.0
+
+Retorna os grupos de regras salvas
+
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;[RuleGroup](#rule-group)&gt;_| 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "abc",
+      "name": "Example",
+      "match_mode": "all",
+      "rules": [
+        {
+          "id": "...",
+          "enabled": true,
+          "description": "",
+          "type": {
+            "id": "day_of_week",
+            "name": "",
+            "settings_type": "custom"
+          },
+          "data": {
+            "days": [
+              "sun",
+              "tue",
+              "thu",
+              "sat"
+            ]
+          }
+        },
+        {
+          "id": "hhmtGGcqjhpz",
+          "enabled": false,
+          "description": "",
+          "type": {
+            "id": "day_of_month",
+            "name": "",
+            "settings_type": "native",
+            "native_type": "number",
+            "operator": "is_between"
+          },
+          "data": {
+            "values": [
+              "12",
+              "15"
+            ]
+          }
+        }
+      ],
+      "metadata": {
+        "modified_time_millis": "0"
+      }
+    }
+  ]
+}
+```
+
+
+---
+
+### GetRuleGroup
+- v2.26.0
+
+Retorna um grupo de regras salva
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do grupo de regras |
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _[RuleGroup](#rule-group)_| 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "abc"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "abc",
+    "name": "Example",
+    "match_mode": "all",
+    "rules": [
+      {
+        "id": "...",
+        "enabled": true,
+        "description": "",
+        "type": {
+          "id": "day_of_week",
+          "name": "",
+          "settings_type": "custom"
+        },
+        "data": {
+          "days": [
+            "sun",
+            "tue",
+            "thu",
+            "sat"
+          ]
+        }
+      },
+      {
+        "id": "hhmtGGcqjhpz",
+        "enabled": false,
+        "description": "",
+        "type": {
+          "id": "day_of_month",
+          "name": "",
+          "settings_type": "native",
+          "native_type": "number",
+          "operator": "is_between"
+        },
+        "data": {
+          "values": [
+            "12",
+            "15"
+          ]
+        }
+      }
+    ],
+    "metadata": {
+      "modified_time_millis": "0"
+    }
+  }
+}
+```
+
+
+---
+
+### TestRuleGroup
+- v2.26.0
+
+Retorna o resultado do teste de um grupo de regras salvas (ou de uma regra específica do respectivo grupo)
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do grupo de regras |
+| `rule_id` | _String (opcional)_ | ID da regra específica a ser testada em vez de testar todo o grupo |
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data` | _Boolean_ | `true` or `false` |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "abc"
+}
+```
+
+
+---
+
+### GetTransitionEffectTemplateSettingsList
+- v2.26.0
+
+Retorna a lista com os modelos de efeito de transição
+
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;[TransitionEffectTemplateSettings](#transition-effect-template-settings)&gt;_| 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "abc",
+      "name": "Example 01",
+      "enabled": true,
+      "type": "fade",
+      "duration": 700,
+      "only_area_within_margin": false,
+      "merge": false,
+      "division_point": 30,
+      "increase_duration_blank_slides": false,
+      "metadata": {
+        "modified_time_millis": "0"
+      }
+    },
+    {
+      "id": "xyz",
+      "name": "Example 02",
+      "enabled": true,
+      "type": "fade",
+      "duration": 700,
+      "only_area_within_margin": false,
+      "merge": false,
+      "division_point": 30,
+      "increase_duration_blank_slides": false,
+      "metadata": {
+        "modified_time_millis": "0"
+      }
+    },
+    {
+      "id": "abcxyz",
+      "name": "Example 03",
+      "enabled": true,
+      "type": "zoom",
+      "duration": 800,
+      "only_area_within_margin": false,
+      "zoom_type": "increase",
+      "directions": {
+        "top_left": false,
+        "top_center": false,
+        "top_right": false,
+        "middle_left": false,
+        "middle_center": true,
+        "middle_right": false,
+        "bottom_left": false,
+        "bottom_center": false,
+        "bottom_right": false
+      },
+      "metadata": {
+        "modified_time_millis": "0"
+      }
+    }
+  ]
+}
+```
+
+
+---
+
+### GetTransitionEffectTemplateSettings
+- v2.26.0
+
+Retorna um modelo de efeito de transição
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do modelo |
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _[TransitionEffectTemplateSettings](#transition-effect-template-settings)_| 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "abcxyz"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "abcxyz",
+    "name": "Example 03",
+    "enabled": true,
+    "type": "zoom",
+    "duration": 800,
+    "only_area_within_margin": false,
+    "zoom_type": "increase",
+    "directions": {
+      "top_left": false,
+      "top_center": false,
+      "top_right": false,
+      "middle_left": false,
+      "middle_center": true,
+      "middle_right": false,
+      "bottom_left": false,
+      "bottom_center": false,
+      "bottom_right": false
+    },
+    "metadata": {
+      "modified_time_millis": "0"
+    }
+  }
+}
+```
+
+
+---
+
+### SetTransitionEffectTemplateSettings
+- v2.26.0
+
+Alterar as configurações de um modelo de efeito de transição
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _Object_ | ID do item |
+| `settings` | _[TransitionEffectSettings](#transition-effect-settings)_ | Novas configurações. As configurações são individualmente opcionais. Preencha apenas os campos que deseja alterar. |
+
+
+**Resposta:**
+
+| Tipo  | Descrição |
+| :---: | ------------|
+| _Object_ | Retorna **true** ou uma lista com os erros ocorridos |
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "abcxyz",
+  "settings": {
+    "type": "zoom",
+    "duration": 800,
+    "zoom_type": "increase",
+    "directions": {
+      "middle_left": true,
+      "middle_center": true,
+      "middle_right": true
+    }
+  }
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {}
 }
 ```
 
@@ -6076,6 +6878,31 @@ Requisição
 
 ---
 
+### SetCurrentSchedule
+- v2.26.0
+
+Alterar o culto ou evento atualmente selecionado na interface<br> <br>Esta ação requer uma assinatura [Holyrics Plan](https://holyrics.com.br/holyrics_plan.html) para ser executada
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `event_id` | _String_ | ID do evento Pode ser obtido de um objeto **Schedule** |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "event_id": "abcxyz"
+}
+```
+
+
+---
+
 
 
 # Classes
@@ -6136,6 +6963,7 @@ Requisição
       "styled_text": "Slide 1 line 1\nSlide 1 line 2",
       "slide_description": "Verse 1",
       "background_id": null,
+      "transition_settings_id": null,
       "translations": null
     },
     {
@@ -6143,6 +6971,7 @@ Requisição
       "styled_text": "Slide 2 line 1\nSlide 2 line 2",
       "slide_description": "Chorus",
       "background_id": null,
+      "transition_settings_id": null,
       "translations": null
     },
     {
@@ -6150,6 +6979,7 @@ Requisição
       "styled_text": "Slide 3 line 1\nSlide 3 line 2",
       "slide_description": "Verse 2",
       "background_id": null,
+      "transition_settings_id": null,
       "translations": null
     }
   ],
@@ -6177,6 +7007,7 @@ Requisição
     "extra": ""
   },
   "theme": null,
+  "transition_settings_id": null,
   "archived": false
 }
 ```
@@ -6206,23 +7037,27 @@ Requisição
   "title": "",
   "folder": "",
   "theme": null,
+  "transition_settings_id": null,
   "slides": [
     {
       "text": "Slide 1 line 1\nSlide 1 line 2",
       "styled_text": "Slide 1 line 1\nSlide 1 line 2",
       "background_id": null,
+      "transition_settings_id": null,
       "translations": null
     },
     {
       "text": "Slide 2 line 1\nSlide 2 line 2",
       "styled_text": "Slide 2 line 1\nSlide 2 line 2",
       "background_id": null,
+      "transition_settings_id": null,
       "translations": null
     },
     {
       "text": "Slide 3 line 1\nSlide 3 line 2",
       "styled_text": "Slide 3 line 1\nSlide 3 line 2",
       "background_id": null,
+      "transition_settings_id": null,
       "translations": null
     }
   ],
@@ -6374,7 +7209,8 @@ Requisição
   },
   "settings": {
     "uppercase": false,
-    "line_break": "system"
+    "line_break": "system",
+    "transition_settings_id": null
   }
 }
 ```
@@ -6437,7 +7273,7 @@ Requisição
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script` |
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script`  `module_action` |
 | `name` | _String_ | Nome do item |
 
 ## Group
@@ -6473,7 +7309,33 @@ Requisição
 | `id` | _String_ | ID do item |
 | `name` | _String_ | Nome do item |
 | `text` | _String_ | Texto do anúncio |
+| `shuffle` | _Boolean_ | Exibir a lista de anúncios de forma aleatória `v2.26.0+` |
 | `archived` | _Boolean_ | Se o item está arquivado |
+
+## Module
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `jscommunity_id` | _String_ | ID global do item no repositório JSCommunity |
+| `info_id` | _String_ | ID definido para o item em `function info()`<br>Se o módulo for de origem do JSCommunity, o valor é o mesmo de `jscommunity_id` |
+| `name` | _String_ | Nome do módulo |
+| `active` | _Boolean_ | Se o módulo está ativo. active é um resultado de `enabled_by_user && conditional_execution` |
+| `enabled_by_user` | _Boolean_ | Se o módulo está ativado pelo usuário (checkbox na interface) |
+| `conditional_execution` | _Boolean_ | Se o módulo está ativado baseado nas possíveis execuções condicionais definidos a ele pelo usuário |
+| `show_panel` | _Boolean_ | Exibir o módulo no painel Módulos |
+| `available_in_main_window` | _Boolean_ | Módulo disponível para uso no painel da janela principal |
+| `available_in_bible_window` | _Boolean_ | Módulo disponível para uso no painel da janela da Bíblia |
+| `actions` | _Array&lt;[Module Action](#module- -action)&gt;_ | Ações públicas disponíveis para o módulo |
+
+## Module Action
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `name` | _String_ | Nome do item |
+| `description` | _String_ | Descrição do item |
+| `available_for` | _String_ | Lista de origens que a ação está disponível.<br>Se o campo estiver vazio, significa que a ação está disponível para todas as origens.<br>Valores disponíveis: `ui` `trigger` `jslib_call` `jslib_open` `add_to_playlist` |
+| `unavailable_for` | _String_ | Lista de origens que a ação está indisponível.<br>Valores disponíveis: `ui` `trigger` `jslib_call` `jslib_open` `add_to_playlist` |
+| `input` | _Array&lt;Object&gt;_ | Lista de parâmetros requeridos para execução da ação |
 
 ## Midi
 | Nome | Tipo  | Descrição |
@@ -6496,6 +7358,8 @@ Requisição
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
 | `name` | _String_ | Nome do item |
+| `folders` | _Array&lt;String&gt;_ |  `v2.26.0+` |
+| `item` | _Object_ |  `v2.26.0+` |
 
 ## Service
 | Nome | Tipo  | Descrição |
@@ -6657,8 +7521,8 @@ Requisição
 | ---- | :---: | ------------|
 | `id` | _String (opcional)_ | ID do item |
 | `when` | _String_ | `displaying` `closing` `change` `event` |
-| `item` | _String_ | Tipo do item. Pode ser:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` |
-| `action` | _Function_ | Ação que será executada.<br>`function(obj) { /*  */ }`<br>Conteúdo de `obj` de acordo com o tipo do item:<br>[`any_song`](https://github.com/holyrics/jslib#songinfo)  [`any_text`](https://github.com/holyrics/jslib#textinfo)  [`any_verse`](https://github.com/holyrics/jslib#verseinfo)  [`any_announcement`](https://github.com/holyrics/jslib#announcementinfo)  [`any_audio`](https://github.com/holyrics/jslib#audioinfo)  [`any_video`](https://github.com/holyrics/jslib#videoinfo)  [`any_image`](https://github.com/holyrics/jslib#imageinfo)  [`any_automatic_presentation`](https://github.com/holyrics/jslib#automaticpresentationinfo)  [`any_song_slide`](https://github.com/holyrics/jslib#songslideinfo)  [`any_text_slide`](https://github.com/holyrics/jslib#textslideinfo)  [`any_ppt_slide`](https://github.com/holyrics/jslib#pptslideinfo)  [`any_theme`](https://github.com/holyrics/jslib#themeinfo)  [`any_background`](https://github.com/holyrics/jslib#backgroundinfo)  [`any_title_subitem`](https://github.com/holyrics/jslib#titleinfo)  [`any_webcam`](https://github.com/holyrics/jslib#webcaminfo)  [`any_audio_folder`](https://github.com/holyrics/jslib#audioinfo)  [`any_video_folder`](https://github.com/holyrics/jslib#videoinfo)  [`any_image_folder`](https://github.com/holyrics/jslib#imageinfo)  [`any_ppt`](https://github.com/holyrics/jslib#pptinfo)  [`any_countdown`](https://github.com/holyrics/jslib#countdowninfo)  [`any_automatic_presentation_slide`](https://github.com/holyrics/jslib#automaticpresentationslideinfo)  [`f8`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`f9`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`f10`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`new_message_chat`](https://github.com/holyrics/jslib#newchatmessageinfo)  [`verse_presentation_changed`](https://github.com/holyrics/jslib#versepresentationchangedinfo)  [`playlist_changed`](https://github.com/holyrics/jslib#playlistchangedinfo)  [`file_modified`](https://github.com/holyrics/jslib#filemodifiedinfo)  [`player_progress`](https://github.com/holyrics/jslib#playerprogressinfo)<br><br>Todos os itens de **when=change** contém: `obj.id` `obj.name` `obj.old_value` `obj.new_value` |
+| `item` | _String_ | Tipo do item. Pode ser:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle` `bible_version_1` `bible_version_2` `bible_version_3` `bible_any_version`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` `draw_lots_item_drawn` |
+| `action` | _Function_ | Ação que será executada.<br>`function(obj) { /*  */ }`<br>Conteúdo de `obj` de acordo com o tipo do item:<br>[`any_song`](https://github.com/holyrics/jslib#songinfo)  [`any_text`](https://github.com/holyrics/jslib#textinfo)  [`any_verse`](https://github.com/holyrics/jslib#verseinfo)  [`any_announcement`](https://github.com/holyrics/jslib#announcementinfo)  [`any_audio`](https://github.com/holyrics/jslib#audioinfo)  [`any_video`](https://github.com/holyrics/jslib#videoinfo)  [`any_image`](https://github.com/holyrics/jslib#imageinfo)  [`any_automatic_presentation`](https://github.com/holyrics/jslib#automaticpresentationinfo)  [`any_song_slide`](https://github.com/holyrics/jslib#songslideinfo)  [`any_text_slide`](https://github.com/holyrics/jslib#textslideinfo)  [`any_ppt_slide`](https://github.com/holyrics/jslib#pptslideinfo)  [`any_theme`](https://github.com/holyrics/jslib#themeinfo)  [`any_background`](https://github.com/holyrics/jslib#backgroundinfo)  [`any_title_subitem`](https://github.com/holyrics/jslib#titleinfo)  [`any_webcam`](https://github.com/holyrics/jslib#webcaminfo)  [`any_audio_folder`](https://github.com/holyrics/jslib#audioinfo)  [`any_video_folder`](https://github.com/holyrics/jslib#videoinfo)  [`any_image_folder`](https://github.com/holyrics/jslib#imageinfo)  [`any_ppt`](https://github.com/holyrics/jslib#pptinfo)  [`any_countdown`](https://github.com/holyrics/jslib#countdowninfo)  [`any_automatic_presentation_slide`](https://github.com/holyrics/jslib#automaticpresentationslideinfo)  [`f8`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`f9`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`f10`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`new_message_chat`](https://github.com/holyrics/jslib#newchatmessageinfo)  [`verse_presentation_changed`](https://github.com/holyrics/jslib#versepresentationchangedinfo)  [`playlist_changed`](https://github.com/holyrics/jslib#playlistchangedinfo)  [`file_modified`](https://github.com/holyrics/jslib#filemodifiedinfo)  [`player_progress`](https://github.com/holyrics/jslib#playerprogressinfo)  [`draw_lots_item_drawn`](https://github.com/holyrics/jslib#drawlotsitemdrawninfo)<br><br>Todos os itens de **when=change** contém: `obj.id` `obj.name` `obj.old_value` `obj.new_value` |
 | `name` | _String (opcional)_ | Nome do item. Valor compatível para exibição no **JavaScript Monitor** `v2.23.0+` |
 | `filter` | _Object (opcional)_ | Executar ação somente se o objeto que gerou o gatilho corresponder ao objeto filter `v2.24.0+` |
 <details>
@@ -6674,6 +7538,43 @@ Requisição
 }
 ```
 </details>
+
+## Scheduled Task
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `enabled` | _Boolean_ |  |
+| `time` | _String_ | hora no formato: HH:MM:SS |
+| `days` | _Array&lt;String&gt;_ | Valores aceitos: `sun` `mon` `tue` `wed` `thu` `fri` `sat` |
+| `item` | _Object_ |  |
+| `tags` | _Array&lt;String&gt;_ |  |
+
+## Rule
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `enabled` | _Boolean_ |  |
+| `description` | _String_ |  |
+| `type` | _Object_ |  |
+| `type.id` | _String_ | Valores aceitos: `none` `rule_group_model` `rule_group` `javascript` `javascript_model` `jscommunity` `services` `events` `date` `time` `datetime` `day_of_week` `day_of_month` `hour_of_day` `day_of_week_in_month` `runtime_environment` |
+| `type.name` | _String_ |  |
+| `type.settings_type` | _String_ | `native` `custom` |
+| <br>**type.settings_type=native** |  |  |
+| `type.native_type` | _String_ | Valores disponíveis: `unknown` `string` `number` `date` `time` `datetime` |
+| `type.operator` | _String_ | Valores disponíveis: `equals` `is_between` `contains` `greater` `greater_or_equals` `less` `less_or_equals` `matches_regex` `not_equals` `is_not_between` `not_contains` `not_matches_regex` |
+| `data` | _Object_ |  |
+| <br>**type.settings_type=native** |  |  |
+| `data.values` | _Array&lt;String&gt;_ | Valores utilizados para as comparações<br>O array pode conter 1 ou mais itens, depende de `type.operator` |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
+
+## Rule Group
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `name` | _String_ | Nome do item |
+| `match_mode` | _String_ | `any` `all` |
+| `rules` | _Array&lt;[Rule](#rule)&gt;_ | Regras |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
 
 ## Play Media Settings
 Configurações para execução da mídia
@@ -6706,6 +7607,7 @@ Configurações de exibição
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item. `public` `screen_2` `screen_3` `screen_?` `stream_image` `stream_html_1` `stream_html_2` `stream_html_3` |
 | `name` | _String_ | Nome do item |
+| `screen` | _String_ | Coordenada x,y da tela definida como público. Disponível apenas para `id=public` |
 | `stage_view` | _[StageView](#stage-view)_ | Configurações da visão do palco. (Indisponível para tela público) |
 | `slide_info` | _[SlideAdditionalInfo](#slide-additional-info)_ | Informações adicionais do slide |
 | `slide_translation` | _String_ | Nome da tradução |
@@ -6724,6 +7626,7 @@ Configurações de exibição
 | `show_items.announcement` | _Boolean_ | Anúncio |
 | `media_player.show` | _Boolean_ | Exibir VLC Player `v2.20.0+` |
 | `media_player.margin` | _[Rectangle](#rectangle)_ | Margem para exibição dos vídeos pelo VLC Player `v2.20.0+` |
+| `html_settings` | _[StageViewHTMLSettings](stage-view-html-settings)_ | Configurações HTML. Disponível somente para as saídas HTML. |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -6807,6 +7710,15 @@ Configurações de exibição
 ```
 </details>
 
+## Display Settings Preset
+Configurações de exibição (Modelo predefinido)
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `name` | _String_ | Nome do item |
+| `settings` | _[DisplaySettings](#display-settings)_ | Configurações |
+
 ## Transition Effect Settings
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
@@ -6852,6 +7764,15 @@ Configurações de exibição
 ```
 </details>
 
+## Transition Effect Template Settings
+É um objeto com os mesmos parâmetros disponíveis em **Transition Effect Settings**, porém com alguns parâmetros adicionais
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `name` | _String_ | Nome do item |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `read-only` |
+
 ## Bible Settings
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
@@ -6867,8 +7788,8 @@ Configurações de exibição
 | `book_panel_type` | _String_ | Tipo de visualização dos livros da Bíblia `grid` `list` |
 | `book_panel_order` | _String_ | Tipo de ordenação dos livros da Bíblia |
 | `book_panel_order_available_items` | _Array&lt;String&gt;_ |  |
-| `multiple_verses_separator_type` | _String_ | Tipo de separação na exibição de múltiplos versículos. Pode ser: no_line_break, single_line_break, double_line_break |
-| `multiple_versions_separator_type` | _String_ | Tipo de separação na exibição de múltiplas versões. Pode ser: no_line_break, single_line_break, double_line_break `v2.22.0+` |
+| `multiple_verses_separator_type` | _String_ | Tipo de separação na exibição de múltiplos versículos. Pode ser: no_line_break, single_line_break, double_line_break, solid_separator_line |
+| `multiple_versions_separator_type` | _String_ | Tipo de separação na exibição de múltiplas versões. Pode ser: no_line_break, single_line_break, double_line_break, solid_separator_line `v2.22.0+` |
 | `versification` | _Boolean_ | Aplicar mapeamento de versículos |
 | `theme` | _Object_ | ID do Tema de exibição para as diferentes telas do sistema |
 | `theme.public` | _String_ |  |
@@ -7004,6 +7925,85 @@ Configurações de exibição
 ```
 </details>
 
+## Stage View HTML Settings
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `font` | _Object_ |  |
+| `font.name` | _String_ | Nome da fonte |
+| `font.bold` | _Boolean_ | Negrito |
+| `font.size` | _Number_ | Tamanho relativo da fonte `2 ~ 50` |
+| `font.color` | _String_ | Cor no formato hexadecimal |
+| `background_color` | _String_ | Cor no formato hexadecimal |
+| `horizontal_align` | _String_ | `left`  `center`  `right` |
+| `vertical_align` | _String_ | `top`  `middle`  `bottom` |
+| `block_line_break` | _Boolean_ | Bloquear quebra de linha |
+| `transparent_background` | _Boolean_ | Cor de fundo transparente |
+| `show_page_count` | _Boolean_ | Exibir contador de página |
+| `image_format` | _String_ | `jpg`  `png` |
+| `image_resolution` | _String_ | `960x540` `1280x720` `1440x810` `1600x900` `1920x1080` |
+| `show_bible_version` | _Boolean_ | Valores aceitos: `none` `full` `full_single_line` `abbreviated` `abbreviated_end_of_text` |
+| `add_hly_data` | _Boolean_ | Adicionar tags avançadas na página |
+| `alert` | _Object_ |  |
+| `alert.font` | _Object_ |  |
+| `alert.font.name` | _String_ | Nome da fonte |
+| `alert.font.bold` | _Boolean_ | Negrito |
+| `alert.font.italic` | _Boolean_ | Itálico |
+| `alert.font.size` | _Number_ | Tamanho relativo da fonte. `10 ~ 20` |
+| `alert.font.color` | _String_ | Cor no formato hexadecimal |
+| `alert.background_color` | _String_ | Cor no formato hexadecimal |
+| `alert.velocity` | _Number_ | Velocidade do alerta `5 ~ 100` |
+| `comment` | _Object_ |  |
+| `comment.font` | _Object_ |  |
+| `comment.font.name` | _String_ | Nome da fonte |
+| `comment.font.bold` | _Boolean_ | Negrito |
+| `comment.font.italic` | _Boolean_ | Itálico |
+| `comment.font.size` | _Number_ | Tamanho relativo da fonte `40 ~ 100` |
+| `comment.font.color` | _String_ | Cor no formato hexadecimal |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "font": {
+    "name": "Arial",
+    "bold": false,
+    "size": 15.0,
+    "color": "FAFAFA"
+  },
+  "background_color": "000000",
+  "horizontal_align": "center",
+  "vertical_align": "middle",
+  "block_line_break": false,
+  "transparent_background": true,
+  "show_page_count": false,
+  "image_format": "jpg",
+  "image_resolution": "1440x810",
+  "show_bible_version": "none",
+  "add_hly_data": false,
+  "alert": {
+    "font": {
+      "name": "Arial",
+      "bold": false,
+      "italic": false,
+      "size": 15.0,
+      "color": "FAFAFA"
+    },
+    "background_color": "000000",
+    "velocity": 40
+  },
+  "comment": {
+    "font": {
+      "name": "Arial",
+      "bold": false,
+      "italic": true,
+      "size": 100.0,
+      "color": "FF7000"
+    }
+  }
+}
+```
+</details>
+
 ## Rectangle
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
@@ -7083,6 +8083,43 @@ Configurações de exibição
   "name": "",
   "only_number": false,
   "uppercase": false
+}
+```
+</details>
+
+## Quiz Group
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `name` | _String_ | Nome do item |
+| `questions` | _Array&lt;[QuizQuestion](#quiz-question)&gt;_ |  |
+| `settings` | _[QuizSettings](#quiz-settings)_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "name": "",
+  "questions": {
+    "name": "",
+    "title": "...",
+    "alternatives": [
+      "Item 1",
+      "Item 2",
+      "Item 3"
+    ],
+    "correct_alternative_number": 2,
+    "source": ""
+  },
+  "settings": {
+    "correct_answer_color_font": "00796B",
+    "correct_answer_color_background": "CCFFCC",
+    "incorrect_answer_color_font": "721C24",
+    "incorrect_answer_color_background": "F7D7DB",
+    "question_and_alternatives_different_slides": false,
+    "display_alternatives_one_by_one": true,
+    "alternative_separator_char": ".",
+    "alternative_char_type": "alpha"
+  }
 }
 ```
 </details>
@@ -7547,7 +8584,7 @@ Configurações customizadas da tradução (item)
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `enabled` | _Boolean_ |  |
-| `font_or_script` | _String_ | `system` `lucida_sans` `arial_unicode_ms` `nirmala_ui` `arabic` `armenian` `bengali` `bopomofo` `cyrillic` `devanagari` `georgian` `gujarati` `gurmukhi` `han` `hebrew` `hiragana` `kannada` `katakana` `malayalam` `meetei_mayek` `ol_chiki` `oriya` `sinhala` `tamil` `telugu` `thai` |
+| `font_or_script` | _String_ | `system` `lucida_sans` `arial_unicode_ms` `nirmala_ui` `arabic` `armenian` `bengali` `bopomofo` `cyrillic` `devanagari` `georgian` `greek` `gujarati` `gurmukhi` `han` `hangul` `hebrew` `hiragana` `kannada` `katakana` `lao` `malayalam` `meetei_mayek` `ol_chiki` `oriya` `sinhala` `tamil` `telugu` `thai` `tibetan` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -7563,7 +8600,7 @@ Configurações customizadas da tradução (item)
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `fade_in_out_enabled` | _Boolean_ |  |
-| `fade_in_out_duration` | _Number_ | `200 ~ 1200` |
+| `fade_in_out_duration` | _Number_ | `200 ~ 1500` |
 | `show_history_main_window` | _Boolean_ |  |
 | `show_favorite_bar_main_window` | _Boolean_ |  |
 | `show_favorite_bar_bible_window` | _Boolean_ |  |
@@ -7591,6 +8628,8 @@ Configurações customizadas da tradução (item)
 | `display_custom_formatting_enabled` | _Boolean_ |  |
 | `display_custom_background_enabled` | _Boolean_ |  |
 | `display_advanced_editor_enabled` | _Boolean_ |  |
+| `display_saved_theme_for_lyrics_enabled` | _Boolean_ |  `v2.26.0+` |
+| `display_saved_theme_for_text_enabled` | _Boolean_ |  `v2.26.0+` |
 | `advanced_editor_block_line_break` | _Boolean_ |  |
 | `slide_description_repeat_description_for_sequence` | _Boolean_ |  |
 | `standardize_automatic_line_break` | _Boolean_ |  |
@@ -7663,6 +8702,8 @@ Configurações customizadas da tradução (item)
   "display_custom_formatting_enabled": true,
   "display_custom_background_enabled": true,
   "display_advanced_editor_enabled": true,
+  "display_saved_theme_for_lyrics_enabled": true,
+  "display_saved_theme_for_text_enabled": true,
   "advanced_editor_block_line_break": true,
   "slide_description_repeat_description_for_sequence": true,
   "standardize_automatic_line_break": false,
@@ -7675,7 +8716,7 @@ Configurações customizadas da tradução (item)
 ## AddItem
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script` |
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script`  `module_action` |
 
 ## AddItemTitle
 | Nome | Tipo  | Descrição |
@@ -7848,6 +8889,7 @@ Configurações customizadas da tradução (item)
 | `name` | _String (opcional)_ | Nome do anúncio |
 | `names` | _Array&lt;String&gt; (opcional)_ | Lista com o nome de cada anúncio |
 | `automatic` | _[Automatic](#automatic) (opcional)_ | Se informado, a apresentação dos itens será automática |
+| `shuffle` | _Boolean_ | Exibir a lista de anúncios de forma aleatória `Padrão: false` `v2.26.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -7862,7 +8904,8 @@ Configurações customizadas da tradução (item)
   "automatic": {
     "seconds": 10,
     "repeat": true
-  }
+  },
+  "shuffle": true
 }
 ```
 </details>
@@ -7964,7 +9007,7 @@ Configurações customizadas da tradução (item)
 ```
 </details>
 
-## AddItemAddItemScript
+## AddItemScript
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `type` | _String_ | script |
@@ -7987,7 +9030,7 @@ Configurações customizadas da tradução (item)
 ```
 </details>
 
-## AddItemAddItemAPI
+## AddItemAPI
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `type` | _String_ | api |
@@ -8002,6 +9045,29 @@ Configurações customizadas da tradução (item)
   "type": "api",
   "id": "xyz",
   "description": "",
+  "inputs": {
+    "message": "Exemplo",
+    "duration": 30
+  }
+}
+```
+</details>
+
+## AddItemModuleAction
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `type` | _String_ | module_action |
+| `id` | _String_ | ID do módulo |
+| `module_action_id` | _String_ | ID da ação do módulo |
+| `inputs` | _Object (opcional)_ | Valor padrão para executar a ação |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "type": "module_action",
+  "id": "abc",
+  "module_action_id": "xyz",
   "inputs": {
     "message": "Exemplo",
     "duration": 30
@@ -8342,7 +9408,7 @@ Configurações customizadas da tradução (item)
 | `id` | _Number_ |  |
 | `name` | _String_ |  |
 | `from_user_list` | _Boolean_ |  |
-| `tags` | _String_ |  |
+| `tags` | _Array&lt;String&gt;_ |  |
 | `bpm` | _String_ |  |
 <details>
   <summary>Ver exemplo</summary>
@@ -8352,7 +9418,6 @@ Configurações customizadas da tradução (item)
   "id": 0,
   "name": "name",
   "from_user_list": true,
-  "tags": "",
   "bpm": "0"
 }
 ```
@@ -8365,7 +9430,7 @@ Configurações customizadas da tradução (item)
 | `id` | _Number_ |  |
 | `name` | _String_ |  |
 | `from_user_list` | _Boolean_ |  |
-| `tags` | _String_ |  |
+| `tags` | _Array&lt;String&gt;_ |  |
 | `bpm` | _String_ |  |
 | `color_map` | _Array&lt;Object&gt;_ |  |
 | `color_map.*.hex` | _String_ | Cor no formato hexadecimal |
@@ -8381,7 +9446,6 @@ Configurações customizadas da tradução (item)
   "id": 0,
   "name": "name",
   "from_user_list": true,
-  "tags": "",
   "bpm": "0",
   "color_map": [
     {
@@ -8629,6 +9693,21 @@ Configurações customizadas da tradução (item)
 {
   "time": 0,
   "total": 60000
+}
+```
+</details>
+
+## DrawLotsItemDrawnInfo
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `collection_type` | _String_ |  |
+| `drawn_items` | _Array&lt;String&gt;_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "collection_type": "text"
 }
 ```
 </details>
