@@ -390,6 +390,7 @@ function request(action, headers, content, info) {
   - [ScriptAction](#scriptaction)
   - [ApiRequest](#apirequest)
   - [ModuleAction](#moduleaction)
+  - [RunActions](#runactions)
   - [GetCurrentPresentation](#getcurrentpresentation)
   - [CloseCurrentPresentation](#closecurrentpresentation)
   - [GetF8](#getf8)
@@ -401,6 +402,7 @@ function request(action, headers, content, info) {
   - [ActionGoToSlideDescription](#actiongotoslidedescription)
   - [GetCurrentBackground](#getcurrentbackground)
   - [GetCurrentTheme](#getcurrenttheme)
+  - [GetThemes](#getthemes)
   - [GetBackgrounds](#getbackgrounds)
   - [GetBackgroundTags](#getbackgroundtags)
   - [SetCurrentBackground](#setcurrentbackground)
@@ -441,6 +443,9 @@ function request(action, headers, content, info) {
   - [GetDisplaySettingsPresets](#getdisplaysettingspresets)
   - [GetTransitionEffectSettings](#gettransitioneffectsettings)
   - [SetTransitionEffectSettings](#settransitioneffectsettings)
+  - [GetTranslationPresetList](#gettranslationpresetlist)
+  - [GetTranslationPreset](#gettranslationpreset)
+  - [ApplyTranslationPreset](#applytranslationpreset)
   - [GetBibleVersions](#getbibleversions)
   - [GetBibleVersionsV2](#getbibleversionsv2)
   - [GetBibleSettings](#getbiblesettings)
@@ -469,6 +474,11 @@ function request(action, headers, content, info) {
   - [CloseCurrentQuickPresentation](#closecurrentquickpresentation)
   - [GetCurrentQuickPresentation](#getcurrentquickpresentation)
   - [GetTriggers](#gettriggers)
+  - [GetTriggerTags](#gettriggertags)
+  - [GetTriggerPauseStateForTag](#gettriggerpausestatefortag)
+  - [SetTriggerPauseStateForTag](#settriggerpausestatefortag)
+  - [GetTriggerPauseStateForReceiver](#gettriggerpausestateforreceiver)
+  - [SetTriggerPauseStateForReceiver](#settriggerpausestateforreceiver)
   - [GetScheduledTasks](#getscheduledtasks)
   - [GetGlobalSettings](#getglobalsettings)
   - [SetGlobalSettings](#setglobalsettings)
@@ -2883,6 +2893,35 @@ Response
 
 ---
 
+### RunActions
+- v2.27.0
+
+Execute an action of the 'Actions' type<br>Available actions: [HolyricsActions](https://github.com/holyrics/jslib/blob/main/doc/en/HolyricsActions.md)
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `action_id` | _String_ |  |
+| `settings` | _Object_ | Key/value map |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "action_id": "interface_bible_select_verse",
+  "settings": {
+    "verse": "43003016"
+  }
+}
+```
+
+
+---
+
 ### GetCurrentPresentation
 - v2.19.0
 
@@ -3164,6 +3203,48 @@ Response
 
 ---
 
+### GetThemes
+- v2.27.0
+
+List of topics
+
+
+
+**Response:**
+
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;[Theme](#theme)&gt;_| 
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "123",
+      "name": "",
+      "...": "..."
+    },
+    {
+      "id": "1234",
+      "name": "",
+      "...": "..."
+    },
+    {
+      "id": "12345",
+      "name": "",
+      "...": "..."
+    }
+  ]
+}
+```
+
+
+---
+
 ### GetBackgrounds
 - v2.19.0
 
@@ -3361,8 +3442,8 @@ Returns the information of the predominant color of a respective type of item.<b
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `type` | _String_ | One of the following values:<br/>**background** - um item de tema ou plano de fundo<br/>**presentation** - apresentação atual em exibição<br/>**image** - uma imagem da aba 'imagens'<br/>**video** - um vídeo da aba 'vídeos'<br/>**printscreen** - um printscreen atual de uma tela do sistema<br/> |
-| `source` | _Object (optional)_ | The item according to the type informed:<br/>**background** - ID do tema ou plano de fundo<br/>**presentation** - não é necessário informar um valor, a apresentação da tela público será retornada<br/>**image** - o nome do arquivo da aba 'imagens'<br/>**video** - o nome do arquivo da aba 'vídeos'<br/>**printscreen** `opcional` -  the name of the screen (public, screen_2, screen_3, ...); o padrão é `public`<br/> |
+| `type` | _String_ | One of the following values:<br/>**background** - an item of theme or background<br/>**presentation** - current presentation on display<br/>**image** - an image of the 'images' tab<br/>**video** - a video from the 'videos' tab<br/>**printscreen** - a current screenshot of a system screen<br/> |
+| `source` | _Object (optional)_ | The item according to the type informed:<br/>**background** - Theme or background ID<br/>**presentation** - it is not necessary to provide a value, the public screen presentation will be returned<br/>**image** - the name of the file in the 'images' tab<br/>**video** - the name of the file in the 'videos' tab<br/>**printscreen** `optional` -  the name of the screen (public, screen_2, screen_3, ...); the default is `public`<br/> |
 
 
 **Response:**
@@ -3423,6 +3504,7 @@ Returns alert message settings
 | ---- | :---: | ------------|
 | `data.text` | _String_ | Current alert text |
 | `data.show` | _Boolean_ | Whether the alert display is enabled |
+| `data.display_ahead` | _Boolean_ | Whether the *'display in front of all'* option is enabled `v2.27.0+` |
 
 
 **Example:**
@@ -3451,6 +3533,8 @@ Change alert message settings
 | ---- | :---: | ------------|
 | `text` | _String (optional)_ | Change alert text |
 | `show` | _Boolean (optional)_ | Show/hide the alert |
+| `display_ahead` | _Boolean (optional)_ | Change the *'display in front of all'* option `Default: true` `v2.27.0+` |
+| `close_after_seconds` | _Number (optional)_ | Automatically remove alert text after X seconds. `0 ~ 3600` `Default: 0` `v2.27.0+` |
 
 
 _Method does not return value_
@@ -4452,8 +4536,9 @@ Starts a countdown on the communication panel
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `minutes` | _Number_ | Number of minutes |
-| `seconds` | _Number_ | Number of seconds |
+| `minutes` | _Number_ | Number of minutes. Optional if `exact_time` is declared |
+| `seconds` | _Number_ | Number of seconds. Optional if `exact_time` is declared |
+| `exact_time` | _String_ | Set a specific time. Can be: `HH:MM:SS` or `HH:MM`. Optional if `minutes` or `seconds` are declared `v2.27.0+` |
 | `yellow_starts_at` | _Number (optional)_ | Value in seconds to define how long the countdown will be yellow from |
 | `stop_at_zero` | _Boolean (optional)_ | Stop the countdown when it reaches zero `Default: false` |
 | `text` | _String (optional)_ | Text for display. By default, the text is displayed before the numeric part. For special formatting, use the variable `@cp_countdown` in the middle of the text to indicate the location of the numeric part. `v2.24.0+` |
@@ -4573,6 +4658,7 @@ Change communication panel alert settings
 | ---- | :---: | ------------|
 | `text` | _String (optional)_ | Change alert text |
 | `show` | _Boolean (optional)_ | Show/hide the alert |
+| `close_after_seconds` | _Number (optional)_ | Automatically remove alert text after X seconds. `0 ~ 3600` `Default: 0` `v2.27.0+` |
 
 
 _Method does not return value_
@@ -5117,6 +5203,162 @@ Response
 
 ---
 
+### GetTranslationPresetList
+- v2.27.0
+
+List of saved translation configuration models
+
+
+
+**Response:**
+
+| Type  |
+| :---: |
+| _Array&lt;[Translation Custom Settings Preset](#translation- -custom- -settings- -preset)&gt;_ | 
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "xyz",
+      "name": "example",
+      "alternative_name": "ex",
+      "preset": {
+        "public": {
+          "translation_name": "custom",
+          "translation_custom_settings": {
+            "translation_1": {
+              "name": "English",
+              "style": "",
+              "prefix": "",
+              "suffix": ""
+            },
+            "translation_2": {
+              "name": "Portuguese",
+              "style": "",
+              "prefix": "",
+              "suffix": ""
+            },
+            "translation_3": null,
+            "translation_4": null,
+            "merge": false,
+            "uppercase": false,
+            "blank_line_height": 0
+          }
+        },
+        "screen_2": {
+          "translation_name": "English",
+          "translation_custom_settings": null
+        },
+        "stream_image": {
+          "translation_name": "",
+          "translation_custom_settings": null
+        },
+        "stream_html_1": {
+          "translation_name": "",
+          "translation_custom_settings": null
+        },
+        "stream_html_2": {
+          "translation_name": "",
+          "translation_custom_settings": null
+        },
+        "stream_html_3": {
+          "translation_name": "",
+          "translation_custom_settings": null
+        }
+      }
+    },
+    {
+      "id": "xyz123",
+      "name": "example 2",
+      "alternative_name": "ex2",
+      "...": "..."
+    },
+    {
+      "id": "xyz987",
+      "name": "example 3",
+      "alternative_name": "ex3",
+      "...": "..."
+    }
+  ]
+}
+```
+
+
+---
+
+### GetTranslationPreset
+- v2.27.0
+
+Returns a translation configuration model
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String (optional)_ | Item ID |
+| `name` | _String (optional)_ | Item name |
+
+
+**Response:**
+
+| Type  |
+| :---: |
+| _[Translation Custom Settings Preset](#translation- -custom- -settings- -preset)_ | 
+
+
+**Example:**
+```
+Request
+{
+  "id": "xyz"
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "id": "xyz",
+    "name": "example",
+    "alternative_name": "ex",
+    "...": "..."
+  }
+}
+```
+
+
+---
+
+### ApplyTranslationPreset
+- v2.27.0
+
+Applies translation settings from a template
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String (optional)_ | Item ID |
+| `name` | _String (optional)_ | Item name |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "id": "xyz"
+}
+```
+
+
+---
+
 ### GetBibleVersions
 - v2.21.0
 
@@ -5606,7 +5848,7 @@ Returns the value of a field from the program interface
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `id` | _String_ | Item ID. Can be: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event` |
+| `id` | _String_ | Item ID. Can be: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event`<br> <br>`2.27.0`<br><br>`main_song_tab_selected_item`<br>`main_text_tab_selected_item`<br>`main_text_tab_selected_folder`<br>`main_audio_tab_selected_item`<br>`main_video_tab_selected_item`<br>`main_image_tab_selected_item`<br>`main_file_tab_selected_item`<br>`main_custom_message_tab_selected_item`<br>`main_automatic_presentation_tab_selected_item` |
 
 
 **Response:**
@@ -5642,7 +5884,7 @@ Change the value of a field in the program interface
 
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `id` | _String_ | Item ID. Can be: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event` |
+| `id` | _String_ | Item ID. Can be: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event`<br> <br>`2.27.0`<br><br>`main_song_tab_selected_item`<br>`main_text_tab_selected_item`<br>`main_text_tab_selected_folder`<br>`main_audio_tab_selected_item`<br>`main_video_tab_selected_item`<br>`main_image_tab_selected_item`<br>`main_file_tab_selected_item`<br>`main_custom_message_tab_selected_item`<br>`main_automatic_presentation_tab_selected_item` |
 | `value` | _String_ | New value |
 | `focus` | _Boolean (optional)_ | Make the component receive system focus |
 
@@ -6043,6 +6285,138 @@ Response
       "tags": []
     }
   ]
+}
+```
+
+
+---
+
+### GetTriggerTags
+- v2.27.0
+
+Returns the list of trigger tags
+
+
+
+**Response:**
+
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;String&gt;_| 
+
+
+
+
+---
+
+### GetTriggerPauseStateForTag
+- v2.27.0
+
+Returns the 'pause' state of the execution of triggers for a specific tag
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `tag` | _String_ |  |
+
+
+**Response:**
+
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Boolean_| 
+
+
+**Example:**
+```
+Request
+{
+  "tag": "example"
+}
+```
+
+
+---
+
+### SetTriggerPauseStateForTag
+- v2.27.0
+
+Changes the 'pause' state of the execution of triggers for a specific tag
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `tag` | _String_ |  |
+| `pause` | _Boolean_ |  |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "tag": "example",
+  "pause": true
+}
+```
+
+
+---
+
+### GetTriggerPauseStateForReceiver
+- v2.27.0
+
+Returns the 'pause' state of the trigger execution of a specific receiver
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `receiver` | _String_ | Receiver ID |
+
+
+**Response:**
+
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Boolean_| 
+
+
+**Example:**
+```
+Request
+{
+  "receiver": "xyz"
+}
+```
+
+
+---
+
+### SetTriggerPauseStateForReceiver
+- v2.27.0
+
+Changes the 'pause' state of the execution of triggers for a specific receiver
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `receiver` | _String_ | Receiver ID |
+| `pause` | _Boolean_ |  |
+
+
+_Method does not return value_
+
+**Example:**
+```
+Request
+{
+  "receiver": "xyz",
+  "pause": true
 }
 ```
 
@@ -6957,6 +7331,7 @@ Request
   "author": "",
   "note": "",
   "copyright": "",
+  "language": "",
   "slides": [
     {
       "text": "Slide 1 line 1\nSlide 1 line 2",
@@ -7035,6 +7410,7 @@ Request
 {
   "id": "",
   "title": "",
+  "language": "",
   "folder": "",
   "theme": null,
   "transition_settings_id": null,
@@ -7273,7 +7649,7 @@ Request
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `id` | _String_ | Item ID |
-| `type` | _String_ | Type of item. It can be: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script`  `module_action` |
+| `type` | _String_ | Type of item. It can be: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `actions`  `global_action`  `alert`  `cp_alert`  `api`  `script`  `module_action` |
 | `name` | _String_ | Item name |
 
 ## Group
@@ -7556,7 +7932,7 @@ Request
 | `enabled` | _Boolean_ |  |
 | `description` | _String_ |  |
 | `type` | _Object_ |  |
-| `type.id` | _String_ | Accepted values: `none` `rule_group_model` `rule_group` `javascript` `javascript_model` `jscommunity` `services` `events` `date` `time` `datetime` `day_of_week` `day_of_month` `hour_of_day` `day_of_week_in_month` `runtime_environment` |
+| `type.id` | _String_ | Accepted values: `none` `rule_group_model` `rule_group` `javascript` `javascript_model` `jscommunity` `services` `events` `current_event_time` `date` `time` `datetime` `day_of_week` `day_of_month` `hour_of_day` `day_of_week_in_month` `runtime_environment` `javascript_state` |
 | `type.name` | _String_ |  |
 | `type.settings_type` | _String_ | `native` `custom` |
 | <br>**type.settings_type=native** |  |  |
@@ -7671,7 +8047,8 @@ Display settings
     "translation_4": null,
     "merge": true,
     "uppercase": false,
-    "blank_line_height": 40
+    "blank_line_height": 40,
+    "translation_number_to_display_interface": 1
   },
   "margin": {
     "top": 0.0,
@@ -8473,6 +8850,28 @@ Custom translation settings (item)
 ```
 </details>
 
+## Translation Custom Settings Preset
+Translation configuration model
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Item ID |
+| `name` | _String_ | Item name |
+| `alternative_name` | _String_ | Alternative name (short name to be displayed in the interface) |
+| `preset` | _Object_ | Key/value map<br>Each key is the `id` of the screen (id of the respective **Display Settings**).<br>Each value is an `object` that contains `translation_name` and optionally contains `translation_custom_settings` if `translation_name=custom`. |
+| `metadata.modified_time_millis` | _Number_ | File modification date. (timestamp) `v2.25.0+` `read-only` |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "id": "",
+  "name": "",
+  "alternative_name": ""
+}
+```
+</details>
+
 ## Styled Model
 | Name | Type  | Description |
 | ---- | :---: | ------------|
@@ -8539,18 +8938,23 @@ Custom translation settings (item)
 
 ```json
 {
-  "display_mode": "all_slides",
-  "layout": "t;a;c",
-  "font": {
-    "name": "Arial",
-    "bold": true,
-    "italic": true,
-    "color": "FFFF00"
+  "public": {
+    "display_mode": "all_slides",
+    "layout": "t;a;c",
+    "font": {
+      "name": "Arial",
+      "bold": true,
+      "italic": true,
+      "color": "FFFF00"
+    },
+    "line_height": 3.0,
+    "align": "left",
+    "opacity": 70,
+    "position": "top_left"
   },
-  "line_height": 3.0,
-  "align": "left",
-  "opacity": 70,
-  "position": "top_left"
+  "screen_2": "{...}",
+  "screen_3": "{...}",
+  "stream_image": "{...}"
 }
 ```
 </details>
@@ -8635,6 +9039,7 @@ Custom translation settings (item)
 | `standardize_automatic_line_break` | _Boolean_ |  |
 | `allow_main_window_and_bible_window_simultaneously` | _Boolean_ |  |
 | `preferential_arrangement_collection` | _String_ |  |
+| `simulate_projection` | _Object_ | Key/value pair<br>key: `screen_1` `screen_2` `screen_3`<br>valor: [SimulateProjectionSettings](#simulate-projection-settings) `v2.27.0+` |
 <details>
   <summary>See example</summary>
 
@@ -8663,18 +9068,23 @@ Custom translation settings (item)
     "remove_final_slide": false
   },
   "copyright": {
-    "display_mode": "all_slides",
-    "layout": "t;a;c",
-    "font": {
-      "name": "Arial",
-      "bold": true,
-      "italic": true,
-      "color": "FFFF00"
+    "public": {
+      "display_mode": "all_slides",
+      "layout": "t;a;c",
+      "font": {
+        "name": "Arial",
+        "bold": true,
+        "italic": true,
+        "color": "FFFF00"
+      },
+      "line_height": 3.0,
+      "align": "left",
+      "opacity": 70,
+      "position": "top_left"
     },
-    "line_height": 3.0,
-    "align": "left",
-    "opacity": 70,
-    "position": "top_left"
+    "screen_2": "{...}",
+    "screen_3": "{...}",
+    "stream_image": "{...}"
   },
   "image_presentation": {
     "adjust_type": "adjust",
@@ -8708,7 +9118,69 @@ Custom translation settings (item)
   "slide_description_repeat_description_for_sequence": true,
   "standardize_automatic_line_break": false,
   "allow_main_window_and_bible_window_simultaneously": false,
-  "preferential_arrangement_collection": ""
+  "preferential_arrangement_collection": "",
+  "simulate_projection": {
+    "screen_1": {
+      "enabled": true,
+      "hide_screen": false,
+      "position": "user",
+      "x": 0,
+      "y": 0,
+      "width": 320,
+      "height": 180,
+      "metadata": {
+        "available_positions": [
+          "user",
+          "public"
+        ],
+        "area": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 180
+        }
+      }
+    },
+    "screen_2": "{...}",
+    "screen_3": "{...}"
+  }
+}
+```
+</details>
+
+## Simulate Projection Settings
+Settings for the 'simulate projection' option
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `enabled` | _Boolean_ |  |
+| `hide_screen` | _Boolean_ |  |
+| `position` | _String_ | Can be: Accepted values: `user` `public` `on_the_right_simulation_1` `on_the_right_simulation_2` |
+| `x` | _Number_ | `0 ~ 9999` |
+| `y` | _Number_ | `0 ~ 9999` |
+| `width` | _Number_ | `1 ~ 3840` |
+| `height` | _Number_ | `1 ~ 3840` |
+| `area` | _[Rectangle](#rectangle)_ | Simulated screen area |
+| `metadata` | _Object_ |  |
+| `available_positions` | _Array&lt;String&gt;_ | Available positions for the respective item |
+<details>
+  <summary>See example</summary>
+
+```json
+{
+  "enabled": false,
+  "hide_screen": false,
+  "position": "",
+  "x": 0,
+  "y": 0,
+  "width": 0,
+  "height": 0,
+  "area": {
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  }
 }
 ```
 </details>
@@ -8716,7 +9188,7 @@ Custom translation settings (item)
 ## AddItem
 | Name | Type  | Description |
 | ---- | :---: | ------------|
-| `type` | _String_ | Type of item. It can be: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script`  `module_action` |
+| `type` | _String_ | Type of item. It can be: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `actions`  `global_action`  `alert`  `cp_alert`  `api`  `script`  `module_action` |
 
 ## AddItemTitle
 | Name | Type  | Description |
@@ -8743,13 +9215,17 @@ Custom translation settings (item)
 | ---- | :---: | ------------|
 | `type` | _String_ | song |
 | `id` | _String_ | Item ID |
+| `arrangement_name` | _String (optional)_ |  `v2.27.0+` |
+| `translation_preset_id` | _String (optional)_ |  `v2.27.0+` |
 <details>
   <summary>See example</summary>
 
 ```json
 {
   "type": "song",
-  "id": "123"
+  "id": "123",
+  "arrangement_name": "",
+  "translation_preset_id": ""
 }
 ```
 </details>
@@ -8781,13 +9257,15 @@ Custom translation settings (item)
 | ---- | :---: | ------------|
 | `type` | _String_ | text |
 | `id` | _String_ | Item ID |
+| `translation_preset_id` | _String (optional)_ |  `v2.27.0+` |
 <details>
   <summary>See example</summary>
 
 ```json
 {
   "type": "text",
-  "id": "xyz"
+  "id": "xyz",
+  "translation_preset_id": ""
 }
 ```
 </details>
@@ -8951,8 +9429,8 @@ Custom translation settings (item)
 | Name | Type  | Description |
 | ---- | :---: | ------------|
 | `type` | _String_ | countdown_cp |
-| `minutes` | _Number_ | Number of minutes |
-| `seconds` | _Number_ | Number of seconds |
+| `minutes` | _Number_ | Number of minutes. Optional if `exact_time` is declared |
+| `seconds` | _Number_ | Number of seconds. Optional if `exact_time` is declared |
 | `stop_at_zero` | _Boolean (optional)_ | Stop the countdown when it reaches zero `Default: false` |
 | `description` | _String_ | Item description |
 <details>
@@ -8975,6 +9453,8 @@ Custom translation settings (item)
 | `type` | _String_ | plain_text |
 | `name` | _String_ | Item name |
 | `text` | _String_ | Text |
+| `theme` | _String (optional)_ | Theme ID used to display the text `v2.27.0+` |
+| `background` | _String (optional)_ | Background ID used to display the text `v2.27.0+` |
 <details>
   <summary>See example</summary>
 
@@ -8982,7 +9462,9 @@ Custom translation settings (item)
 {
   "type": "plain_text",
   "name": "",
-  "text": "Example"
+  "text": "Example",
+  "theme": "",
+  "background": ""
 }
 ```
 </details>
@@ -9101,6 +9583,34 @@ Custom translation settings (item)
 | ---- | :---: | ------------|
 | `type` | _String_ | global_action |
 | `action` | _String_ | Can be: `slide_exit` `vlc_stop` `vlc_stop_fade_out` |
+
+## AddItemAddItemAlert
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `name` | _String_ | Item name |
+| `text` | _String_ | Alert text |
+| `close_after_seconds` | _Number_ | Hide the alert after X seconds |
+
+## AddItemAddItemAlertCommunicationPanel
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `name` | _String_ | Item name |
+| `text` | _String_ | Alert text |
+| `display_ahead` | _String_ | Change the *'display in front of all'* option |
+| `close_after_seconds` | _Number_ | Hide the alert after X seconds |
+
+## AddItemActions
+Available actions: [HolyricsActions](https://github.com/holyrics/jslib/blob/main/doc/en/HolyricsActions.md)
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `action_id` | _String_ | Item ID |
+| `alternative_name` | _String (optional)_ | Alternative name. Name that will be displayed in place of the default (native) action name. |
+| `icon` | _String (optional)_ |  |
+| `icon_color` | _String (optional)_ | Color in hexadecimal format |
+| `active_icon` | _String (optional)_ |  |
+| `active_icon_color` | _String (optional)_ | Color in hexadecimal format |
+| `settings` | _Object (optional)_ | Key/value map |
 
 ## SongInfo
 | Name | Type  | Description |
@@ -9506,6 +10016,7 @@ Custom translation settings (item)
 | ---- | :---: | ------------|
 | `title` | _String_ |  |
 | `subitem` | _Object_ |  |
+| `title_index` | _Number_ |  |
 | `subitem_index` | _Number_ |  |
 | `playlist_index` | _Number_ |  |
 <details>
@@ -9514,6 +10025,7 @@ Custom translation settings (item)
 ```json
 {
   "title": "",
+  "title_index": -1,
   "subitem_index": -1,
   "playlist_index": -1
 }

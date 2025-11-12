@@ -390,6 +390,7 @@ function request(action, headers, content, info) {
   - [ScriptAction](#scriptaction)
   - [ApiRequest](#apirequest)
   - [ModuleAction](#moduleaction)
+  - [RunActions](#runactions)
   - [GetCurrentPresentation](#getcurrentpresentation)
   - [CloseCurrentPresentation](#closecurrentpresentation)
   - [GetF8](#getf8)
@@ -401,6 +402,7 @@ function request(action, headers, content, info) {
   - [ActionGoToSlideDescription](#actiongotoslidedescription)
   - [GetCurrentBackground](#getcurrentbackground)
   - [GetCurrentTheme](#getcurrenttheme)
+  - [GetThemes](#getthemes)
   - [GetBackgrounds](#getbackgrounds)
   - [GetBackgroundTags](#getbackgroundtags)
   - [SetCurrentBackground](#setcurrentbackground)
@@ -441,6 +443,9 @@ function request(action, headers, content, info) {
   - [GetDisplaySettingsPresets](#getdisplaysettingspresets)
   - [GetTransitionEffectSettings](#gettransitioneffectsettings)
   - [SetTransitionEffectSettings](#settransitioneffectsettings)
+  - [GetTranslationPresetList](#gettranslationpresetlist)
+  - [GetTranslationPreset](#gettranslationpreset)
+  - [ApplyTranslationPreset](#applytranslationpreset)
   - [GetBibleVersions](#getbibleversions)
   - [GetBibleVersionsV2](#getbibleversionsv2)
   - [GetBibleSettings](#getbiblesettings)
@@ -469,6 +474,11 @@ function request(action, headers, content, info) {
   - [CloseCurrentQuickPresentation](#closecurrentquickpresentation)
   - [GetCurrentQuickPresentation](#getcurrentquickpresentation)
   - [GetTriggers](#gettriggers)
+  - [GetTriggerTags](#gettriggertags)
+  - [GetTriggerPauseStateForTag](#gettriggerpausestatefortag)
+  - [SetTriggerPauseStateForTag](#settriggerpausestatefortag)
+  - [GetTriggerPauseStateForReceiver](#gettriggerpausestateforreceiver)
+  - [SetTriggerPauseStateForReceiver](#settriggerpausestateforreceiver)
   - [GetScheduledTasks](#getscheduledtasks)
   - [GetGlobalSettings](#getglobalsettings)
   - [SetGlobalSettings](#setglobalsettings)
@@ -2883,6 +2893,35 @@ Resposta
 
 ---
 
+### RunActions
+- v2.27.0
+
+Executar uma ação do tipo 'Actions'<br>Ações disponíveis: [HolyricsActions](https://github.com/holyrics/jslib/blob/main/doc/pt/HolyricsActions.md)
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `action_id` | _String_ |  |
+| `settings` | _Object_ | Mapa chave/valor |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "action_id": "interface_bible_select_verse",
+  "settings": {
+    "verse": "43003016"
+  }
+}
+```
+
+
+---
+
 ### GetCurrentPresentation
 - v2.19.0
 
@@ -3164,6 +3203,48 @@ Resposta
 
 ---
 
+### GetThemes
+- v2.27.0
+
+Lista de temas
+
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;[Theme](#theme)&gt;_| 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "123",
+      "name": "",
+      "...": "..."
+    },
+    {
+      "id": "1234",
+      "name": "",
+      "...": "..."
+    },
+    {
+      "id": "12345",
+      "name": "",
+      "...": "..."
+    }
+  ]
+}
+```
+
+
+---
+
 ### GetBackgrounds
 - v2.19.0
 
@@ -3423,6 +3504,7 @@ Retorna as configurações da mensagem de alerta
 | ---- | :---: | ------------|
 | `data.text` | _String_ | Texto atual do alerta |
 | `data.show` | _Boolean_ | Se a exibição do alerta está ativada |
+| `data.display_ahead` | _Boolean_ | Se a opção *'exibir à frente de tudo'* está ativada `v2.27.0+` |
 
 
 **Exemplo:**
@@ -3451,6 +3533,8 @@ Altera as configurações da mensagem de alerta
 | ---- | :---: | ------------|
 | `text` | _String (opcional)_ | Alterar o texto de alerta |
 | `show` | _Boolean (opcional)_ | Exibir/ocultar o alerta |
+| `display_ahead` | _Boolean (opcional)_ | Alterar a opção *'exibir à frente de tudo'* `Padrão: true` `v2.27.0+` |
+| `close_after_seconds` | _Number (opcional)_ | Remover texto de alerta automaticamente após X segundos. `0 ~ 3600` `Padrão: 0` `v2.27.0+` |
 
 
 _Método sem retorno_
@@ -4452,8 +4536,9 @@ Inicia uma contagem regressiva no painel de comunicação
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `minutes` | _Number_ | Quantidade de minutos |
-| `seconds` | _Number_ | Quantidade de segundos |
+| `minutes` | _Number_ | Quantidade de minutos. Opcional se `exact_time` for declarado |
+| `seconds` | _Number_ | Quantidade de segundos. Opcional se `exact_time` for declarado |
+| `exact_time` | _String_ | Definir uma hora exata. Pode ser: `HH:MM:SS` ou `HH:MM`. Opcional se `minutes` ou `seconds` forem declarados `v2.27.0+` |
 | `yellow_starts_at` | _Number (opcional)_ | Valor em segundos para definir a partir de quanto tempo a contagem regressiva ficará amarela |
 | `stop_at_zero` | _Boolean (opcional)_ | Parar a contagem regressiva ao chegar em zero `Padrão: false` |
 | `text` | _String (opcional)_ | Texto para exibição. Por padrão, o texto é exibido antes da parte numérica. Para formatação especial, utilize a variável `@cp_countdown` no meio do texto para indicar o local de exibição da parte numérica. `v2.24.0+` |
@@ -4573,6 +4658,7 @@ Alterar as configurações de alerta do painel de comunicação
 | ---- | :---: | ------------|
 | `text` | _String (opcional)_ | Alterar o texto de alerta |
 | `show` | _Boolean (opcional)_ | Exibir/ocultar o alerta |
+| `close_after_seconds` | _Number (opcional)_ | Remover texto de alerta automaticamente após X segundos. `0 ~ 3600` `Padrão: 0` `v2.27.0+` |
 
 
 _Método sem retorno_
@@ -5117,6 +5203,162 @@ Resposta
 
 ---
 
+### GetTranslationPresetList
+- v2.27.0
+
+Lista com os modelos salvos de configuração de tradução
+
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _Array&lt;[Translation Custom Settings Preset](#translation- -custom- -settings- -preset)&gt;_ | 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "xyz",
+      "name": "example",
+      "alternative_name": "ex",
+      "preset": {
+        "public": {
+          "translation_name": "custom",
+          "translation_custom_settings": {
+            "translation_1": {
+              "name": "English",
+              "style": "",
+              "prefix": "",
+              "suffix": ""
+            },
+            "translation_2": {
+              "name": "Portuguese",
+              "style": "",
+              "prefix": "",
+              "suffix": ""
+            },
+            "translation_3": null,
+            "translation_4": null,
+            "merge": false,
+            "uppercase": false,
+            "blank_line_height": 0
+          }
+        },
+        "screen_2": {
+          "translation_name": "English",
+          "translation_custom_settings": null
+        },
+        "stream_image": {
+          "translation_name": "",
+          "translation_custom_settings": null
+        },
+        "stream_html_1": {
+          "translation_name": "",
+          "translation_custom_settings": null
+        },
+        "stream_html_2": {
+          "translation_name": "",
+          "translation_custom_settings": null
+        },
+        "stream_html_3": {
+          "translation_name": "",
+          "translation_custom_settings": null
+        }
+      }
+    },
+    {
+      "id": "xyz123",
+      "name": "example 2",
+      "alternative_name": "ex2",
+      "...": "..."
+    },
+    {
+      "id": "xyz987",
+      "name": "example 3",
+      "alternative_name": "ex3",
+      "...": "..."
+    }
+  ]
+}
+```
+
+
+---
+
+### GetTranslationPreset
+- v2.27.0
+
+Retorna um modelo de configuração de tradução
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String (opcional)_ | ID do item |
+| `name` | _String (opcional)_ | Nome do item |
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _[Translation Custom Settings Preset](#translation- -custom- -settings- -preset)_ | 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "xyz"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "xyz",
+    "name": "example",
+    "alternative_name": "ex",
+    "...": "..."
+  }
+}
+```
+
+
+---
+
+### ApplyTranslationPreset
+- v2.27.0
+
+Aplica as configurações de tradução a partir de um modelo
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String (opcional)_ | ID do item |
+| `name` | _String (opcional)_ | Nome do item |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "xyz"
+}
+```
+
+
+---
+
 ### GetBibleVersions
 - v2.21.0
 
@@ -5606,7 +5848,7 @@ Retorna o valor de um campo da interface do programa
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `id` | _String_ | ID do item. Pode ser: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event` |
+| `id` | _String_ | ID do item. Pode ser: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event`<br> <br>`2.27.0`<br><br>`main_song_tab_selected_item`<br>`main_text_tab_selected_item`<br>`main_text_tab_selected_folder`<br>`main_audio_tab_selected_item`<br>`main_video_tab_selected_item`<br>`main_image_tab_selected_item`<br>`main_file_tab_selected_item`<br>`main_custom_message_tab_selected_item`<br>`main_automatic_presentation_tab_selected_item` |
 
 
 **Resposta:**
@@ -5642,7 +5884,7 @@ Altera o valor de um campo da interface do programa
 
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `id` | _String_ | ID do item. Pode ser: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event` |
+| `id` | _String_ | ID do item. Pode ser: <br>`main_lyrics_tab_search`<br>`main_text_tab_search`<br>`main_audio_tab_search`<br>`main_video_tab_search`<br>`main_image_tab_search`<br>`main_file_tab_search`<br>`main_automatic_presentation_tab_search`<br>`main_selected_theme`<br>`main_selected_song_group_filter`<br>`main_selected_tab_event`<br> <br>`2.27.0`<br><br>`main_song_tab_selected_item`<br>`main_text_tab_selected_item`<br>`main_text_tab_selected_folder`<br>`main_audio_tab_selected_item`<br>`main_video_tab_selected_item`<br>`main_image_tab_selected_item`<br>`main_file_tab_selected_item`<br>`main_custom_message_tab_selected_item`<br>`main_automatic_presentation_tab_selected_item` |
 | `value` | _String_ | Novo valor |
 | `focus` | _Boolean (opcional)_ | Fazer o componente receber o foco do sistema |
 
@@ -6043,6 +6285,138 @@ Resposta
       "tags": []
     }
   ]
+}
+```
+
+
+---
+
+### GetTriggerTags
+- v2.27.0
+
+Retorna a lista de tags dos gatilhos
+
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;String&gt;_| 
+
+
+
+
+---
+
+### GetTriggerPauseStateForTag
+- v2.27.0
+
+Retorna o estado do 'pause' da execução de gatilhos de uma tag específica
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `tag` | _String_ |  |
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Boolean_| 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "tag": "example"
+}
+```
+
+
+---
+
+### SetTriggerPauseStateForTag
+- v2.27.0
+
+Altera o estado do 'pause' da execução de gatilhos de uma tag específica
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `tag` | _String_ |  |
+| `pause` | _Boolean_ |  |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "tag": "example",
+  "pause": true
+}
+```
+
+
+---
+
+### GetTriggerPauseStateForReceiver
+- v2.27.0
+
+Retorna o estado do 'pause' da execução de gatilhos de um receptor específico
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `receiver` | _String_ | ID do receptor |
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Boolean_| 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "receiver": "xyz"
+}
+```
+
+
+---
+
+### SetTriggerPauseStateForReceiver
+- v2.27.0
+
+Altera o estado do 'pause' da execução de gatilhos de um receptor específico
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `receiver` | _String_ | ID do receptor |
+| `pause` | _Boolean_ |  |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "receiver": "xyz",
+  "pause": true
 }
 ```
 
@@ -6957,6 +7331,7 @@ Requisição
   "author": "",
   "note": "",
   "copyright": "",
+  "language": "",
   "slides": [
     {
       "text": "Slide 1 line 1\nSlide 1 line 2",
@@ -7035,6 +7410,7 @@ Requisição
 {
   "id": "",
   "title": "",
+  "language": "",
   "folder": "",
   "theme": null,
   "transition_settings_id": null,
@@ -7273,7 +7649,7 @@ Requisição
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script`  `module_action` |
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `actions`  `global_action`  `alert`  `cp_alert`  `api`  `script`  `module_action` |
 | `name` | _String_ | Nome do item |
 
 ## Group
@@ -7556,7 +7932,7 @@ Requisição
 | `enabled` | _Boolean_ |  |
 | `description` | _String_ |  |
 | `type` | _Object_ |  |
-| `type.id` | _String_ | Valores aceitos: `none` `rule_group_model` `rule_group` `javascript` `javascript_model` `jscommunity` `services` `events` `date` `time` `datetime` `day_of_week` `day_of_month` `hour_of_day` `day_of_week_in_month` `runtime_environment` |
+| `type.id` | _String_ | Valores aceitos: `none` `rule_group_model` `rule_group` `javascript` `javascript_model` `jscommunity` `services` `events` `current_event_time` `date` `time` `datetime` `day_of_week` `day_of_month` `hour_of_day` `day_of_week_in_month` `runtime_environment` `javascript_state` |
 | `type.name` | _String_ |  |
 | `type.settings_type` | _String_ | `native` `custom` |
 | <br>**type.settings_type=native** |  |  |
@@ -7671,7 +8047,8 @@ Configurações de exibição
     "translation_4": null,
     "merge": true,
     "uppercase": false,
-    "blank_line_height": 40
+    "blank_line_height": 40,
+    "translation_number_to_display_interface": 1
   },
   "margin": {
     "top": 0.0,
@@ -8473,6 +8850,28 @@ Configurações customizadas da tradução (item)
 ```
 </details>
 
+## Translation Custom Settings Preset
+Modelo de configuração de tradução
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `name` | _String_ | Nome do item |
+| `alternative_name` | _String_ | Nome alternativo (nome curto para ser exibido na interface) |
+| `preset` | _Object_ | Mapa chave/valor<br>Cada chave é o `id` da tela (id do respectivo **Display Settings**).<br>Cada valor é um `object` que contém `translation_name` e opcionalmente contém `translation_custom_settings` se `translation_name=custom`. |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "id": "",
+  "name": "",
+  "alternative_name": ""
+}
+```
+</details>
+
 ## Styled Model
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
@@ -8539,18 +8938,23 @@ Configurações customizadas da tradução (item)
 
 ```json
 {
-  "display_mode": "all_slides",
-  "layout": "t;a;c",
-  "font": {
-    "name": "Arial",
-    "bold": true,
-    "italic": true,
-    "color": "FFFF00"
+  "public": {
+    "display_mode": "all_slides",
+    "layout": "t;a;c",
+    "font": {
+      "name": "Arial",
+      "bold": true,
+      "italic": true,
+      "color": "FFFF00"
+    },
+    "line_height": 3.0,
+    "align": "left",
+    "opacity": 70,
+    "position": "top_left"
   },
-  "line_height": 3.0,
-  "align": "left",
-  "opacity": 70,
-  "position": "top_left"
+  "screen_2": "{...}",
+  "screen_3": "{...}",
+  "stream_image": "{...}"
 }
 ```
 </details>
@@ -8635,6 +9039,7 @@ Configurações customizadas da tradução (item)
 | `standardize_automatic_line_break` | _Boolean_ |  |
 | `allow_main_window_and_bible_window_simultaneously` | _Boolean_ |  |
 | `preferential_arrangement_collection` | _String_ |  |
+| `simulate_projection` | _Object_ | Conjunto chave/valor<br>chave: `screen_1` `screen_2` `screen_3`<br>valor: [SimulateProjectionSettings](#simulate-projection-settings) `v2.27.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -8663,18 +9068,23 @@ Configurações customizadas da tradução (item)
     "remove_final_slide": false
   },
   "copyright": {
-    "display_mode": "all_slides",
-    "layout": "t;a;c",
-    "font": {
-      "name": "Arial",
-      "bold": true,
-      "italic": true,
-      "color": "FFFF00"
+    "public": {
+      "display_mode": "all_slides",
+      "layout": "t;a;c",
+      "font": {
+        "name": "Arial",
+        "bold": true,
+        "italic": true,
+        "color": "FFFF00"
+      },
+      "line_height": 3.0,
+      "align": "left",
+      "opacity": 70,
+      "position": "top_left"
     },
-    "line_height": 3.0,
-    "align": "left",
-    "opacity": 70,
-    "position": "top_left"
+    "screen_2": "{...}",
+    "screen_3": "{...}",
+    "stream_image": "{...}"
   },
   "image_presentation": {
     "adjust_type": "adjust",
@@ -8708,7 +9118,69 @@ Configurações customizadas da tradução (item)
   "slide_description_repeat_description_for_sequence": true,
   "standardize_automatic_line_break": false,
   "allow_main_window_and_bible_window_simultaneously": false,
-  "preferential_arrangement_collection": ""
+  "preferential_arrangement_collection": "",
+  "simulate_projection": {
+    "screen_1": {
+      "enabled": true,
+      "hide_screen": false,
+      "position": "user",
+      "x": 0,
+      "y": 0,
+      "width": 320,
+      "height": 180,
+      "metadata": {
+        "available_positions": [
+          "user",
+          "public"
+        ],
+        "area": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 180
+        }
+      }
+    },
+    "screen_2": "{...}",
+    "screen_3": "{...}"
+  }
+}
+```
+</details>
+
+## Simulate Projection Settings
+Configurações da opção 'simular projeção'
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `enabled` | _Boolean_ |  |
+| `hide_screen` | _Boolean_ |  |
+| `position` | _String_ | Pode ser: Valores aceitos: `user` `public` `on_the_right_simulation_1` `on_the_right_simulation_2` |
+| `x` | _Number_ | `0 ~ 9999` |
+| `y` | _Number_ | `0 ~ 9999` |
+| `width` | _Number_ | `1 ~ 3840` |
+| `height` | _Number_ | `1 ~ 3840` |
+| `area` | _[Rectangle](#rectangle)_ | Área da tela simulada |
+| `metadata` | _Object_ |  |
+| `available_positions` | _Array&lt;String&gt;_ | Posições disponíveis para o respectivo item |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "enabled": false,
+  "hide_screen": false,
+  "position": "",
+  "x": 0,
+  "y": 0,
+  "width": 0,
+  "height": 0,
+  "area": {
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  }
 }
 ```
 </details>
@@ -8716,7 +9188,7 @@ Configurações customizadas da tradução (item)
 ## AddItem
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `global_action`  `api`  `script`  `module_action` |
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `actions`  `global_action`  `alert`  `cp_alert`  `api`  `script`  `module_action` |
 
 ## AddItemTitle
 | Nome | Tipo  | Descrição |
@@ -8743,13 +9215,17 @@ Configurações customizadas da tradução (item)
 | ---- | :---: | ------------|
 | `type` | _String_ | song |
 | `id` | _String_ | ID do item |
+| `arrangement_name` | _String (opcional)_ |  `v2.27.0+` |
+| `translation_preset_id` | _String (opcional)_ |  `v2.27.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
 ```json
 {
   "type": "song",
-  "id": "123"
+  "id": "123",
+  "arrangement_name": "",
+  "translation_preset_id": ""
 }
 ```
 </details>
@@ -8781,13 +9257,15 @@ Configurações customizadas da tradução (item)
 | ---- | :---: | ------------|
 | `type` | _String_ | text |
 | `id` | _String_ | ID do item |
+| `translation_preset_id` | _String (opcional)_ |  `v2.27.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
 ```json
 {
   "type": "text",
-  "id": "xyz"
+  "id": "xyz",
+  "translation_preset_id": ""
 }
 ```
 </details>
@@ -8951,8 +9429,8 @@ Configurações customizadas da tradução (item)
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `type` | _String_ | countdown_cp |
-| `minutes` | _Number_ | Quantidade de minutos |
-| `seconds` | _Number_ | Quantidade de segundos |
+| `minutes` | _Number_ | Quantidade de minutos. Opcional se `exact_time` for declarado |
+| `seconds` | _Number_ | Quantidade de segundos. Opcional se `exact_time` for declarado |
 | `stop_at_zero` | _Boolean (opcional)_ | Parar a contagem regressiva ao chegar em zero `Padrão: false` |
 | `description` | _String_ | Descrição do item |
 <details>
@@ -8975,6 +9453,8 @@ Configurações customizadas da tradução (item)
 | `type` | _String_ | plain_text |
 | `name` | _String_ | Nome do item |
 | `text` | _String_ | Texto |
+| `theme` | _String (opcional)_ | ID do tema utilizado para exibir o texto `v2.27.0+` |
+| `background` | _String (opcional)_ | ID do plano de fundo utilizado para exibir o texto `v2.27.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -8982,7 +9462,9 @@ Configurações customizadas da tradução (item)
 {
   "type": "plain_text",
   "name": "",
-  "text": "Exemplo"
+  "text": "Exemplo",
+  "theme": "",
+  "background": ""
 }
 ```
 </details>
@@ -9101,6 +9583,34 @@ Configurações customizadas da tradução (item)
 | ---- | :---: | ------------|
 | `type` | _String_ | global_action |
 | `action` | _String_ | Pode ser: `slide_exit` `vlc_stop` `vlc_stop_fade_out` |
+
+## AddItemAddItemAlert
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `name` | _String_ | Nome do item |
+| `text` | _String_ | Texto de alerta |
+| `close_after_seconds` | _Number_ | Ocultar o alerta após X segundos |
+
+## AddItemAddItemAlertCommunicationPanel
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `name` | _String_ | Nome do item |
+| `text` | _String_ | Texto de alerta |
+| `display_ahead` | _String_ | Alterar a opção *'exibir à frente de tudo'* |
+| `close_after_seconds` | _Number_ | Ocultar o alerta após X segundos |
+
+## AddItemActions
+Ações disponíveis: [HolyricsActions](https://github.com/holyrics/jslib/blob/main/doc/pt/HolyricsActions.md)
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `action_id` | _String_ | ID do item |
+| `alternative_name` | _String (opcional)_ | Nome alternativo. Nome que será exibido no lugar do nome (nativo) padrão da ação. |
+| `icon` | _String (opcional)_ |  |
+| `icon_color` | _String (opcional)_ | Cor no formato hexadecimal |
+| `active_icon` | _String (opcional)_ |  |
+| `active_icon_color` | _String (opcional)_ | Cor no formato hexadecimal |
+| `settings` | _Object (opcional)_ | Mapa chave/valor |
 
 ## SongInfo
 | Nome | Tipo  | Descrição |
@@ -9506,6 +10016,7 @@ Configurações customizadas da tradução (item)
 | ---- | :---: | ------------|
 | `title` | _String_ |  |
 | `subitem` | _Object_ |  |
+| `title_index` | _Number_ |  |
 | `subitem_index` | _Number_ |  |
 | `playlist_index` | _Number_ |  |
 <details>
@@ -9514,6 +10025,7 @@ Configurações customizadas da tradução (item)
 ```json
 {
   "title": "",
+  "title_index": -1,
   "subitem_index": -1,
   "playlist_index": -1
 }
