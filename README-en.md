@@ -5214,7 +5214,7 @@ List of saved translation configuration models
 
 | Type  |
 | :---: |
-| _Array&lt;[Translation Custom Settings Preset](#translation- -custom- -settings- -preset)&gt;_ | 
+| _Array&lt;[TranslationCustomSettingsPreset](#translation-custom-settings-preset)&gt;_ | 
 
 
 **Example:**
@@ -5308,7 +5308,7 @@ Returns a translation configuration model
 
 | Type  |
 | :---: |
-| _[Translation Custom Settings Preset](#translation- -custom- -settings- -preset)_ | 
+| _[TranslationCustomSettingsPreset](#translation-custom-settings-preset)_ | 
 
 
 **Example:**
