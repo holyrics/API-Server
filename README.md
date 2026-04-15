@@ -381,6 +381,7 @@ function request(action, headers, content, info) {
   - [AddToPlaylist](#addtoplaylist)
   - [RemoveFromMediaPlaylist](#removefrommediaplaylist)
   - [SetPlaylistItemDuration](#setplaylistitemduration)
+  - [SetPlaylistItemMidiTimeCode](#setplaylistitemmiditimecode)
   - [GetSlideDescriptions](#getslidedescriptions)
   - [GetFavorites](#getfavorites)
   - [FavoriteAction](#favoriteaction)
@@ -446,6 +447,12 @@ function request(action, headers, content, info) {
   - [GetTranslationPresetList](#gettranslationpresetlist)
   - [GetTranslationPreset](#gettranslationpreset)
   - [ApplyTranslationPreset](#applytranslationpreset)
+  - [GetLogoSettingsPresetList](#getlogosettingspresetlist)
+  - [GetLogoSettingsPreset](#getlogosettingspreset)
+  - [ApplyLogoSettingsPreset](#applylogosettingspreset)
+  - [GetBibleResponsiveReadingSettingsPresetList](#getbibleresponsivereadingsettingspresetlist)
+  - [GetBibleResponsiveReadingSettingsPreset](#getbibleresponsivereadingsettingspreset)
+  - [ApplyBibleResponsiveReadingSettingsPreset](#applybibleresponsivereadingsettingspreset)
   - [GetBibleVersions](#getbibleversions)
   - [GetBibleVersionsV2](#getbibleversionsv2)
   - [GetBibleSettings](#getbiblesettings)
@@ -466,6 +473,7 @@ function request(action, headers, content, info) {
   - [OpenDrawLots](#opendrawlots)
   - [GetMediaDuration](#getmediaduration)
   - [GetVersion](#getversion)
+  - [GetHolyricsPlanInfo](#getholyricsplaninfo)
   - [GetAPIServerInfo](#getapiserverinfo)
   - [GetRealTimeSongKey](#getrealtimesongkey)
   - [SetRealTimeSongKey](#setrealtimesongkey)
@@ -981,6 +989,8 @@ Inicia uma apresentação de versículo da Bíblia.<br>Obs: É possível exibir,
 | `references` | _String (opcional)_ | Referências. Exemplo: **João 3:16** ou **Rm 12:2** ou **Gn 1:1-3 Sl 23.1** |
 | `version` | _String (opcional)_ | Nome ou abreviação da tradução utilizada `v2.21.0+` |
 | `quick_presentation` | _Boolean (opcional)_ | `true` para exibir o versículo através de uma janela popup de apresentação rápida.<br>Permite, por exemplo, iniciar a apresentação de um versículo sem encerrar a apresentação atual, voltando pra apresentação atual quando encerrar a apresentação do versículo. `Padrão: false` `v2.24.0+` |
+| `show_x_verses` | _Number (opcional)_ | Quantidade de versículos exibidos na projeção `v2.28.0+` |
+| `default_action` | _String (opcional)_ | Ação padrão `default` `responsive_reading` `only_reference` `Padrão: default` `v2.28.0+` |
 
 
 _Método sem retorno_
@@ -2562,6 +2572,35 @@ Requisição
 {
   "id": "xyz",
   "duration": 300
+}
+```
+
+
+---
+
+### SetPlaylistItemMidiTimeCode
+### SetPlaylistItemMTC
+- v2.28.0
+
+Alterar o timecode de um item da lista de reprodução de mídia.<br>Obs: Atualmente disponível apenas para áudio e vídeo
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String (opcional)_ | ID do item |
+| `index` | _Number (opcional)_ | Posição do item na lista (inicia em zero). |
+| `midi_time_code` | _Number_ | Tempo em milissegundos |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "abc",
+  "midi_time_code": 120000
 }
 ```
 
@@ -5359,6 +5398,244 @@ Requisição
 
 ---
 
+### GetLogoSettingsPresetList
+- v2.28.0
+
+Lista com os modelos salvos de configuração de Logo
+
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _Array&lt;[LogoSettingsPreset](#logo-settings-preset)&gt;_ | 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "",
+    "name": "",
+    "preset": {
+      "enabled": false,
+      "position": "",
+      "opacity": 0,
+      "horizontal_margin": 0,
+      "vertical_margin": 0,
+      "auto_hide": false,
+      "auto_display": false,
+      "centralize_with_blank_screen_music_or_tex": false,
+      "centralize_with_blank_screen_bible": false,
+      "centralize_with_blank_screen_animation": false,
+      "fade": false,
+      "centralize_without_presentation": false,
+      "display_with_vlc_player": false
+    }
+  }
+}
+```
+
+
+---
+
+### GetLogoSettingsPreset
+- v2.28.0
+
+Retorna um modelo de configuração de Logo
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String (opcional)_ | ID do item |
+| `name` | _String (opcional)_ | Nome do item |
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _[LogoSettingsPreset](#logo-settings-preset)_ | 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "name": "example"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "",
+    "name": "",
+    "preset": {
+      "enabled": false,
+      "position": "",
+      "opacity": 0,
+      "horizontal_margin": 0,
+      "vertical_margin": 0,
+      "auto_hide": false,
+      "auto_display": false,
+      "centralize_with_blank_screen_music_or_tex": false,
+      "centralize_with_blank_screen_bible": false,
+      "centralize_with_blank_screen_animation": false,
+      "fade": false,
+      "centralize_without_presentation": false,
+      "display_with_vlc_player": false
+    }
+  }
+}
+```
+
+
+---
+
+### ApplyLogoSettingsPreset
+- v2.28.0
+
+Aplica as configurações de Logo a partir de um modelo
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String (opcional)_ | ID do item |
+| `name` | _String (opcional)_ | Nome do item |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "name": "example"
+}
+```
+
+
+---
+
+### GetBibleResponsiveReadingSettingsPresetList
+- v2.28.0
+
+Lista com os modelos salvos de configuração de leitura alternada de versículos da Bíblia
+
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _Array&lt;[BibleResponsiveReadingSettingsPreset](#bible-responsive-reading-settings-preset)&gt;_ | 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "",
+    "name": "",
+    "preset": {
+      "display_two_verses": false,
+      "descriptions": "",
+      "font_color": "",
+      "underline": false,
+      "use_theme_effects": false,
+      "change_description_last_verse": false,
+      "description_last_verse": ""
+    }
+  }
+}
+```
+
+
+---
+
+### GetBibleResponsiveReadingSettingsPreset
+- v2.28.0
+
+Retorna um modelo de configuração de leitura alternada de versículos da Bíblia
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String (opcional)_ | ID do item |
+| `name` | _String (opcional)_ | Nome do item |
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _[BibleResponsiveReadingSettingsPreset](#bible-responsive-reading-settings-preset)_ | 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "name": "example"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "",
+    "name": "",
+    "preset": {
+      "display_two_verses": false,
+      "descriptions": "",
+      "font_color": "",
+      "underline": false,
+      "use_theme_effects": false,
+      "change_description_last_verse": false,
+      "description_last_verse": ""
+    }
+  }
+}
+```
+
+
+---
+
+### ApplyBibleResponsiveReadingSettingsPreset
+- v2.28.0
+
+Aplica as configurações de leitura alternada de versículos da Bíblia a partir de um modelo
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String (opcional)_ | ID do item |
+| `name` | _String (opcional)_ | Nome do item |
+
+
+_Método sem retorno_
+
+**Exemplo:**
+```
+Requisição
+{
+  "name": "example"
+}
+```
+
+
+---
+
 ### GetBibleVersions
 - v2.21.0
 
@@ -5505,6 +5782,15 @@ Resposta
     "theme": {
       "public": 123,
       "screen_n": null
+    },
+    "responsive_reading": {
+      "display_two_verses": true,
+      "descriptions": "Item 1\nItem 2",
+      "font_color": "#FFFF00",
+      "underline": false,
+      "use_theme_effects": false,
+      "change_description_last_verse": true,
+      "description_last_verse": "All"
     }
   }
 }
@@ -6049,6 +6335,36 @@ Resposta
 
 ---
 
+### GetHolyricsPlanInfo
+- v2.28.0
+
+Retorna informações da assinatura atual
+
+
+
+**Resposta:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `data.type` | _String_ | `none` `basic` `advanced` `advanced_content` |
+| `data.name` | _String_ |  |
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "type": "none",
+    "name": ""
+  }
+}
+```
+
+
+---
+
 ### GetAPIServerInfo
 - v2.26.0
 
@@ -6255,7 +6571,7 @@ Retorna a lista de gatilhos salvos
 | `data.*.id` | _String_ | ID do item |
 | `data.*.enabled` | _Boolean_ |  |
 | `data.*.when` | _String_ | Pode ser: `displaying` `closing` `change` `event` |
-| `data.*.type` | _String_ | Tipo do item. Pode ser:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle` `bible_version_1` `bible_version_2` `bible_version_3` `bible_any_version`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` `draw_lots_item_drawn` |
+| `data.*.type` | _String_ | Tipo do item. Pode ser:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle` `bible_version_1` `bible_version_2` `bible_version_3` `bible_any_version`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` `draw_lots_item_drawn` `software_startup` `software_shutdown` |
 | `data.*.item.title` | _String_ |  |
 | `data.*.item.reference` | _Object_ |  |
 | `data.*.receiver.type` | _String_ | Pode ser: `get` `post` `ws` `tcp` `udp` `midi` `javascript` `community` `multiple_actions` `obs_v4` `obs_v5` `lumikit` `vmix` `osc` `soundcraft` `ha` `ptz` `tbot` `openai` |
@@ -7649,7 +7965,7 @@ Requisição
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
 | `id` | _String_ | ID do item |
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `actions`  `global_action`  `alert`  `cp_alert`  `api`  `script`  `module_action` |
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `actions`  `global_action`  `alert`  `cp_alert`  `theme_background`  `api`  `script`  `module_action` |
 | `name` | _String_ | Nome do item |
 
 ## Group
@@ -7701,7 +8017,7 @@ Requisição
 | `show_panel` | _Boolean_ | Exibir o módulo no painel Módulos |
 | `available_in_main_window` | _Boolean_ | Módulo disponível para uso no painel da janela principal |
 | `available_in_bible_window` | _Boolean_ | Módulo disponível para uso no painel da janela da Bíblia |
-| `actions` | _Array&lt;[Module Action](#module- -action)&gt;_ | Ações públicas disponíveis para o módulo |
+| `actions` | _Array&lt;[ModuleAction](https://github.com/holyrics/jslib/blob/main/doc/pt/ModuleAction.md)&gt;_ | Ações públicas disponíveis para o módulo |
 
 ## Module Action
 | Nome | Tipo  | Descrição |
@@ -7897,7 +8213,7 @@ Requisição
 | ---- | :---: | ------------|
 | `id` | _String (opcional)_ | ID do item |
 | `when` | _String_ | `displaying` `closing` `change` `event` |
-| `item` | _String_ | Tipo do item. Pode ser:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle` `bible_version_1` `bible_version_2` `bible_version_3` `bible_any_version`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` `draw_lots_item_drawn` |
+| `item` | _String_ | Tipo do item. Pode ser:<br>**when=displaying**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_song_slide` `any_text_slide` `any_ppt_slide` `any_theme` `any_background` `any_title_subitem` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `any_countdown` `any_automatic_presentation_slide` `f8` `f9` `f10`<br><br>**when=closing**: `any_song` `any_text` `any_verse` `any_announcement` `any_audio` `any_video` `any_image` `any_automatic_presentation` `any_webcam` `any_audio_folder` `any_video_folder` `any_image_folder` `any_ppt` `f8` `f9` `f10`<br><br>**when=change**: `countdown_seconds_public` `countdown_seconds_communication_panel` `timer_seconds_communication_panel` `wallpaper` `wallpaper_service` `stage` `playlist` `bpm` `hue` `player_volume` `player_mute` `player_pause` `player_repeat` `player_list_or_single` `player_shuffle` `bible_version_1` `bible_version_2` `bible_version_3` `bible_any_version`<br><br>**when=event**: `new_message_chat` `verse_presentation_changed` `playlist_changed` `file_modified` `player_progress` `draw_lots_item_drawn` `software_startup` `software_shutdown` |
 | `action` | _Function_ | Ação que será executada.<br>`function(obj) { /*  */ }`<br>Conteúdo de `obj` de acordo com o tipo do item:<br>[`any_song`](https://github.com/holyrics/jslib#songinfo)  [`any_text`](https://github.com/holyrics/jslib#textinfo)  [`any_verse`](https://github.com/holyrics/jslib#verseinfo)  [`any_announcement`](https://github.com/holyrics/jslib#announcementinfo)  [`any_audio`](https://github.com/holyrics/jslib#audioinfo)  [`any_video`](https://github.com/holyrics/jslib#videoinfo)  [`any_image`](https://github.com/holyrics/jslib#imageinfo)  [`any_automatic_presentation`](https://github.com/holyrics/jslib#automaticpresentationinfo)  [`any_song_slide`](https://github.com/holyrics/jslib#songslideinfo)  [`any_text_slide`](https://github.com/holyrics/jslib#textslideinfo)  [`any_ppt_slide`](https://github.com/holyrics/jslib#pptslideinfo)  [`any_theme`](https://github.com/holyrics/jslib#themeinfo)  [`any_background`](https://github.com/holyrics/jslib#backgroundinfo)  [`any_title_subitem`](https://github.com/holyrics/jslib#titleinfo)  [`any_webcam`](https://github.com/holyrics/jslib#webcaminfo)  [`any_audio_folder`](https://github.com/holyrics/jslib#audioinfo)  [`any_video_folder`](https://github.com/holyrics/jslib#videoinfo)  [`any_image_folder`](https://github.com/holyrics/jslib#imageinfo)  [`any_ppt`](https://github.com/holyrics/jslib#pptinfo)  [`any_countdown`](https://github.com/holyrics/jslib#countdowninfo)  [`any_automatic_presentation_slide`](https://github.com/holyrics/jslib#automaticpresentationslideinfo)  [`f8`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`f9`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`f10`](https://github.com/holyrics/jslib#presentationmodifierinfoinfo)  [`new_message_chat`](https://github.com/holyrics/jslib#newchatmessageinfo)  [`verse_presentation_changed`](https://github.com/holyrics/jslib#versepresentationchangedinfo)  [`playlist_changed`](https://github.com/holyrics/jslib#playlistchangedinfo)  [`file_modified`](https://github.com/holyrics/jslib#filemodifiedinfo)  [`player_progress`](https://github.com/holyrics/jslib#playerprogressinfo)  [`draw_lots_item_drawn`](https://github.com/holyrics/jslib#drawlotsitemdrawninfo)<br><br>Todos os itens de **when=change** contém: `obj.id` `obj.name` `obj.old_value` `obj.new_value` |
 | `name` | _String (opcional)_ | Nome do item. Valor compatível para exibição no **JavaScript Monitor** `v2.23.0+` |
 | `filter` | _Object (opcional)_ | Executar ação somente se o objeto que gerou o gatilho corresponder ao objeto filter `v2.24.0+` |
@@ -7932,7 +8248,7 @@ Requisição
 | `enabled` | _Boolean_ |  |
 | `description` | _String_ |  |
 | `type` | _Object_ |  |
-| `type.id` | _String_ | Valores aceitos: `none` `rule_group_model` `rule_group` `javascript` `javascript_model` `jscommunity` `services` `events` `current_event_time` `date` `time` `datetime` `day_of_week` `day_of_month` `hour_of_day` `day_of_week_in_month` `runtime_environment` `javascript_state` |
+| `type.id` | _String_ | Valores aceitos: `none` `rule_group_model` `rule_group` `javascript` `javascript_model` `jscommunity` `services` `events` `current_event_time` `date` `time` `datetime` `day_of_week` `day_of_month` `hour_of_day` `day_of_week_in_month` `runtime_environment` `javascript_state` `origin` |
 | `type.name` | _String_ |  |
 | `type.settings_type` | _String_ | `native` `custom` |
 | <br>**type.settings_type=native** |  |  |
@@ -8010,6 +8326,7 @@ Configurações de exibição
 {
   "id": "public",
   "name": "Público",
+  "simulation": false,
   "screen": "1920,0",
   "slide_info": {
     "info_1": {
@@ -8049,6 +8366,14 @@ Configurações de exibição
     "uppercase": false,
     "blank_line_height": 40,
     "translation_number_to_display_interface": 1
+  },
+  "show_items": {
+    "lyrics": true,
+    "text": true,
+    "verse": true,
+    "image": true,
+    "alert": true,
+    "announcement": true
   },
   "margin": {
     "top": 0.0,
@@ -8171,6 +8496,7 @@ Configurações de exibição (Modelo predefinido)
 | `theme` | _Object_ | ID do Tema de exibição para as diferentes telas do sistema |
 | `theme.public` | _String_ |  |
 | `theme.screen_n` | _String_ | n >= 2 |
+| `responsive_reading` | _[BibleResponsiveReadingSettings](#bible-responsive-reading-settings)_ |  `v2.28.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -8199,6 +8525,15 @@ Configurações de exibição (Modelo predefinido)
   "theme": {
     "public": 123,
     "screen_n": null
+  },
+  "responsive_reading": {
+    "display_two_verses": false,
+    "descriptions": "",
+    "font_color": "",
+    "underline": false,
+    "use_theme_effects": false,
+    "change_description_last_verse": false,
+    "description_last_verse": ""
   }
 }
 ```
@@ -8227,6 +8562,11 @@ Configurações de exibição (Modelo predefinido)
 | `apply_custom_theme_to_bible` | _Boolean_ | Utilizar o tema personalizado nos versículos |
 | `apply_custom_theme_to_text` | _Boolean_ | Utilizar o tema personalizado nos textos |
 | `apply_custom_theme_to_quick_presentation` | _Boolean_ | Utilizar o tema personalizado na opção **Apresentação Rápida** `v2.21.0+` |
+| `show_next_verse.enabled` | _Boolean_ | Ativar a exibição do início do próximo versículo no slide atual `v2.28.0+` |
+| `show_next_verse.max_length` | _Boolean_ | Quantidade máxima de caracteres. `40 ~ 500` `v2.28.0+` |
+| `show_next_verse.line_break_type` | _Boolean_ | `no_line_break`, `single_line_break`, `double_line_break` `v2.28.0+` |
+| `show_next_verse.style_enabled` | _Boolean_ | Ativar formatação customizada do texto `v2.28.0+` |
+| `show_next_verse.style` | _Boolean_ | Formatação customizada do texto. [Styled Text](https://github.com/holyrics/Scripts/blob/main/StyledText.md) `v2.28.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -8244,7 +8584,14 @@ Configurações de exibição (Modelo predefinido)
   "custom_theme": null,
   "apply_custom_theme_to_bible": true,
   "apply_custom_theme_to_text": true,
-  "apply_custom_theme_to_quick_presentation": false
+  "apply_custom_theme_to_quick_presentation": false,
+  "show_next_verse": {
+    "enabled": false,
+    "max_length": 100,
+    "line_break_type": "double_line_break",
+    "style_enabled": true,
+    "style": "<i><size:60>"
+  }
 }
 ```
 </details>
@@ -8662,7 +9009,9 @@ Conjunto chave/valor
     "background": "000000",
     "height": 12,
     "position": "top_right",
-    "corner": 0
+    "corner": 0,
+    "horizontal_margin": 0.0,
+    "vertical_margin": 0.0
   }
 }
 ```
@@ -8680,6 +9029,8 @@ Conjunto chave/valor
 | `height` | _Number_ | Valor em porcentagem baseado na altura da linha.<br>Valores aceitos: `6` `7` `8` `9` `10` `12` `14` `15` `16` `18` `20` `25` `30` `35` `40` |
 | `position` | _Boolean_ | Valores aceitos: `top_left` `top_center` `top_right` `middle_left` `middle_center` `middle_right` `bottom_left` `bottom_center` `bottom_right` |
 | `corner` | _Number_ | `0 ~ 100` |
+| `horizontal_margin` | _Number_ | Margem horizontal `-100 ~ 100` `v2.28.0+` |
+| `vertical_margin` | _Number_ | Margem vertical `-100 ~ 100` `v2.28.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -8693,7 +9044,9 @@ Conjunto chave/valor
   "background": "000000",
   "height": 12,
   "position": "top_right",
-  "corner": 0
+  "corner": 0,
+  "horizontal_margin": 0.0,
+  "vertical_margin": 0.0
 }
 ```
 </details>
@@ -8868,6 +9221,138 @@ Modelo de configuração de tradução
   "id": "",
   "name": "",
   "alternative_name": ""
+}
+```
+</details>
+
+## Logo Settings
+Configuração de Logo
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `enabled` | _Boolean_ |  |
+| `position` | _String_ | Valores aceitos: `top_left` `top_center` `top_right` `middle_left` `middle_center` `middle_right` `bottom_left` `bottom_center` `bottom_right` |
+| `opacity` | _Number_ | `0 ~ 100` |
+| `horizontal_margin` | _Number_ | `0 ~ 49` |
+| `vertical_margin` | _Number_ | `0 ~ 49` |
+| `auto_hide` | _Boolean_ |  |
+| `auto_display` | _Boolean_ |  |
+| `centralize_with_blank_screen_music_or_tex` | _Boolean_ |  |
+| `centralize_with_blank_screen_bible` | _Boolean_ |  |
+| `centralize_with_blank_screen_animation` | _Boolean_ |  |
+| `fade` | _Boolean_ |  |
+| `centralize_without_presentation` | _Boolean_ |  |
+| `display_with_vlc_player` | _Boolean_ |  |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "enabled": false,
+  "position": "",
+  "opacity": 0,
+  "horizontal_margin": 0,
+  "vertical_margin": 0,
+  "auto_hide": false,
+  "auto_display": false,
+  "centralize_with_blank_screen_music_or_tex": false,
+  "centralize_with_blank_screen_bible": false,
+  "centralize_with_blank_screen_animation": false,
+  "fade": false,
+  "centralize_without_presentation": false,
+  "display_with_vlc_player": false
+}
+```
+</details>
+
+## Logo Settings Preset
+Modelo de configuração de Logo
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `name` | _String_ | Nome do item |
+| `preset` | _[LogoSettings](#logo-settings)_ |  |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "id": "",
+  "name": "",
+  "preset": {
+    "enabled": false,
+    "position": "",
+    "opacity": 0,
+    "horizontal_margin": 0,
+    "vertical_margin": 0,
+    "auto_hide": false,
+    "auto_display": false,
+    "centralize_with_blank_screen_music_or_tex": false,
+    "centralize_with_blank_screen_bible": false,
+    "centralize_with_blank_screen_animation": false,
+    "fade": false,
+    "centralize_without_presentation": false,
+    "display_with_vlc_player": false
+  }
+}
+```
+</details>
+
+## Bible Responsive Reading Settings
+Configuração da leitura alternada de versículos da Bíblia
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `display_two_verses` | _Boolean_ | Exibir dois versículos |
+| `descriptions` | _String_ | Descrição de cada leitura. Itens separados por quebra de linha. |
+| `font_color` | _String_ | Cor da fonte em hexadecimal. Se for **null**, utiliza a cor da fonte padrão do tema |
+| `underline` | _Boolean_ | Exibir descrição sublinhada |
+| `use_theme_effects` | _Boolean_ | Exibir descrição com os efeitos do tema (contorno, brilho, sombra, ...) |
+| `change_description_last_verse` | _Boolean_ | Alterar a descrição do último versículo |
+| `description_last_verse` | _String_ | Descrição do último versículo |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "display_two_verses": false,
+  "descriptions": "",
+  "font_color": "",
+  "underline": false,
+  "use_theme_effects": false,
+  "change_description_last_verse": false,
+  "description_last_verse": ""
+}
+```
+</details>
+
+## Bible Responsive Reading Settings Preset
+Modelo de configuração da leitura alternada de versículos da Bíblia
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do item |
+| `name` | _String_ | Nome do item |
+| `preset` | _[BibleResponsiveReadingSettings](#bible-responsive-reading-settings)_ |  |
+| `metadata.modified_time_millis` | _Number_ | Data de modificação do arquivo. (timestamp) `v2.25.0+` `read-only` |
+<details>
+  <summary>Ver exemplo</summary>
+
+```json
+{
+  "id": "",
+  "name": "",
+  "preset": {
+    "display_two_verses": false,
+    "descriptions": "",
+    "font_color": "",
+    "underline": false,
+    "use_theme_effects": false,
+    "change_description_last_verse": false,
+    "description_last_verse": ""
+  }
 }
 ```
 </details>
@@ -9155,7 +9640,7 @@ Configurações da opção 'simular projeção'
 | ---- | :---: | ------------|
 | `enabled` | _Boolean_ |  |
 | `hide_screen` | _Boolean_ |  |
-| `position` | _String_ | Pode ser: Valores aceitos: `user` `public` `on_the_right_simulation_1` `on_the_right_simulation_2` |
+| `position` | _String_ | Pode ser: `user` `public` `on_the_right_simulation_1` `on_the_right_simulation_2` |
 | `x` | _Number_ | `0 ~ 9999` |
 | `y` | _Number_ | `0 ~ 9999` |
 | `width` | _Number_ | `1 ~ 3840` |
@@ -9188,7 +9673,7 @@ Configurações da opção 'simular projeção'
 ## AddItem
 | Nome | Tipo  | Descrição |
 | ---- | :---: | ------------|
-| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `actions`  `global_action`  `alert`  `cp_alert`  `api`  `script`  `module_action` |
+| `type` | _String_ | Tipo do item. Pode ser: `title`  `song`  `verse`  `text`  `audio`  `video`  `image`  `file`  `announcement`  `automatic_presentation`  `countdown`  `countdown_cp`  `cp_text`  `plain_text`  `uri`  `actions`  `global_action`  `alert`  `cp_alert`  `theme_background`  `api`  `script`  `module_action` |
 
 ## AddItemTitle
 | Nome | Tipo  | Descrição |
@@ -9240,6 +9725,8 @@ Configurações da opção 'simular projeção'
 | `ids` | _Array&lt;String&gt; (opcional)_ | Para exibir uma lista de versículos. Lista com o ID de cada versículo.<br/>Exemplo: ['19023001', '43003016', '45012002'] |
 | `references` | _String (opcional)_ | Referências. Exemplo: **João 3:16** ou **Rm 12:2** ou **Gn 1:1-3 Sl 23.1** |
 | `version` | _String (opcional)_ | Nome ou abreviação da tradução utilizada `v2.21.0+` |
+| `show_x_verses` | _Number (opcional)_ | Quantidade de versículos exibidos na projeção `v2.28.0+` |
+| `default_action` | _String (opcional)_ | Ação padrão `default` `responsive_reading` `only_reference` `Padrão: default` `v2.28.0+` |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -9247,7 +9734,9 @@ Configurações da opção 'simular projeção'
 {
   "type": "verse",
   "references": "Ps 23.1-6 Rm 12.2",
-  "version": "en_kjv"
+  "version": "en_kjv",
+  "show_x_verses": 0,
+  "default_action": ""
 }
 ```
 </details>
@@ -9611,6 +10100,14 @@ Ações disponíveis: [HolyricsActions](https://github.com/holyrics/jslib/blob/m
 | `active_icon` | _String (opcional)_ |  |
 | `active_icon_color` | _String (opcional)_ | Cor no formato hexadecimal |
 | `settings` | _Object (opcional)_ | Mapa chave/valor |
+
+## AddItemThemeBackground
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `background_type` | _String_ | Tipo do plano de fundo. Pode ser: `color`  `my_video`  `my_image`  `video`  `image`  `pattern`  `transparent`  `image_file`  `video_file` |
+| `background_id` | _String_ | <table><tr><td><p align="right">**Tipo**</p></td><td>Valor</td></tr><tr><td><p align="right">color</p></td><td>Cor no formato hexadecimal</td></tr><tr><td><p align="right">my_video</p></td><td>ID do item</td></tr><tr><td><p align="right">my_image</p></td><td>ID do item</td></tr><tr><td><p align="right">video</p></td><td>ID do item</td></tr><tr><td><p align="right">image</p></td><td>ID do item</td></tr><tr><td><p align="right">pattern</p></td><td>ID do item</td></tr><tr><td><p align="right">transparent</p></td><td>"transparent"</td></tr><tr><td><p align="right">image_file</p></td><td>Nome do arquivo na biblioteca</td></tr><tr><td><p align="right">video_file</p></td><td>Nome do arquivo na biblioteca</td></tr></table> |
+| `adjust_type` | _String_ | `fill` `extend` `adjust` `side_by_side` `center`<br>Disponível para: **type=my_image**, **type=image** |
+| `velocity` | _Number_ | Disponível para: **type=my_video**, **type=video**<br>`0.25 ~ 4.0` |
 
 ## SongInfo
 | Nome | Tipo  | Descrição |
