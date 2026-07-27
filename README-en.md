@@ -1508,7 +1508,7 @@ Display a custom message without the need for the reference object to exist. Not
 | `name` | _String_ | Name |
 | `message` | _String_ | Template message.<br>Place the variable id in braces in the text, for example: "Owner of the car with license plate {plate}, please come to the parking lot" |
 | `note` | _String_ | Extra information displayed in popup window for operator |
-| `<br>**params**` |  |  |
+| ``<br>**params**` |  |  |
 | `params` | _Array&lt;Object&gt;_ | List of message variables |
 | `params.*.key` | _String_ | Variable ID |
 | `params.*.label` | _String_ | Variable name |
@@ -8802,11 +8802,11 @@ NDI® output settings
 | `transparent_background` | _Boolean_ |  |
 | `transition_effect_enabled` | _Boolean_ |  |
 | `custom_theme` | _Object_ | Custom theme |
-| `custom_theme._default` | _Object_ |  |
-| `custom_theme.music` | _Object_ |  |
-| `custom_theme.text` | _Object_ |  |
-| `custom_theme.bible` | _Object_ |  |
-| `custom_theme.quick_presentation` | _Object_ |  |
+| `custom_theme._default` | _String_ | Item ID |
+| `custom_theme.music` | _String_ | Item ID |
+| `custom_theme.text` | _String_ | Item ID |
+| `custom_theme.bible` | _String_ | Item ID |
+| `custom_theme.quick_presentation` | _String_ | Item ID |
 | `display_settings` | _[DisplaySettings](#display-settings)_ |  |
 <details>
   <summary>See example</summary>

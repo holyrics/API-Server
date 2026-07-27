@@ -1508,7 +1508,7 @@ Exibir uma mensagem personalizada sem a necessidade que o objeto de referência 
 | `name` | _String_ | Nome |
 | `message` | _String_ | Mensagem modelo.<br>Coloque o id da variável entre chaves no texto, exemplo: "Proprietário do carro de placa {placa}, favor comparecer ao estacionamento" |
 | `note` | _String_ | Informação extra exibida na janela popup para o operador |
-| `<br>**params**` |  |  |
+| ``<br>**params**` |  |  |
 | `params` | _Array&lt;Object&gt;_ | Lista de variáveis da mensagem |
 | `params.*.key` | _String_ | ID da variável |
 | `params.*.label` | _String_ | Nome da variável |
@@ -8802,11 +8802,11 @@ Configurações de uma saída NDI®
 | `transparent_background` | _Boolean_ |  |
 | `transition_effect_enabled` | _Boolean_ |  |
 | `custom_theme` | _Object_ | Tema personalizado |
-| `custom_theme._default` | _Object_ |  |
-| `custom_theme.music` | _Object_ |  |
-| `custom_theme.text` | _Object_ |  |
-| `custom_theme.bible` | _Object_ |  |
-| `custom_theme.quick_presentation` | _Object_ |  |
+| `custom_theme._default` | _String_ | ID do item |
+| `custom_theme.music` | _String_ | ID do item |
+| `custom_theme.text` | _String_ | ID do item |
+| `custom_theme.bible` | _String_ | ID do item |
+| `custom_theme.quick_presentation` | _String_ | ID do item |
 | `display_settings` | _[DisplaySettings](#display-settings)_ |  |
 <details>
   <summary>Ver exemplo</summary>
