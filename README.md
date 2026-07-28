@@ -7988,10 +7988,14 @@ Requisição
 | `streaming.audio.spotify` | _String_ |  `v2.22.0+` |
 | `streaming.audio.youtube` | _String_ |  `v2.22.0+` |
 | `streaming.audio.deezer` | _String_ |  `v2.22.0+` |
+| `streaming.audio.apple_music` | _String_ |  `v2.29.0+` |
+| `streaming.audio.amazon_music` | _String_ |  `v2.29.0+` |
 | `streaming.backing_track` | _Object_ | Playback `v2.22.0+` |
 | `streaming.backing_track.spotify` | _String_ |  `v2.22.0+` |
 | `streaming.backing_track.youtube` | _String_ |  `v2.22.0+` |
 | `streaming.backing_track.deezer` | _String_ |  `v2.22.0+` |
+| `streaming.backing_track.apple_music` | _String_ |  `v2.29.0+` |
+| `streaming.backing_track.amazon_music` | _String_ |  `v2.29.0+` |
 | `midi` | _[Midi](#midi)_ | Atalho MIDI do item |
 | `extras` | _Object_ | Mapa de objetos extras (adicionados pelo usuário) `v2.21.0+` |
 | `theme` | _String_ | ID do tema salvo para a música `v2.25.0+` |
