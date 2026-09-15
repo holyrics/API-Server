@@ -353,6 +353,7 @@ function request(action, headers, content, info) {
   - [GetCustomMessages](#getcustommessages)
   - [ShowCustomMessage](#showcustommessage)
   - [ShowCustomMessageStandalone](#showcustommessagestandalone)
+  - [GetCustomMessageDisplayInfo](#getcustommessagedisplayinfo)
   - [ShowQuickPresentation](#showquickpresentation)
   - [ShowCountdown](#showcountdown)
   - [GetQuizList](#getquizlist)
@@ -462,6 +463,11 @@ function request(action, headers, content, info) {
   - [GetBibleVersionsV2](#getbibleversionsv2)
   - [GetBibleSettings](#getbiblesettings)
   - [SetBibleSettings](#setbiblesettings)
+  - [GetAvailableBibleBooks](#getavailablebiblebooks)
+  - [GetBibleBooks](#getbiblebooks)
+  - [IdentifyVerseReferences](#identifyversereferences)
+  - [ParseVerseID2VerseReference](#parseverseid2versereference)
+  - [ParseVerseID2VerseReferenceGroup](#parseverseid2versereferencegroup)
   - [GetPresentationFooterSettings](#getpresentationfootersettings)
   - [SetPresentationFooterSettings](#setpresentationfootersettings)
   - [GetBpm](#getbpm)
@@ -1478,7 +1484,12 @@ Display a custom message. Note: A custom message is not displayed directly on th
 | `note` | _String_ | Extra information displayed in popup window for operator |
 
 
-_Method does not return value_
+**Response:**
+
+| Type  | Description |
+| :---: | ------------|
+| _String_ | Presentation ID |
+
 
 **Example:**
 ```
@@ -1490,6 +1501,14 @@ Request
   "position_43": "placa",
   "position_47": "motivo",
   "note": "..."
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "display_id": "abcxyz"
+  }
 }
 ```
 
@@ -1518,7 +1537,12 @@ Display a custom message without the need for the reference object to exist. Not
 | `params.*.suggestions` | _Array&lt;String&gt; (optional)_ | List of suggestions |
 
 
-_Method does not return value_
+**Response:**
+
+| Type  | Description |
+| :---: | ------------|
+| _String_ | Presentation ID |
+
 
 **Example:**
 ```
@@ -1534,6 +1558,49 @@ Request
       "default_value": "abc"
     }
   ]
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "display_id": "abcxyz"
+  }
+}
+```
+
+
+---
+
+### GetCustomMessageDisplayInfo
+- v2.30.0
+
+Get information from a custom message sent for display
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `display_id` | _String_ | Presentation ID |
+| `data.display_id` | _String_ |  |
+| `data.custom_message_id` | _String_ |  |
+| `data.status` | _String_ | `pending` `displayed` `ignored` |
+
+
+**Response:**
+
+| Name | Type  |
+| ---- | :---: |
+| `data` | _Array&lt;Object&gt;_| 
+
+
+**Example:**
+```
+Request
+{
+  "display_id": "abcxyz",
+  "custom_message_id": "123456",
+  "status": "pending"
 }
 ```
 
@@ -6182,6 +6249,262 @@ Response
 
 ---
 
+### GetAvailableBibleBooks
+- v2.30.0
+
+Returns the list of available book sets in different languages
+
+
+
+**Response:**
+
+| Type  |
+| :---: |
+| _Array&lt;[BibleBookList](#bible-book-list)&gt;_ | 
+
+
+**Example:**
+```
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "en",
+      "name": "English",
+      "language": "en",
+      "alt_name": "English"
+    },
+    {
+      "id": "pt",
+      "name": "Português",
+      "language": "pt",
+      "alt_name": "Portuguese"
+    }
+  ]
+}
+```
+
+
+---
+
+### GetBibleBooks
+- v2.30.0
+
+Returns a set of Bible books
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `language_id` | _String_ | Language ID of the book set |
+
+
+**Response:**
+
+| Type  |
+| :---: |
+| _Array&lt;[BibleBookInfo](#bible-book-info)&gt;_ | 
+
+
+**Example:**
+```
+Request
+{
+  "languageID": "en"
+}
+
+Response
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "01",
+      "name": "Genesis",
+      "abbrev": "Gn"
+    },
+    {
+      "id": "02",
+      "name": "Exodus",
+      "abbrev": "Ex"
+    },
+    {
+      "...": "..."
+    },
+    {
+      "...": "..."
+    }
+  ]
+}
+```
+
+
+---
+
+### IdentifyVerseReferences
+- v2.30.0
+
+Identifies possible biblical references in the provided text
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `value` | _String_ | Text for identification |
+| `language_id` | _String (optional)_ | Language ID of the book set.<br>If an ID is not provided, the list of books from the main Bible selected in the program will be used.<br>To get the list of available IDs, see: `h.getAvailableBibleBooks()` |
+
+
+**Response:**
+
+| Type  |
+| :---: |
+| _Array&lt;[VerseReferenceGroup](#verse-reference-group)&gt;_ | 
+
+
+**Example:**
+```
+Request
+{
+  "value": "... ... Ps 23.1-2 ... ...",
+  "language_id": "en"
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "reference": "Ps 23.1-2",
+    "ids": [
+      "19023001",
+      "19023002"
+    ],
+    "verses": [
+      {
+        "id": "19023001",
+        "book": 19,
+        "chapter": 23,
+        "verse": 1,
+        "reference": "Psalms 23.1"
+      },
+      {
+        "id": "19023002",
+        "book": 19,
+        "chapter": 23,
+        "verse": 2,
+        "reference": "Psalms 23.2"
+      }
+    ]
+  }
+}
+```
+
+
+---
+
+### ParseVerseID2VerseReference
+- v2.30.0
+
+Convert the ID of a Bible verse into a reference
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `id` | _String_ | Verse ID |
+| `language_id` | _String (optional)_ | Language ID of the book set.<br>If an ID is not provided, the list of books from the main Bible selected in the program will be used.<br>To get the list of available IDs, see: `h.getAvailableBibleBooks()` |
+
+
+**Response:**
+
+| Type  |
+| :---: |
+| _[VerseReference](#verse-reference)_ | 
+
+
+**Example:**
+```
+Request
+{
+  "id": "19023001",
+  "language_id": "en"
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "id": "19023001",
+    "book": 19,
+    "chapter": 23,
+    "verse": 1,
+    "reference": "Psalms 23.1"
+  }
+}
+```
+
+
+---
+
+### ParseVerseID2VerseReferenceGroup
+- v2.30.0
+
+Convert a list of Bible verse IDs into references
+
+**Parameters:**
+
+| Name | Type  | Description |
+| ---- | :---: | ------------|
+| `items` | _Array&lt;Object&gt;_ | It can be a `string` with the ID of each verse separated by a comma.<br>It can be an `array` of `string` with each ID.<br>It can be an `array` of objects with each object containing the `id` parameter with the verse ID |
+| `language_id` | _String (optional)_ | Language ID of the book set.<br>If an ID is not provided, the list of books from the main Bible selected in the program will be used.<br>To get the list of available IDs, see: `h.getAvailableBibleBooks()` |
+
+
+**Response:**
+
+| Type  |
+| :---: |
+| _[VerseReferenceGroup](#verse-reference-group)_ | 
+
+
+**Example:**
+```
+Request
+{
+  "items": "19023001,19023002",
+  "language_id": "en"
+}
+
+Response
+{
+  "status": "ok",
+  "data": {
+    "reference": "Ps 23.1-2",
+    "ids": [
+      "19023001",
+      "19023002"
+    ],
+    "verses": [
+      {
+        "id": "19023001",
+        "book": 19,
+        "chapter": 23,
+        "verse": 1,
+        "reference": "Psalms 23.1"
+      },
+      {
+        "id": "19023002",
+        "book": 19,
+        "chapter": 23,
+        "verse": 2,
+        "reference": "Psalms 23.2"
+      }
+    ]
+  }
+}
+```
+
+
+---
+
 ### GetPresentationFooterSettings
 - v2.23.0
 
@@ -10015,6 +10338,7 @@ Configuration model for alternating Bible verse reading
 | `allow_main_window_and_bible_window_simultaneously` | _Boolean_ |  |
 | `preferential_arrangement_collection` | _String_ |  |
 | `simulate_projection` | _Object_ | Key/value pair<br>key: `screen_1` `screen_2` `screen_3`<br>valor: [SimulateProjectionSettings](#simulate-projection-settings) `v2.27.0+` |
+| `display_multiple_verses_current_chapter_only` | _Boolean_ |  |
 <details>
   <summary>See example</summary>
 
@@ -10118,7 +10442,8 @@ Configuration model for alternating Bible verse reading
     },
     "screen_2": "{...}",
     "screen_3": "{...}"
-  }
+  },
+  "display_multiple_verses_current_chapter_only": true
 }
 ```
 </details>

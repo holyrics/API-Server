@@ -353,6 +353,7 @@ function request(action, headers, content, info) {
   - [GetCustomMessages](#getcustommessages)
   - [ShowCustomMessage](#showcustommessage)
   - [ShowCustomMessageStandalone](#showcustommessagestandalone)
+  - [GetCustomMessageDisplayInfo](#getcustommessagedisplayinfo)
   - [ShowQuickPresentation](#showquickpresentation)
   - [ShowCountdown](#showcountdown)
   - [GetQuizList](#getquizlist)
@@ -462,6 +463,11 @@ function request(action, headers, content, info) {
   - [GetBibleVersionsV2](#getbibleversionsv2)
   - [GetBibleSettings](#getbiblesettings)
   - [SetBibleSettings](#setbiblesettings)
+  - [GetAvailableBibleBooks](#getavailablebiblebooks)
+  - [GetBibleBooks](#getbiblebooks)
+  - [IdentifyVerseReferences](#identifyversereferences)
+  - [ParseVerseID2VerseReference](#parseverseid2versereference)
+  - [ParseVerseID2VerseReferenceGroup](#parseverseid2versereferencegroup)
   - [GetPresentationFooterSettings](#getpresentationfootersettings)
   - [SetPresentationFooterSettings](#setpresentationfootersettings)
   - [GetBpm](#getbpm)
@@ -1478,7 +1484,12 @@ Exibir uma mensagem personalizada. Obs.: Uma mensagem personalizada não é exib
 | `note` | _String_ | Informação extra exibida na janela popup para o operador |
 
 
-_Método sem retorno_
+**Resposta:**
+
+| Tipo  | Descrição |
+| :---: | ------------|
+| _String_ | ID da apresentação |
+
 
 **Exemplo:**
 ```
@@ -1490,6 +1501,14 @@ Requisição
   "position_43": "placa",
   "position_47": "motivo",
   "note": "..."
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "display_id": "abcxyz"
+  }
 }
 ```
 
@@ -1518,7 +1537,12 @@ Exibir uma mensagem personalizada sem a necessidade que o objeto de referência 
 | `params.*.suggestions` | _Array&lt;String&gt; (opcional)_ | Lista de sugestões |
 
 
-_Método sem retorno_
+**Resposta:**
+
+| Tipo  | Descrição |
+| :---: | ------------|
+| _String_ | ID da apresentação |
+
 
 **Exemplo:**
 ```
@@ -1534,6 +1558,49 @@ Requisição
       "default_value": "abc"
     }
   ]
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "display_id": "abcxyz"
+  }
+}
+```
+
+
+---
+
+### GetCustomMessageDisplayInfo
+- v2.30.0
+
+Obter informação de uma mensagem personalizada enviada para exibição
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `display_id` | _String_ | ID da apresentação |
+| `data.display_id` | _String_ |  |
+| `data.custom_message_id` | _String_ |  |
+| `data.status` | _String_ | `pending` `displayed` `ignored` |
+
+
+**Resposta:**
+
+| Nome | Tipo  |
+| ---- | :---: |
+| `data` | _Array&lt;Object&gt;_| 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "display_id": "abcxyz",
+  "custom_message_id": "123456",
+  "status": "pending"
 }
 ```
 
@@ -6182,6 +6249,262 @@ Resposta
 
 ---
 
+### GetAvailableBibleBooks
+- v2.30.0
+
+Retorna a lista do conjunto de livros disponíveis em diferentes idiomas
+
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _Array&lt;[BibleBookList](#bible-book-list)&gt;_ | 
+
+
+**Exemplo:**
+```
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "en",
+      "name": "English",
+      "language": "en",
+      "alt_name": "English"
+    },
+    {
+      "id": "pt",
+      "name": "Português",
+      "language": "pt",
+      "alt_name": "Portuguese"
+    }
+  ]
+}
+```
+
+
+---
+
+### GetBibleBooks
+- v2.30.0
+
+Retorna um conjunto de livros da Bíblia
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `language_id` | _String_ | ID do idioma do conjunto de livros |
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _Array&lt;[BibleBookInfo](#bible-book-info)&gt;_ | 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "languageID": "en"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "01",
+      "name": "Genesis",
+      "abbrev": "Gn"
+    },
+    {
+      "id": "02",
+      "name": "Exodus",
+      "abbrev": "Ex"
+    },
+    {
+      "...": "..."
+    },
+    {
+      "...": "..."
+    }
+  ]
+}
+```
+
+
+---
+
+### IdentifyVerseReferences
+- v2.30.0
+
+Identifica as possíveis referências bíblicas no texto informado
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `value` | _String_ | Texto para identificação |
+| `language_id` | _String (opcional)_ | ID do idioma do conjunto de livros.<br>Caso um id não seja informado, será utilizada a lista de livros da Bíblia principal selecionada no programa.<br>Para obter a lista dos IDs disponíveis, veja: `h.getAvailableBibleBooks()` |
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _Array&lt;[VerseReferenceGroup](#verse-reference-group)&gt;_ | 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "value": "... ... Ps 23.1-2 ... ...",
+  "language_id": "en"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "reference": "Ps 23.1-2",
+    "ids": [
+      "19023001",
+      "19023002"
+    ],
+    "verses": [
+      {
+        "id": "19023001",
+        "book": 19,
+        "chapter": 23,
+        "verse": 1,
+        "reference": "Psalms 23.1"
+      },
+      {
+        "id": "19023002",
+        "book": 19,
+        "chapter": 23,
+        "verse": 2,
+        "reference": "Psalms 23.2"
+      }
+    ]
+  }
+}
+```
+
+
+---
+
+### ParseVerseID2VerseReference
+- v2.30.0
+
+Converter o ID de um versículo da Bíblia em uma referência
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `id` | _String_ | ID do versículo |
+| `language_id` | _String (opcional)_ | ID do idioma do conjunto de livros.<br>Caso um id não seja informado, será utilizada a lista de livros da Bíblia principal selecionada no programa.<br>Para obter a lista dos IDs disponíveis, veja: `h.getAvailableBibleBooks()` |
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _[VerseReference](#verse-reference)_ | 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "id": "19023001",
+  "language_id": "en"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "id": "19023001",
+    "book": 19,
+    "chapter": 23,
+    "verse": 1,
+    "reference": "Psalms 23.1"
+  }
+}
+```
+
+
+---
+
+### ParseVerseID2VerseReferenceGroup
+- v2.30.0
+
+Converter uma lista de IDs de versículo da Bíblia em referências
+
+**Parâmetros:**
+
+| Nome | Tipo  | Descrição |
+| ---- | :---: | ------------|
+| `items` | _Array&lt;Object&gt;_ | Pode ser uma `string` com o ID de cada versículo separado por vírgula.<br>Pode ser um `array` de `string` com cada ID.<br>Pode ser um `array` de objeto com cada objeto contendo o parâmetro `id` com o ID do versículo |
+| `language_id` | _String (opcional)_ | ID do idioma do conjunto de livros.<br>Caso um id não seja informado, será utilizada a lista de livros da Bíblia principal selecionada no programa.<br>Para obter a lista dos IDs disponíveis, veja: `h.getAvailableBibleBooks()` |
+
+
+**Resposta:**
+
+| Tipo  |
+| :---: |
+| _[VerseReferenceGroup](#verse-reference-group)_ | 
+
+
+**Exemplo:**
+```
+Requisição
+{
+  "items": "19023001,19023002",
+  "language_id": "en"
+}
+
+Resposta
+{
+  "status": "ok",
+  "data": {
+    "reference": "Ps 23.1-2",
+    "ids": [
+      "19023001",
+      "19023002"
+    ],
+    "verses": [
+      {
+        "id": "19023001",
+        "book": 19,
+        "chapter": 23,
+        "verse": 1,
+        "reference": "Psalms 23.1"
+      },
+      {
+        "id": "19023002",
+        "book": 19,
+        "chapter": 23,
+        "verse": 2,
+        "reference": "Psalms 23.2"
+      }
+    ]
+  }
+}
+```
+
+
+---
+
 ### GetPresentationFooterSettings
 - v2.23.0
 
@@ -10015,6 +10338,7 @@ Modelo de configuração da leitura alternada de versículos da Bíblia
 | `allow_main_window_and_bible_window_simultaneously` | _Boolean_ |  |
 | `preferential_arrangement_collection` | _String_ |  |
 | `simulate_projection` | _Object_ | Conjunto chave/valor<br>chave: `screen_1` `screen_2` `screen_3`<br>valor: [SimulateProjectionSettings](#simulate-projection-settings) `v2.27.0+` |
+| `display_multiple_verses_current_chapter_only` | _Boolean_ |  |
 <details>
   <summary>Ver exemplo</summary>
 
@@ -10118,7 +10442,8 @@ Modelo de configuração da leitura alternada de versículos da Bíblia
     },
     "screen_2": "{...}",
     "screen_3": "{...}"
-  }
+  },
+  "display_multiple_verses_current_chapter_only": true
 }
 ```
 </details>
